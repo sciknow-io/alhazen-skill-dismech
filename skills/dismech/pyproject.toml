@@ -1,6 +1,6 @@
 [project]
 name = "alhazen-skill-dismech"
-version = "0.1.0"
+version = "0.1.1"
 description = "Disease mechanism knowledge graph skill for the Alhazen framework"
 requires-python = ">=3.11,<3.14"
 dependencies = [
