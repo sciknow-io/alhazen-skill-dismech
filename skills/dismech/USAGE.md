@@ -95,8 +95,17 @@ python alhazen_core.py reset --yes
 Bulk-ingest disorder YAML files from a directory.  Skips files that do not
 conform to the expected structure.
 
+If you do not have a local copy of the disorder YAML files, clone the source
+repository first:
+
 ```bash
-python dismech.py ingest --source /path/to/dismech/kb/disorders
+git clone https://github.com/monarch-initiative/dismech /tmp/dismech-kb
+```
+
+Then ingest from the `kb/disorders` subdirectory:
+
+```bash
+python dismech.py ingest --source /tmp/dismech-kb/kb/disorders
 ```
 
 **Options:**
