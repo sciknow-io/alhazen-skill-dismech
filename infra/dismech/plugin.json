@@ -1,5 +1,5 @@
 {
-  "name": "dismech",
+  "name": "alhazen-dismech",
   "display_name": "Disease Mechanism Knowledge Graph",
   "version": "0.1.0",
   "description": "Bulk-ingest and query the dismech knowledge base of disease pathophysiology in TypeDB 3.x. Covers 750+ curated disorders with mechanisms, phenotypes, and therapeutic targets. Self-contained: TypeDB auto-initializes on session start.",
