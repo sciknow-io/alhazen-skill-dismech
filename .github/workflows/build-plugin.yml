@@ -43,6 +43,17 @@ jobs:
           cp infra/dismech/plugin.json      plugins/dismech/.claude-plugin/
           cp infra/dismech/hooks.json       plugins/dismech/hooks/
 
+      - name: Sync version from pyproject.toml into plugin.json
+        run: |
+          VERSION=$(grep '^version' skills/dismech/pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          python3 -c "
+          import json, pathlib
+          p = pathlib.Path('plugins/dismech/.claude-plugin/plugin.json')
+          d = json.loads(p.read_text())
+          d['version'] = '$VERSION'
+          p.write_text(json.dumps(d, indent=2) + '\n')
+          "
+
       - name: Commit rebuilt plugin bundle
         run: |
           git config user.name  "github-actions[bot]"
