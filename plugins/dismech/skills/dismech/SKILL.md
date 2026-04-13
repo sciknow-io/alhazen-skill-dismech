@@ -25,11 +25,18 @@ explore pathophysiology, or query curated disorder data.
 ## Quick Start
 
 The TypeDB database auto-initializes on session start via the SessionStart hook.
-To manually ingest data:
+To manually ingest data, first obtain the disorders directory:
+
+```bash
+# If no local copy of the disorder YAML files exists, clone the source:
+git clone https://github.com/monarch-initiative/dismech /tmp/dismech-kb
+```
+
+Then ingest:
 
 ```bash
 uv run --project <skill-path> python <skill-path>/dismech.py ingest \
-  --source /path/to/dismech/kb/disorders
+  --source /tmp/dismech-kb/kb/disorders
 ```
 
 Query a disease:
