@@ -2,16 +2,15 @@
 
 An [Alhazen](https://github.com/sciknow/alhazen) skill plugin for the
 **DisMech** Disease Mechanism Knowledge Graph — 750+ curated rare and complex
-disorders with pathophysiology mechanisms, HPO phenotypes, gene associations,
-and therapeutic targets stored in a [TypeDB 3.x](https://typedb.com) graph
-database.
+disorders with pathophysiology mechanisms, parent hierarchies, and disease terms
+stored in a [TypeDB 3.x](https://typedb.com) graph database.
 
 ---
 
 ## What is DisMech?
 
-DisMech is a curated knowledge base of human disease mechanisms.  Each disorder
-entry contains:
+[DisMech](https://github.com/sciknow-io/dismech) is a curated knowledge base of
+human disease mechanisms. Each disorder entry contains:
 
 - **Name and category** (Mendelian, Complex, Infectious, Other)
 - **Parent categories** (disease hierarchy)
@@ -19,64 +18,76 @@ entry contains:
 - **Pathophysiology mechanisms** — named, prose-described molecular and cellular
   mechanisms that explain the disorder
 
-The data is stored in TypeDB 3.x using a schema generated from a
-[LinkML](https://linkml.io) model, enabling rich graph queries across diseases,
-mechanisms, and ontology terms.
+This plugin bulk-ingests those YAML files into TypeDB 3.x, enabling graph queries
+across diseases, mechanisms, and ontology terms from Claude Code or the included
+web dashboard.
 
 ---
 
 ## Quick Start
 
-### 1. Clone and install
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) — TypeDB runs as a container
+- [uv](https://docs.astral.sh/uv/) — Python environment manager
+- **Python 3.12** — the `typedb-driver` package segfaults on Python 3.14 (the
+  current Homebrew default); `uv` will download 3.12 automatically
+
+### 1. Clone and initialize
 
 ```bash
-git clone https://github.com/sciknow/alhazen-skill-dismech.git
+git clone https://github.com/sciknow-io/alhazen-skill-dismech.git
 cd alhazen-skill-dismech
 make init
 ```
 
-`make init` starts the TypeDB Docker container (pulling `typedb/typedb:3.8.0`
-if needed), creates the `dismech` database, and loads the TypeQL schema.
+`make init` pulls `typedb/typedb:3.8.0`, starts the container, creates the
+`dismech` database, and loads the TypeQL schema. Safe to run multiple times.
 
-### 2. Ingest disorder data
+### 2. Get the disorder data
 
-You need a local copy of the DisMech knowledge base YAML files:
+The knowledge base YAML files live in the
+[dismech repo](https://github.com/sciknow-io/dismech):
+
+```bash
+git clone https://github.com/sciknow-io/dismech.git
+```
+
+### 3. Ingest disorders
 
 ```bash
 make ingest DISORDERS_DIR=/path/to/dismech/kb/disorders
 ```
 
-Or with the default path:
+On the first full run this ingests all 605 non-history disorder files
+(~2770 pathophysiology mechanisms) in about 20 seconds.
 
-```bash
-make ingest   # uses ~/Documents/GitHub/dismech/kb/disorders
-```
-
-### 3. Query the database
+### 4. Query
 
 ```bash
 # Database statistics
 make stats
+# -> {"success": true, "diseases": 605, "mechanisms": 2770, "disease_terms": 600}
 
-# Show a specific disease (JSON output)
+# Look up a specific disease
 uv run --project plugins/dismech/skills/dismech --python 3.12 \
   python plugins/dismech/skills/dismech/dismech.py show-disease \
   --name "Achondroplasia"
 
-# Full-text search
+# Search by gene / term / mechanism keyword
 uv run --project plugins/dismech/skills/dismech --python 3.12 \
-  python plugins/dismech/skills/dismech/dismech.py search \
-  --query "FGFR3"
+  python plugins/dismech/skills/dismech/dismech.py search --query "FGFR3"
 ```
 
-### 4. Open the dashboard
+### 5. Open the dashboard
 
 ```bash
 make serve    # starts on http://localhost:7777
 ```
 
-Open your browser to `http://localhost:7777` for the interactive dashboard with
-browse, detail, and search tabs.
+Open `http://localhost:7777` for the interactive dashboard: browse all diseases
+with category filters, look up individual disease detail cards, and run full-text
+search.
 
 ---
 
@@ -85,59 +96,104 @@ browse, detail, and search tabs.
 ```
 dismech/kb/disorders/*.yaml
         │
-        ▼  (dismech.py ingest)
-  TypeDB 3.x graph database
+        ▼  alhazen_core.py init
+  TypeDB 3.x (Docker)
+        │  schema.tql loaded once
         │
-        ├── disease entities (name, category, parents, synonyms)
-        ├── diseasedescriptor entities (preferred-term / MONDO)
-        │   └── disease-term relations
-        └── pathophysiology entities (name, description)
-            └── pathophysiology-rel relations
+        ▼  dismech.py ingest
+  ┌─────────────────────────────────┐
+  │  disease entities               │  name (@key), category, parents, synonyms
+  │    └── disease-term relations   │  → diseasedescriptor (preferred-term)
+  │    └── pathophysiology-rel      │  → pathophysiology (name, description)
+  └─────────────────────────────────┘
         │
-        ▼  (dismech.py serve)
-  HTTP dashboard + REST API
+        ▼  dismech.py serve
+  HTTP dashboard + /api/* endpoints
 ```
 
 **Three-tier ingestion model:**
 
-| Tier | Entity type | Key attributes |
-|---|---|---|
-| 1 | `disease` | `name` (key), `category`, `parents`, `synonyms` |
-| 2 | `diseasedescriptor` | `preferred-term` |
-| 3 | `pathophysiology` | `name`, `description` |
+| Tier | Entity type | Key attributes | TypeDB relation |
+|------|------------|----------------|-----------------|
+| 1 | `disease` | `name` (key), `category`, `parents` | — |
+| 2 | `diseasedescriptor` | `preferred-term` | `disease-term` |
+| 3 | `pathophysiology` | `name`, `description` | `pathophysiology-rel` |
 
-The TypeQL schema is defined in `plugins/dismech/skills/dismech/schema.tql`,
-derived from the LinkML `dismech.yaml` model via `gen-typedb`.
+### Schema
+
+`plugins/dismech/skills/dismech/schema.tql` is the TypeQL schema, generated from
+the LinkML `dismech.yaml` model via the `gen-typedb` generator in
+[linkml](https://github.com/linkml/linkml). It is committed to this repo so no
+regeneration step is needed at runtime.
+
+One post-generation modification was applied: the `@key` constraint was removed
+from `owns name` on all entity types **except** `disease`. The raw generated
+schema annotates every entity's `name` attribute as `@key` (because LinkML
+`identifier: true` propagates via inheritance), but mechanism names like
+"Inflammation" legitimately repeat across many diseases, causing insertion
+failures.  Only disease names are globally unique.
 
 ---
 
 ## CLI Reference
 
 See [`plugins/dismech/skills/dismech/USAGE.md`](plugins/dismech/skills/dismech/USAGE.md)
-for the full command reference with options and example outputs.
+for the full command reference with all options and example JSON output.
+
+| Command | Description |
+|---------|-------------|
+| `alhazen_core.py init` | Start TypeDB container, create DB, load schema |
+| `dismech.py ingest` | Bulk-ingest disorder YAML files |
+| `dismech.py list-diseases` | List all (or category-filtered) diseases |
+| `dismech.py show-disease` | Full disease record with mechanisms |
+| `dismech.py search` | Substring search over names and mechanism names |
+| `dismech.py stats` | Counts of diseases, mechanisms, disease terms |
+| `dismech.py serve` | Start dashboard + REST API server |
 
 ---
 
 ## Alhazen Integration
 
-This skill auto-initializes TypeDB on Claude Code session start via the
-`SessionStart` hook.  When loaded in Alhazen, it responds to prompts like:
+When loaded as an Alhazen Claude Code skill, this plugin:
 
-- "show me disease mechanisms for Marfan syndrome"
-- "pathophysiology of alpha-1 antitrypsin deficiency"
-- "what are the mechanisms in Mendelian bone diseases?"
+- Auto-initializes TypeDB on session start (via `hooks/hooks.json` `SessionStart` hook)
+- Responds to natural-language prompts routed by `SKILL.md` trigger phrases, e.g.:
+  - "show me disease mechanisms for Marfan syndrome"
+  - "what genes are associated with achondroplasia?"
+  - "pathophysiology of alpha-1 antitrypsin deficiency"
+  - "list Mendelian bone diseases"
+
+---
+
+## Makefile Targets
+
+```bash
+make init                              # Start TypeDB + load schema
+make ingest                            # Ingest from default disorders dir
+make ingest DISORDERS_DIR=/custom/path
+make stats                             # Print database counts
+make serve                             # Dashboard on port 7777
+make serve PORT=8080
+make demo                              # init + ingest + stats
+```
+
+---
+
+## Development Notes
+
+For Claude Code agent-specific notes (command invocations, TypeDB 3.x driver
+quirks, schema regeneration), see [`CLAUDE.md`](CLAUDE.md).
 
 ---
 
 ## Requirements
 
-- Docker (for TypeDB container)
-- Python 3.12+
-- [uv](https://docs.astral.sh/uv/)
+- Docker
+- Python ≥ 3.11, < 3.14 (3.12 recommended; `typedb-driver` segfaults on 3.14)
+- [uv](https://docs.astral.sh/uv/) — handles virtual environment and dependencies
 
-Python dependencies are declared in
-`plugins/dismech/skills/dismech/pyproject.toml` and managed automatically by
-`uv`.
+Python dependencies (`typedb-driver`, `pyyaml`, `tqdm`, `requests`) are declared
+in `plugins/dismech/skills/dismech/pyproject.toml` and installed automatically.
 
 ---
 
