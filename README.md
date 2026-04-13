@@ -179,6 +179,31 @@ make demo                              # init + ingest + stats
 
 ---
 
+## Repository Layout
+
+```
+alhazen-skill-dismech/
+├── skills/dismech/      ← edit here — the only manually maintained source
+│   ├── dismech.py
+│   ├── schema.tql
+│   ├── SKILL.md / USAGE.md
+│   ├── pyproject.toml / uv.lock
+│   └── dashboard/       empty dir for future browser UI
+├── infra/dismech/       ← plugin wrapper files (rarely change)
+│   ├── alhazen_core.py  TypeDB lifecycle (start, init, load schema)
+│   ├── plugin.json      Plugin manifest + SessionStart hook reference
+│   └── hooks.json       SessionStart hook definition
+└── plugins/dismech/     ← AUTO-BUILT by CI — do not edit by hand
+    ├── .claude-plugin/
+    ├── hooks/
+    └── skills/dismech/  (skills/ + infra/ merged here)
+```
+
+`plugins/dismech/` is assembled automatically by the
+[build-plugin workflow](.github/workflows/build-plugin.yml) whenever
+`skills/dismech/` or `infra/dismech/` changes on `main`. Alhazen points
+at the `plugins/dismech/` path to load the skill.
+
 ## Development Notes
 
 For Claude Code agent-specific notes (command invocations, TypeDB 3.x driver

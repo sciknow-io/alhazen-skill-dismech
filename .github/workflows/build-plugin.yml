@@ -1,0 +1,54 @@
+name: Build Plugin Bundle
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/dismech/**"
+      - "infra/dismech/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Assemble plugins/dismech from skills/dismech + infra/dismech
+        run: |
+          # Clean and recreate plugin directory layout
+          rm -rf plugins/dismech
+          mkdir -p plugins/dismech/.claude-plugin
+          mkdir -p plugins/dismech/hooks
+          mkdir -p plugins/dismech/skills/dismech/dashboard
+
+          # Copy skill source files
+          cp skills/dismech/dismech.py      plugins/dismech/skills/dismech/
+          cp skills/dismech/schema.tql      plugins/dismech/skills/dismech/
+          cp skills/dismech/SKILL.md        plugins/dismech/skills/dismech/
+          cp skills/dismech/USAGE.md        plugins/dismech/skills/dismech/
+          cp skills/dismech/pyproject.toml  plugins/dismech/skills/dismech/
+          cp skills/dismech/uv.lock         plugins/dismech/skills/dismech/
+
+          # Copy dashboard contents (currently just .gitkeep; will include built UI later)
+          cp -r skills/dismech/dashboard/. plugins/dismech/skills/dismech/dashboard/
+
+          # Add plugin infrastructure (not in skills/)
+          cp infra/dismech/alhazen_core.py  plugins/dismech/skills/dismech/
+          cp infra/dismech/plugin.json      plugins/dismech/.claude-plugin/
+          cp infra/dismech/hooks.json       plugins/dismech/hooks/
+
+      - name: Commit rebuilt plugin bundle
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add plugins/dismech/
+          # Only commit if something actually changed
+          git diff --cached --quiet || \
+            git commit -m "chore: rebuild plugins/dismech from skills/ [skip ci]"
+          git push

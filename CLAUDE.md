@@ -9,6 +9,33 @@ dashboard for browsing and querying the data.
 
 ---
 
+## Repository Layout
+
+```
+alhazen-skill-dismech/
+├── skills/dismech/          ← EDIT HERE — the only manually maintained source
+│   ├── dismech.py
+│   ├── schema.tql
+│   ├── SKILL.md / USAGE.md
+│   ├── pyproject.toml / uv.lock
+│   └── dashboard/           ← empty dir (.gitkeep); future UI goes here
+├── infra/dismech/           ← plugin wrapper files (static, rarely change)
+│   ├── alhazen_core.py      TypeDB lifecycle (start, init DB, load schema)
+│   ├── plugin.json          Plugin manifest with SessionStart hook
+│   └── hooks.json           SessionStart hook definition
+└── plugins/dismech/         ← AUTO-BUILT by CI — do not edit by hand
+    ├── .claude-plugin/plugin.json
+    ├── hooks/hooks.json
+    └── skills/dismech/      (skills/ + infra/ merged here by the workflow)
+```
+
+**To make changes:** edit files in `skills/dismech/` (or `infra/dismech/` for
+plugin wrapper changes). Push to `main` and the GitHub Actions workflow
+(`.github/workflows/build-plugin.yml`) rebuilds `plugins/dismech/` automatically
+and commits it back with `[skip ci]`.
+
+---
+
 ## Commands
 
 Always use `--python 3.12`. The `typedb-driver` package segfaults on Python 3.14.
@@ -41,36 +68,6 @@ uv run --project $SKILL --python 3.12 python $SKILL/dismech.py serve --port 7777
 ```
 
 Makefile wraps the common commands — see `make help` or read `Makefile` directly.
-
----
-
-## Repository Structure
-
-```
-alhazen-skill-dismech/
-├── CLAUDE.md
-├── .gitignore
-├── LICENSE                          Apache-2.0
-├── Makefile                         init / ingest / serve / stats / demo targets
-├── README.md
-├── .claude-plugin/
-│   └── marketplace.json             Repo-level plugin catalog
-└── plugins/dismech/                 The plugin bundle
-    ├── .claude-plugin/
-    │   └── plugin.json              Plugin manifest (name, version, skills path)
-    ├── hooks/
-    │   └── hooks.json               SessionStart: runs alhazen_core.py init
-    └── skills/dismech/
-        ├── SKILL.md                 Alhazen trigger phrases + quick start
-        ├── USAGE.md                 Full CLI reference
-        ├── alhazen_core.py          TypeDB lifecycle: start, init DB, load schema
-        ├── dismech.py               CLI: ingest + 5 query commands + serve
-        ├── schema.tql               Pre-generated TypeQL schema (from LinkML)
-        ├── pyproject.toml           typedb-driver, pyyaml, tqdm, requests
-        ├── uv.lock
-        └── dashboard/
-            └── index.html           Single-page Bootstrap 5 dashboard
-```
 
 ---
 
@@ -186,13 +183,14 @@ Always invoke with `--python 3.12`. The `pyproject.toml` pins `requires-python =
 ## Schema Regeneration
 
 If the LinkML `dismech.yaml` schema changes, regenerate `schema.tql` in a
-linkml workspace:
+linkml workspace and write it to the **source** location:
 
 ```bash
 cd /path/to/linkml
 uv run gen-typedb /path/to/dismech/src/dismech/schema/dismech.yaml > \
-  /path/to/alhazen-skill-dismech/plugins/dismech/skills/dismech/schema.tql
+  /path/to/alhazen-skill-dismech/skills/dismech/schema.tql
 ```
 
 After regeneration, review the output for `@key` annotations and remove them from
 all `owns name` lines **except** the `disease` entity (line search: `owns name @key`).
+Commit to `main` and CI will propagate the new schema into `plugins/dismech/`.
