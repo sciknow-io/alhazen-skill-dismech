@@ -1,0 +1,16 @@
+{
+  "name": "alhazen-skill-dismech",
+  "description": "Disease mechanism knowledge graph skill for the Alhazen scientific notebook framework (TypeDB-powered)",
+  "homepage": "https://github.com/sciknow-io/alhazen-skill-dismech",
+  "owner": {
+    "name": "SciKnow.io",
+    "url": "https://github.com/sciknow-io"
+  },
+  "plugins": [
+    {
+      "name": "dismech",
+      "source": "./plugins/dismech",
+      "description": "Disease mechanism knowledge graph — bulk-ingest 750+ curated disorders into TypeDB 3.x, browse pathophysiology mechanisms, and query by gene, phenotype, or pathway."
+    }
+  ]
+}

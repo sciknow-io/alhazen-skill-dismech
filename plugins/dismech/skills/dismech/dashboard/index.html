@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DisMech — Disease Mechanism Knowledge Graph</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+  <style>
+    :root {
+      --dm-blue: #1a6eb5;
+      --dm-blue-light: #e8f1fb;
+      --dm-accent: #0d9488;
+    }
+
+    body {
+      background: #f8f9fb;
+      font-size: 0.925rem;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────────── */
+    .dm-header {
+      background: linear-gradient(135deg, #0f3460 0%, var(--dm-blue) 100%);
+      color: #fff;
+      padding: 1rem 1.5rem 0.75rem;
+    }
+    .dm-header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .dm-header p {
+      margin: 0.15rem 0 0;
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    /* ── Stats bar ───────────────────────────────────────────────────────── */
+    .stats-bar {
+      background: #fff;
+      border-bottom: 1px solid #dee2e6;
+      padding: 0.55rem 1.5rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+    .stat-item strong {
+      color: var(--dm-blue);
+      font-size: 1.05rem;
+    }
+    .stats-bar .stat-label {
+      color: #6c757d;
+    }
+
+    /* ── Nav tabs ────────────────────────────────────────────────────────── */
+    .nav-tabs {
+      background: #fff;
+      padding: 0 1.5rem;
+      border-bottom: 2px solid #dee2e6;
+    }
+    .nav-tabs .nav-link {
+      color: #495057;
+      border: none;
+      border-bottom: 3px solid transparent;
+      border-radius: 0;
+      padding: 0.65rem 1rem;
+      font-weight: 500;
+    }
+    .nav-tabs .nav-link.active {
+      color: var(--dm-blue);
+      border-bottom-color: var(--dm-blue);
+      background: none;
+    }
+    .nav-tabs .nav-link:hover:not(.active) {
+      color: var(--dm-blue);
+      border-bottom-color: #b8d4f0;
+    }
+
+    /* ── Tab panes ───────────────────────────────────────────────────────── */
+    .tab-content {
+      padding: 1.5rem;
+    }
+
+    /* ── Cards ───────────────────────────────────────────────────────────── */
+    .dm-card {
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Disease card ────────────────────────────────────────────────────── */
+    .disease-card .disease-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f3460;
+    }
+    .badge-category {
+      font-size: 0.75rem;
+      padding: 0.3em 0.65em;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .badge-mendelian  { background: #dbeafe; color: #1d4ed8; }
+    .badge-complex    { background: #fef3c7; color: #92400e; }
+    .badge-infectious { background: #dcfce7; color: #166534; }
+    .badge-other      { background: #f3e8ff; color: #6b21a8; }
+    .badge-unknown    { background: #f1f5f9; color: #475569; }
+
+    /* ── Mechanism list ──────────────────────────────────────────────────── */
+    .mechanism-item {
+      border-left: 3px solid var(--dm-accent);
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.5rem;
+      background: #f0fdf9;
+      border-radius: 0 4px 4px 0;
+    }
+    .mechanism-name {
+      font-weight: 600;
+      color: #0f3460;
+      font-size: 0.875rem;
+    }
+    .mechanism-desc {
+      color: #475569;
+      font-size: 0.83rem;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Tables ──────────────────────────────────────────────────────────── */
+    .dm-table th {
+      background: var(--dm-blue-light);
+      color: #0f3460;
+      font-weight: 600;
+      font-size: 0.825rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border-bottom: 2px solid #c5d9ef;
+    }
+    .dm-table td {
+      vertical-align: middle;
+    }
+    .dm-table .disease-link {
+      color: var(--dm-blue);
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .dm-table .disease-link:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Pagination ──────────────────────────────────────────────────────── */
+    .dm-pagination {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .dm-pagination button {
+      padding: 0.3rem 0.7rem;
+      border: 1px solid #dee2e6;
+      background: #fff;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      color: var(--dm-blue);
+    }
+    .dm-pagination button:hover:not(:disabled) {
+      background: var(--dm-blue-light);
+    }
+    .dm-pagination button.active {
+      background: var(--dm-blue);
+      color: #fff;
+      border-color: var(--dm-blue);
+    }
+    .dm-pagination button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .dm-pagination .page-info {
+      font-size: 0.82rem;
+      color: #6c757d;
+    }
+
+    /* ── Loading / error ─────────────────────────────────────────────────── */
+    .loading-spinner {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #6c757d;
+      padding: 1rem 0;
+    }
+    .error-msg {
+      color: #dc2626;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 0.65rem 1rem;
+      font-size: 0.875rem;
+    }
+    .empty-msg {
+      color: #6c757d;
+      font-style: italic;
+      padding: 0.5rem 0;
+    }
+
+    /* ── Inputs ──────────────────────────────────────────────────────────── */
+    .dm-input-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+    }
+    .dm-input-row input,
+    .dm-input-row select {
+      flex: 1 1 200px;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────────────── -->
+<div class="dm-header">
+  <h1>DisMech</h1>
+  <p>Disease Mechanism Knowledge Graph &mdash; TypeDB 3.x</p>
+</div>
+
+<!-- ── Stats bar ───────────────────────────────────────────────────────────── -->
+<div class="stats-bar" id="statsBar">
+  <span class="stat-item"><strong id="statDiseases">—</strong> <span class="stat-label">Diseases</span></span>
+  <span class="stat-item"><strong id="statMechanisms">—</strong> <span class="stat-label">Mechanisms</span></span>
+  <span class="stat-item"><strong id="statTerms">—</strong> <span class="stat-label">Disease Terms</span></span>
+  <span id="statsError" class="error-msg d-none"></span>
+</div>
+
+<!-- ── Tabs ────────────────────────────────────────────────────────────────── -->
+<ul class="nav nav-tabs" id="mainTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="browse-tab" data-bs-toggle="tab"
+            data-bs-target="#browsePane" type="button" role="tab">Browse Diseases</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="detail-tab" data-bs-toggle="tab"
+            data-bs-target="#detailPane" type="button" role="tab">Disease Detail</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="search-tab" data-bs-toggle="tab"
+            data-bs-target="#searchPane" type="button" role="tab">Search</button>
+  </li>
+</ul>
+
+<!-- ── Tab content ─────────────────────────────────────────────────────────── -->
+<div class="tab-content" id="mainTabContent">
+
+  <!-- ── Browse tab ──────────────────────────────────────────────────────── -->
+  <div class="tab-pane fade show active" id="browsePane" role="tabpanel">
+    <div class="dm-card">
+      <div class="dm-input-row">
+        <select class="form-select" id="categoryFilter" style="max-width:220px">
+          <option value="">All Categories</option>
+          <option value="Mendelian">Mendelian</option>
+          <option value="Complex">Complex</option>
+          <option value="Infectious">Infectious</option>
+          <option value="Other">Other</option>
+        </select>
+        <button class="btn btn-primary btn-sm" id="applyFilterBtn">Apply Filter</button>
+        <span class="text-muted ms-auto align-self-center" id="browseCount" style="font-size:0.83rem"></span>
+      </div>
+
+      <div id="browseLoading" class="loading-spinner d-none">
+        <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+        <span>Loading diseases…</span>
+      </div>
+      <div id="browseError" class="error-msg d-none"></div>
+
+      <div class="table-responsive">
+        <table class="table table-hover dm-table" id="browseTable">
+          <thead>
+            <tr>
+              <th style="width:3rem">#</th>
+              <th>Disease Name</th>
+              <th style="width:9rem">Category</th>
+            </tr>
+          </thead>
+          <tbody id="browseTableBody">
+            <tr><td colspan="3" class="empty-msg">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="dm-pagination mt-2" id="browsePagination"></div>
+    </div>
+  </div>
+
+  <!-- ── Detail tab ──────────────────────────────────────────────────────── -->
+  <div class="tab-pane fade" id="detailPane" role="tabpanel">
+    <div class="dm-card">
+      <div class="dm-input-row">
+        <input type="text" class="form-control" id="detailInput"
+               placeholder="Disease name, e.g. Achondroplasia" />
+        <button class="btn btn-primary btn-sm" id="lookupBtn">Look up</button>
+      </div>
+
+      <div id="detailLoading" class="loading-spinner d-none">
+        <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+        <span>Fetching disease…</span>
+      </div>
+      <div id="detailError" class="error-msg d-none"></div>
+      <div id="detailResult"></div>
+    </div>
+  </div>
+
+  <!-- ── Search tab ──────────────────────────────────────────────────────── -->
+  <div class="tab-pane fade" id="searchPane" role="tabpanel">
+    <div class="dm-card">
+      <div class="dm-input-row">
+        <input type="text" class="form-control" id="searchInput"
+               placeholder="Search disease names or mechanisms…" />
+        <button class="btn btn-primary btn-sm" id="searchBtn">Search</button>
+      </div>
+
+      <div id="searchLoading" class="loading-spinner d-none">
+        <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+        <span>Searching…</span>
+      </div>
+      <div id="searchError" class="error-msg d-none"></div>
+
+      <div id="searchResults" class="d-none">
+        <p id="searchSummary" class="text-muted mb-2" style="font-size:0.85rem"></p>
+        <div class="table-responsive">
+          <table class="table table-hover dm-table">
+            <thead>
+              <tr>
+                <th style="width:3rem">#</th>
+                <th>Disease</th>
+                <th style="width:8rem">Match Type</th>
+                <th>Matched Mechanism</th>
+              </tr>
+            </thead>
+            <tbody id="searchTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Bootstrap JS ─────────────────────────────────────────────────────────── -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmk5qdDhLbFPNVAvwklRXGNGGByd"
+  crossorigin="anonymous"
+></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   DisMech Dashboard — vanilla JS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const PAGE_SIZE = 50;
+
+// ── Browse state ────────────────────────────────────────────────────────────
+let browseState = {
+  offset: 0,
+  total: 0,
+  category: '',
+  diseases: [],
+};
+
+// ── Utility helpers ──────────────────────────────────────────────────────────
+
+function show(el)  { el.classList.remove('d-none'); }
+function hide(el)  { el.classList.add('d-none'); }
+
+function setError(el, msg) {
+  el.textContent = msg;
+  show(el);
+}
+
+function clearError(el) {
+  el.textContent = '';
+  hide(el);
+}
+
+function categoryBadge(cat) {
+  if (!cat) return '';
+  const key = (cat || '').toLowerCase();
+  const cls = key === 'mendelian'  ? 'badge-mendelian'
+            : key === 'complex'    ? 'badge-complex'
+            : key === 'infectious' ? 'badge-infectious'
+            : key === 'other'      ? 'badge-other'
+            :                        'badge-unknown';
+  return `<span class="badge-category ${cls}">${escHtml(cat)}</span>`;
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── API calls ────────────────────────────────────────────────────────────────
+
+async function apiFetch(path) {
+  const resp = await fetch(path);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status} — ${resp.statusText}`);
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error);
+  return data;
+}
+
+// ── Stats bar ────────────────────────────────────────────────────────────────
+
+async function loadStats() {
+  try {
+    const data = await apiFetch('/api/stats');
+    document.getElementById('statDiseases').textContent   = data.diseases    ?? '—';
+    document.getElementById('statMechanisms').textContent = data.mechanisms  ?? '—';
+    document.getElementById('statTerms').textContent      = data.disease_terms ?? '—';
+    clearError(document.getElementById('statsError'));
+  } catch (err) {
+    setError(document.getElementById('statsError'), `Stats unavailable: ${err.message}`);
+  }
+}
+
+// ── Browse tab ───────────────────────────────────────────────────────────────
+
+async function loadBrowsePage(offset, category) {
+  const loading = document.getElementById('browseLoading');
+  const errorEl = document.getElementById('browseError');
+  const tbody   = document.getElementById('browseTableBody');
+  const countEl = document.getElementById('browseCount');
+
+  clearError(errorEl);
+  show(loading);
+  tbody.innerHTML = '';
+
+  try {
+    let url = `/api/diseases?limit=${PAGE_SIZE}&offset=${offset}`;
+    if (category) url += `&category=${encodeURIComponent(category)}`;
+
+    const data = await apiFetch(url);
+    browseState.total    = data.total;
+    browseState.offset   = offset;
+    browseState.category = category;
+    browseState.diseases = data.diseases || [];
+
+    hide(loading);
+
+    if (browseState.diseases.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3" class="empty-msg">No diseases found.</td></tr>`;
+      countEl.textContent = '0 results';
+      renderBrowsePagination();
+      return;
+    }
+
+    const startIdx = offset + 1;
+    countEl.textContent = `Showing ${startIdx}–${Math.min(offset + browseState.diseases.length, data.total)} of ${data.total}`;
+
+    tbody.innerHTML = browseState.diseases.map((name, i) =>
+      `<tr>
+        <td class="text-muted">${offset + i + 1}</td>
+        <td><a class="disease-link" data-name="${escHtml(name)}" href="#">${escHtml(name)}</a></td>
+        <td></td>
+      </tr>`
+    ).join('');
+
+    // Wire up disease name links → Detail tab
+    tbody.querySelectorAll('.disease-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        openDetailFor(link.dataset.name);
+      });
+    });
+
+    renderBrowsePagination();
+  } catch (err) {
+    hide(loading);
+    setError(errorEl, `Failed to load diseases: ${err.message}`);
+  }
+}
+
+function renderBrowsePagination() {
+  const container = document.getElementById('browsePagination');
+  container.innerHTML = '';
+  if (browseState.total <= PAGE_SIZE) return;
+
+  const totalPages = Math.ceil(browseState.total / PAGE_SIZE);
+  const currentPage = Math.floor(browseState.offset / PAGE_SIZE);
+
+  // Prev button
+  const prev = document.createElement('button');
+  prev.textContent = '← Prev';
+  prev.disabled = currentPage === 0;
+  prev.addEventListener('click', () => loadBrowsePage((currentPage - 1) * PAGE_SIZE, browseState.category));
+  container.appendChild(prev);
+
+  // Page number buttons (show window around current page)
+  const windowStart = Math.max(0, currentPage - 3);
+  const windowEnd   = Math.min(totalPages - 1, currentPage + 3);
+
+  if (windowStart > 0) {
+    const first = document.createElement('button');
+    first.textContent = '1';
+    first.addEventListener('click', () => loadBrowsePage(0, browseState.category));
+    container.appendChild(first);
+    if (windowStart > 1) {
+      const ell = document.createElement('span');
+      ell.textContent = '…';
+      ell.className = 'page-info';
+      container.appendChild(ell);
+    }
+  }
+
+  for (let p = windowStart; p <= windowEnd; p++) {
+    const btn = document.createElement('button');
+    btn.textContent = String(p + 1);
+    if (p === currentPage) btn.classList.add('active');
+    btn.addEventListener('click', () => loadBrowsePage(p * PAGE_SIZE, browseState.category));
+    container.appendChild(btn);
+  }
+
+  if (windowEnd < totalPages - 1) {
+    if (windowEnd < totalPages - 2) {
+      const ell = document.createElement('span');
+      ell.textContent = '…';
+      ell.className = 'page-info';
+      container.appendChild(ell);
+    }
+    const last = document.createElement('button');
+    last.textContent = String(totalPages);
+    last.addEventListener('click', () => loadBrowsePage((totalPages - 1) * PAGE_SIZE, browseState.category));
+    container.appendChild(last);
+  }
+
+  // Next button
+  const next = document.createElement('button');
+  next.textContent = 'Next →';
+  next.disabled = currentPage >= totalPages - 1;
+  next.addEventListener('click', () => loadBrowsePage((currentPage + 1) * PAGE_SIZE, browseState.category));
+  container.appendChild(next);
+
+  // Page info
+  const info = document.createElement('span');
+  info.className = 'page-info';
+  info.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+  container.appendChild(info);
+}
+
+document.getElementById('applyFilterBtn').addEventListener('click', () => {
+  const cat = document.getElementById('categoryFilter').value;
+  loadBrowsePage(0, cat);
+});
+
+document.getElementById('categoryFilter').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loadBrowsePage(0, e.target.value);
+});
+
+// ── Detail tab ───────────────────────────────────────────────────────────────
+
+function openDetailFor(name) {
+  document.getElementById('detailInput').value = name;
+  const detailTab = new bootstrap.Tab(document.getElementById('detail-tab'));
+  detailTab.show();
+  fetchDetail(name);
+}
+
+async function fetchDetail(name) {
+  const loading = document.getElementById('detailLoading');
+  const errorEl = document.getElementById('detailError');
+  const result  = document.getElementById('detailResult');
+
+  clearError(errorEl);
+  result.innerHTML = '';
+  show(loading);
+
+  try {
+    const data = await apiFetch(`/api/disease?name=${encodeURIComponent(name)}`);
+    hide(loading);
+
+    if (!data || !data.name) {
+      setError(errorEl, `Disease not found: "${name}"`);
+      return;
+    }
+
+    const d = data;
+    const parentsHtml = (d.parents && d.parents.length)
+      ? d.parents.map(p => `<span class="badge bg-light text-dark border me-1">${escHtml(p)}</span>`).join('')
+      : '<span class="text-muted">None</span>';
+
+    const termHtml = d.disease_term
+      ? `<span class="fw-medium">${escHtml(d.disease_term)}</span>`
+      : '<span class="text-muted">—</span>';
+
+    const mechsHtml = (d.mechanisms && d.mechanisms.length)
+      ? d.mechanisms.map(m => `
+          <div class="mechanism-item">
+            <div class="mechanism-name">${escHtml(m.name)}</div>
+            ${m.description ? `<div class="mechanism-desc">${escHtml(m.description)}</div>` : ''}
+          </div>`).join('')
+      : '<p class="empty-msg">No mechanisms recorded.</p>';
+
+    result.innerHTML = `
+      <div class="disease-card">
+        <div class="d-flex align-items-start gap-2 mb-2 flex-wrap">
+          <span class="disease-name">${escHtml(d.name)}</span>
+          ${d.category ? categoryBadge(d.category) : ''}
+        </div>
+
+        <table class="table table-sm mb-3" style="max-width:600px">
+          <tr>
+            <th style="width:140px;font-weight:600;color:#475569;font-size:0.8rem">Disease Term</th>
+            <td>${termHtml}</td>
+          </tr>
+          <tr>
+            <th style="font-weight:600;color:#475569;font-size:0.8rem">Parent Categories</th>
+            <td>${parentsHtml}</td>
+          </tr>
+        </table>
+
+        <h6 class="fw-semibold" style="color:#0f3460;margin-bottom:0.6rem">
+          Pathophysiology Mechanisms
+          <span class="badge bg-secondary ms-1" style="font-size:0.75rem">${d.mechanisms ? d.mechanisms.length : 0}</span>
+        </h6>
+        <div id="mechList">${mechsHtml}</div>
+      </div>`;
+  } catch (err) {
+    hide(loading);
+    setError(errorEl, `Error fetching disease: ${err.message}`);
+  }
+}
+
+document.getElementById('lookupBtn').addEventListener('click', () => {
+  const name = document.getElementById('detailInput').value.trim();
+  if (name) fetchDetail(name);
+});
+
+document.getElementById('detailInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const name = e.target.value.trim();
+    if (name) fetchDetail(name);
+  }
+});
+
+// ── Search tab ───────────────────────────────────────────────────────────────
+
+async function runSearch(query) {
+  const loading   = document.getElementById('searchLoading');
+  const errorEl   = document.getElementById('searchError');
+  const resultsEl = document.getElementById('searchResults');
+  const summary   = document.getElementById('searchSummary');
+  const tbody     = document.getElementById('searchTableBody');
+
+  clearError(errorEl);
+  hide(resultsEl);
+  show(loading);
+  tbody.innerHTML = '';
+
+  try {
+    const data = await apiFetch(`/api/search?q=${encodeURIComponent(query)}&limit=50`);
+    hide(loading);
+    show(resultsEl);
+
+    const results = data.results || [];
+    summary.textContent = results.length
+      ? `${results.length} result${results.length === 1 ? '' : 's'} for "${query}"`
+      : `No results for "${query}"`;
+
+    if (results.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="empty-msg">No matches found.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = results.map((r, i) => `
+      <tr>
+        <td class="text-muted">${i + 1}</td>
+        <td>
+          <a class="disease-link" data-name="${escHtml(r.disease)}" href="#">${escHtml(r.disease)}</a>
+        </td>
+        <td>
+          <span class="badge ${r.match_type === 'name' ? 'bg-primary' : 'bg-success'} bg-opacity-10 text-${r.match_type === 'name' ? 'primary' : 'success'} border border-${r.match_type === 'name' ? 'primary' : 'success'}" style="font-size:0.75rem">
+            ${escHtml(r.match_type || '—')}
+          </span>
+        </td>
+        <td class="text-muted">${r.mechanism ? escHtml(r.mechanism) : '—'}</td>
+      </tr>`
+    ).join('');
+
+    // Wire up links → Detail tab
+    tbody.querySelectorAll('.disease-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        openDetailFor(link.dataset.name);
+      });
+    });
+  } catch (err) {
+    hide(loading);
+    setError(errorEl, `Search failed: ${err.message}`);
+  }
+}
+
+document.getElementById('searchBtn').addEventListener('click', () => {
+  const q = document.getElementById('searchInput').value.trim();
+  if (q) runSearch(q);
+});
+
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const q = e.target.value.trim();
+    if (q) runSearch(q);
+  }
+});
+
+// ── Boot ─────────────────────────────────────────────────────────────────────
+
+(async function init() {
+  await Promise.all([
+    loadStats(),
+    loadBrowsePage(0, ''),
+  ]);
+})();
+</script>
+</body>
+</html>
