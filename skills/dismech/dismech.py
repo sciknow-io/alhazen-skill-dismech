@@ -12,6 +12,7 @@ Usage:
     python dismech.py search --query "FGFR3 growth plate"
     python dismech.py stats
     python dismech.py serve [--port 7777]
+    python dismech.py add-evidence --disease "Disease Name" --pmid 12345 --supports SUPPORT --evidence-source HUMAN_CLINICAL
 
 TypeDB must be running with the dismech schema loaded (run alhazen_core.py init first).
 """
@@ -427,6 +428,111 @@ def cmd_stats(args):
     }))
 
 
+def cmd_add_evidence(args):
+    """Add a new evidence item linked to a disease and/or mechanism."""
+    from typedb.driver import TransactionType
+    
+    # Validate required arguments
+    if not args.pmid:
+        print(json.dumps({"success": False, "error": "PMID is required"}))
+        sys.exit(1)
+    
+    if not args.disease and not args.mechanism:
+        print(json.dumps({"success": False, "error": "Either --disease or --mechanism is required"}))
+        sys.exit(1)
+    
+    # Build reference string from PMID
+    reference = f"PMID:{args.pmid}"
+    
+    errors = []
+    with _get_driver() as driver:
+        # Validate that disease exists if specified
+        if args.disease:
+            disease_count = _count_query(driver, f'match $d isa disease, has name "{_escape(args.disease)}"; reduce $c = count;')
+            if disease_count == 0:
+                errors.append(f"Disease not found: {args.disease}")
+        
+        # Validate that mechanism exists if specified
+        if args.mechanism:
+            mech_count = _count_query(driver, f'match $p isa pathophysiology, has name "{_escape(args.mechanism)}"; reduce $c = count;')
+            if mech_count == 0:
+                errors.append(f"Mechanism not found: {args.mechanism}")
+        
+        if errors:
+            print(json.dumps({"success": False, "errors": errors}))
+            sys.exit(1)
+        
+        # Insert evidence item
+        with driver.transaction(TYPEDB_DATABASE, TransactionType.WRITE) as tx:
+            evidence_attrs = [
+                f'has reference "{_escape(reference)}"',
+                f'has supports "{_escape(args.supports)}"',
+                f'has evidence-source "{_escape(args.evidence_source)}"'
+            ]
+            
+            if args.reference_title:
+                evidence_attrs.append(f'has reference-title "{_escape(args.reference_title)}"')
+            
+            if args.snippet:
+                evidence_attrs.append(f'has snippet "{_escape(_truncate(args.snippet))}"')
+            
+            if args.explanation:
+                evidence_attrs.append(f'has explanation "{_escape(_truncate(args.explanation))}"')
+            
+            # Insert evidenceitem entity
+            q = f"insert $ev isa evidenceitem, {', '.join(evidence_attrs)};"
+            try:
+                tx.query(q).resolve()
+                tx.commit()
+            except Exception as e:
+                errors.append(f"Failed to insert evidence item: {e}")
+        
+        if errors:
+            print(json.dumps({"success": False, "errors": errors}))
+            sys.exit(1)
+        
+        # Create evidence relations
+        evidence_relations = []
+        
+        if args.disease:
+            with driver.transaction(TYPEDB_DATABASE, TransactionType.WRITE) as tx:
+                q = (
+                    f'match $d isa disease, has name "{_escape(args.disease)}"; '
+                    f'$ev isa evidenceitem, has reference "{_escape(reference)}"; '
+                    f'insert (disease: $d, evidenceitem: $ev) isa evidence;'
+                )
+                try:
+                    tx.query(q).resolve()
+                    tx.commit()
+                    evidence_relations.append(f"disease: {args.disease}")
+                except Exception as e:
+                    errors.append(f"Failed to link evidence to disease: {e}")
+        
+        if args.mechanism:
+            with driver.transaction(TYPEDB_DATABASE, TransactionType.WRITE) as tx:
+                q = (
+                    f'match $p isa pathophysiology, has name "{_escape(args.mechanism)}"; '
+                    f'$ev isa evidenceitem, has reference "{_escape(reference)}"; '
+                    f'insert (pathophysiology: $p, evidenceitem: $ev) isa evidence;'
+                )
+                try:
+                    tx.query(q).resolve()
+                    tx.commit()
+                    evidence_relations.append(f"mechanism: {args.mechanism}")
+                except Exception as e:
+                    errors.append(f"Failed to link evidence to mechanism: {e}")
+        
+        if errors:
+            print(json.dumps({"success": False, "errors": errors}))
+            sys.exit(1)
+        
+        print(json.dumps({
+            "success": True,
+            "reference": reference,
+            "linked_to": evidence_relations
+        }))
+
+
 # ── Dashboard server ──────────────────────────────────────────────────────────
 
 
@@ -591,6 +697,17 @@ def main():
     serve_p = sub.add_parser("serve", help="Start the dashboard web server")
     serve_p.add_argument("--port", type=int, default=7777, help="Port to serve on (default: 7777)")
 
+    # add-evidence
+    evidence_p = sub.add_parser("add-evidence", help="Add a new evidence item")
+    evidence_p.add_argument("--disease", default=None, help="Disease name to link evidence to")
+    evidence_p.add_argument("--mechanism", default=None, help="Mechanism name to link evidence to")
+    evidence_p.add_argument("--pmid", required=True, help="PubMed ID (e.g., 38234567)")
+    evidence_p.add_argument("--supports", required=True, choices=["SUPPORT", "REFUTE", "NO_EVIDENCE", "PARTIAL", "WRONG_STATEMENT"], help="Evidence support level")
+    evidence_p.add_argument("--evidence-source", required=True, choices=["HUMAN_CLINICAL", "ANIMAL_MODEL", "IN_VITRO", "COMPUTATIONAL"], help="Evidence source type")
+    evidence_p.add_argument("--snippet", default=None, help="Key quote from abstract or paper")
+    evidence_p.add_argument("--reference-title", default=None, help="Paper title (optional)")
+    evidence_p.add_argument("--explanation", default=None, help="Explanation of evidence relevance")
+
     args = parser.parse_args()
     dispatch = {
         "ingest": cmd_ingest,
@@ -599,6 +716,7 @@ def main():
         "search": cmd_search,
         "stats": cmd_stats,
         "serve": cmd_serve,
+        "add-evidence": cmd_add_evidence,
     }
     dispatch[args.command](args)
 
