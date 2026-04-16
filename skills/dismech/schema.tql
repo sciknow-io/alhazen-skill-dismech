@@ -55,6 +55,7 @@ define
   attribute target, value string;
   attribute hypothesis-groups, value string;
   attribute intermediate-mechanisms, value string;
+  attribute dismech-paper-ref, value string;
   attribute pdb-id, value string;
   attribute resolution-angstrom, value double;
   attribute ligand, value string;
@@ -497,6 +498,7 @@ define
       owns evidence-source,
       owns snippet,
       owns explanation,
+      owns dismech-paper-ref,
       plays evidence:evidenceitem,
       plays literature-evidence:evidenceitem;
   
