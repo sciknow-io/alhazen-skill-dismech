@@ -140,6 +140,8 @@ define
   attribute hypothesis-group-id, value string;
   attribute hypothesis-label, value string;
   attribute applies-to-subtypes, value string;
+  attribute collection-name, value string;
+  attribute collection-id, value string;
   attribute content, value string;
   # Enum: curationactionenum (permitted values: CREATED, EDITED)
   attribute curation-action, value string;
@@ -1106,6 +1108,8 @@ define
       plays evidence:mechanistichypothesis;
   
   entity diseasecollection,
+      owns collection-id @key,
+      owns collection-name,
       plays diseases:diseasecollection;
   
   entity note,
