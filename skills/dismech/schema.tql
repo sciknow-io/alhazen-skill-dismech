@@ -55,6 +55,7 @@ define
   attribute target, value string;
   attribute hypothesis-groups, value string;
   attribute intermediate-mechanisms, value string;
+  attribute dismech-paper-ref, value string;
   attribute pdb-id, value string;
   attribute resolution-angstrom, value double;
   attribute ligand, value string;
@@ -141,6 +142,7 @@ define
   attribute applies-to-subtypes, value string;
   attribute collection-name, value string;
   attribute collection-id, value string;
+  attribute content, value string;
   # Enum: curationactionenum (permitted values: CREATED, EDITED)
   attribute curation-action, value string;
   # Enum: modifierenum (permitted values: INCREASED, DECREASED, ABNORMAL, DYSREGULATED, ABSENT)
@@ -498,6 +500,7 @@ define
       owns evidence-source,
       owns snippet,
       owns explanation,
+      owns dismech-paper-ref,
       plays evidence:evidenceitem,
       plays literature-evidence:evidenceitem;
   
@@ -751,7 +754,8 @@ define
       plays external-assertions:disease,
       plays references:disease,
       plays agent-life-cycle:disease,
-      plays diseases:disease;
+      plays diseases:disease,
+      plays aboutness:subject;
   
   entity stage,
       owns name,
@@ -1107,6 +1111,10 @@ define
       owns collection-id @key,
       owns collection-name,
       plays diseases:diseasecollection;
+  
+  entity note,
+      owns content,
+      plays aboutness:note;
   
 
   # Relations (from object-ranged slots)
@@ -1700,5 +1708,9 @@ define
   relation diseases,
       relates diseasecollection,
       relates disease;
+  
+  relation aboutness,
+      relates note,
+      relates subject;
   
 
