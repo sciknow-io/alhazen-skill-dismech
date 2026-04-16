@@ -139,6 +139,7 @@ define
   attribute hypothesis-group-id, value string;
   attribute hypothesis-label, value string;
   attribute applies-to-subtypes, value string;
+  attribute content, value string;
   # Enum: curationactionenum (permitted values: CREATED, EDITED)
   attribute curation-action, value string;
   # Enum: modifierenum (permitted values: INCREASED, DECREASED, ABNORMAL, DYSREGULATED, ABSENT)
@@ -749,7 +750,8 @@ define
       plays external-assertions:disease,
       plays references:disease,
       plays agent-life-cycle:disease,
-      plays diseases:disease;
+      plays diseases:disease,
+      plays aboutness:subject;
   
   entity stage,
       owns name,
@@ -1103,6 +1105,10 @@ define
   
   entity diseasecollection,
       plays diseases:diseasecollection;
+  
+  entity note,
+      owns content,
+      plays aboutness:note;
   
 
   # Relations (from object-ranged slots)
@@ -1696,5 +1702,9 @@ define
   relation diseases,
       relates diseasecollection,
       relates disease;
+  
+  relation aboutness,
+      relates note,
+      relates subject;
   
 
