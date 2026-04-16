@@ -20,6 +20,7 @@ import argparse
 import http.server
 import json
 import os
+import re
 import sys
 import threading
 import urllib.parse
@@ -73,6 +74,26 @@ def _count_query(driver, query: str) -> int:
     return v.get_integer() if v is not None else 0
 
 
+def _iso_to_typedb_datetime(iso_string: str) -> str | None:
+    """Convert ISO 8601 datetime string to TypeDB datetime format.
+    
+    TypeDB expects format: YYYY-MM-DDTHH:MM:SS (no timezone suffix)
+    Input example: "2025-12-19T01:18:09Z"
+    Output example: "2025-12-19T01:18:09"
+    """
+    if not iso_string or not isinstance(iso_string, str):
+        return None
+    
+    # Remove timezone suffix (Z or +/-offset)
+    cleaned = re.sub(r'[Z]$|[+-]\d{2}:?\d{2}$', '', iso_string.strip())
+    
+    # Validate format - should be YYYY-MM-DDTHH:MM:SS after cleaning
+    if re.match(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$', cleaned):
+        return cleaned
+    
+    return None
+
+
 # ── Ingestion ─────────────────────────────────────────────────────────────────
 
 
@@ -101,6 +122,16 @@ def _ingest_disease_file(driver, data: dict) -> dict:
         attrs = [f'has name "{_escape(name)}"']
         if data.get("category"):
             attrs.append(f'has category "{_escape(str(data["category"]))}"')
+        
+        # Handle creation_date and updated_date
+        creation_date = _iso_to_typedb_datetime(data.get("creation_date"))
+        if creation_date:
+            attrs.append(f'has creation-date {creation_date}')
+        
+        updated_date = _iso_to_typedb_datetime(data.get("updated_date"))
+        if updated_date:
+            attrs.append(f'has updated-date {updated_date}')
+        
         for parent in (data.get("parents") or []):
             if isinstance(parent, str) and parent.strip():
                 attrs.append(f'has parents "{_escape(parent.strip())}"')
@@ -249,6 +280,21 @@ def _fetch_disease_detail(driver, name: str) -> dict | None:
         "category": cat_results[0]["cat"] if cat_results else None,
         "mechanisms": [],
     }
+
+    # Creation and updated dates
+    with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:
+        cd_results = list(tx.query(
+            f'match $d isa disease, has name "{escaped}", has creation-date $cd; fetch {{"cd": $cd}};'
+        ).resolve())
+    if cd_results:
+        detail["creation_date"] = cd_results[0]["cd"]
+    
+    with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:
+        ud_results = list(tx.query(
+            f'match $d isa disease, has name "{escaped}", has updated-date $ud; fetch {{"ud": $ud}};'
+        ).resolve())
+    if ud_results:
+        detail["updated_date"] = ud_results[0]["ud"]
 
     # Parents (multivalued)
     with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:

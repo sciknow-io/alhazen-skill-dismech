@@ -91,8 +91,8 @@ define
   attribute features, value string;
   attribute chemicals, value string;
   attribute effect, value string;
-  attribute creation-date, value string;
-  attribute updated-date, value string;
+  attribute creation-date, value datetime;
+  attribute updated-date, value datetime;
   attribute parents, value string;
   attribute categories, value string;
   attribute vectors, value string;
