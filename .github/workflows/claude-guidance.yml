@@ -1,0 +1,50 @@
+name: Gap Fix Guidance
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  guidance:
+    if: github.event.label.name == 'gap:open' && contains(github.event.issue.body, '## What was missing')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const n = context.issue.number;
+            const repo = context.repo.owner + '/' + context.repo.repo;
+            const title = context.payload.issue.title;
+            const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+            const branch = 'fix/gap-' + n + '-' + slug;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: n,
+              body: [
+                '## Local Fix Instructions',
+                '',
+                'This gap requires a local fix (schema changes need a running TypeDB instance for validation).',
+                '',
+                '```bash',
+                '# 1. Start the fix (creates branch, updates labels, posts comment)',
+                'uv run python local_resources/skilllog/skill_logger.py fix-gap --issue ' + n + ' --repo ' + repo,
+                '',
+                '# 2. Implement the fix, validate against TypeDB, then open a draft PR',
+                'uv run python local_resources/skilllog/skill_logger.py submit-gap-pr --issue ' + n + ' --repo ' + repo + ' --decisions "describe your key decisions here"',
+                '```',
+                '',
+                'Or manually:',
+                '```bash',
+                'git checkout -b ' + branch,
+                '# ... implement fix, validate against TypeDB ...',
+                'git commit -m "fix: <description> (closes #' + n + ')"',
+                'git push -u origin ' + branch,
+                'gh pr create --draft --title "fix: <description>" --body "Closes #' + n + '"',
+                'gh issue edit ' + n + ' --repo ' + repo + ' --add-label gap:in-progress --remove-label gap:open',
+                '```',
+                '',
+                '_Merge is a human step — review the draft PR and merge when satisfied._',
+              ].join('\n')
+            });
