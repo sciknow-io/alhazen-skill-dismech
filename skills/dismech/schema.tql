@@ -45,7 +45,7 @@ define
   attribute threshold, value double;
   attribute distinguishing-features, value string;
   attribute display-name, value string;
-  attribute classification, value string;
+  attribute dismech-classification, value string;
   attribute children, value string;
   attribute subtype-frequency, value string;
   attribute reference, value string;
@@ -479,7 +479,7 @@ define
       owns description,
       owns review-notes,
       owns geography @card(0..),
-      owns classification,
+      owns dismech-classification,
       owns children @card(0..),
       owns subtype-frequency,
       plays locations:subtype,
