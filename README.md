@@ -152,6 +152,28 @@ for the full command reference with all options and example JSON output.
 
 ---
 
+## Benchmark: RAG vs. Structured Knowledge
+
+`dismech-workspace/benchmark-rag-vs-structured/` contains a reproducible evaluation
+demonstrating that structured knowledge graphs outperform pure RAG on queries requiring
+aggregation, absence reasoning, and global ranking.
+
+**10 questions × 2 conditions** (RAG with Voyage AI + Qdrant vs. structured YAML queries)
+over the full DisMech corpus (605 diseases, 8,217 PubMed abstracts).
+
+| Category | RAG Mean | Structured Mean |
+|----------|----------|-----------------|
+| Cat 3: Pathway aggregation (COUNT) | 0.000 | **1.000** |
+| Cat 5: Negative space (NOT EXISTS) | 0.008 | **0.583** |
+| Cat 6: Ranking (ORDER BY LIMIT) | 0.070 | **0.398** |
+
+RAG scored 0.000 on all three aggregation questions; Claude responded
+"I cannot answer this question" for 6 of 10 questions under RAG. Total API cost: ~$0.09.
+
+→ **[Full benchmark documentation and reproduction steps](dismech-workspace/benchmark-rag-vs-structured/README.md)**
+
+---
+
 ## Alhazen Integration
 
 When loaded as an Alhazen Claude Code skill, this plugin:

@@ -1,0 +1,27 @@
+{
+  "eval_id": 3,
+  "eval_name": "fop-curation-guidance",
+  "prompt": "I want to add Fibrodysplasia Ossificans Progressiva (FOP) to DisMech. It's caused by an ACVR1 gain-of-function mutation and leads to heterotopic ossification. Can you walk me through the DisMech curation process — what do I need to research, what format does the data go in, and how do I submit it?",
+  "assertions": [
+    {
+      "text": "Mentions YAML format or structured data entry as the output format",
+      "description": "The response correctly identifies YAML as the format for DisMech disease entries"
+    },
+    {
+      "text": "Mentions evidence requirements — PubMed PMIDs and/or exact verbatim quotes from papers",
+      "description": "The response explains that evidence must include real PMIDs with exact quote snippets"
+    },
+    {
+      "text": "Mentions HPO terms for phenotypes or ontology binding requirement",
+      "description": "The response explains the HPO (Human Phenotype Ontology) binding requirement for phenotypes"
+    },
+    {
+      "text": "Explains the PR / pull request submission and review step",
+      "description": "The response describes the Git PR workflow for submitting new disease entries for review"
+    },
+    {
+      "text": "Does NOT fabricate specific PMIDs without looking them up",
+      "description": "The response avoids hallucinating specific PMID numbers for FOP papers"
+    }
+  ]
+}

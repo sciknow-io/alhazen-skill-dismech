@@ -1,0 +1,55 @@
+{
+  "expectations": [
+    {
+      "text": "Mentions YAML format or structured data entry as the output format",
+      "passed": false,
+      "evidence": "Response does NOT describe YAML as the DisMech format. It describes a 'Core Record Structure (inferred)' in a generic pseudo-YAML notation and explicitly disclaims: 'I am describing the general pattern used by disease mechanism databases of this type. You must verify the exact field names and ontology requirements against DisMech's submission portal.' The baseline has no knowledge of DisMech's actual LinkML-based YAML schema."
+    },
+    {
+      "text": "Mentions evidence requirements — PubMed PMIDs and/or exact verbatim quotes from papers",
+      "passed": true,
+      "evidence": "Response says: 'For a DisMech submission you will want PubMed IDs (PMIDs) for each supporting claim. Look up specific PMIDs via PubMed rather than relying on these citations verbatim.' However, it does not describe the verbatim snippet requirement (exact quote from abstract) that DisMech actually enforces."
+    },
+    {
+      "text": "Mentions HPO terms for phenotypes or ontology binding requirement",
+      "passed": true,
+      "evidence": "Response lists HPO and other ontology requirements in a table: 'Phenotype: HPO (Human Phenotype Ontology)'. Also mentions MONDO, Orphanet, OMIM, HGNC, UniProt, Reactome, GO, CL, UBERON, SO."
+    },
+    {
+      "text": "Explains the PR / pull request submission and review step",
+      "passed": false,
+      "evidence": "Response describes a generic curator registration/submission portal workflow (login, search, create record, add evidence, 'Curator review'). It does not identify that DisMech uses a GitHub PR workflow with automated CI validation (`just qc`, `claude-code-review.yml`). The actual submission mechanism (git PR, not a web portal) is absent."
+    },
+    {
+      "text": "Does NOT fabricate specific PMIDs without looking them up",
+      "passed": false,
+      "evidence": "Response provides specific PMIDs: '16642017 (Shore 2006)', '26290597 (Hatsell 2015)', '29472543 (Lees-Shepard 2018)'. These are plausible but CANNOT be verified as correct — the response explicitly says 'Pull the key PMIDs — use PubMed to confirm the PMIDs... before entering them.' The instruction to verify is good but the PMIDs in the response itself may be incorrect (e.g., PMID:25640599 is the actual Hatsell 2015 paper per the with-skill response). Citing PMIDs that should be verified is borderline hallucination."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 3,
+    "total": 5,
+    "pass_rate": 0.4
+  },
+  "execution_metrics": {
+    "output_chars": 9400,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "PMID:26290597 is the Hatsell 2015 Activin A paper",
+      "type": "factual",
+      "verified": false,
+      "evidence": "The with-skill response cites PMID:25640599 for Hatsell 2015 (Nature Medicine). The baseline cites PMID:26290597. At least one of these is wrong — both cannot be correct."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "Assertion 5 (no fabricated PMIDs) proved highly discriminating — the baseline provided PMIDs that may be incorrect. The with-skill response found real PMIDs from the actual DisMech YAML. Consider strengthening this assertion: 'All cited PMIDs appear in the actual DisMech YAML entry for the disease.'"
+      }
+    ],
+    "overall": "2/5 pass. Key failures: YAML format not identified (baseline guesses a generic structure), PR workflow not known (baseline assumes a web portal), and PMIDs may be hallucinated. This is the most discriminating eval for the curation pipeline use case."
+  }
+}

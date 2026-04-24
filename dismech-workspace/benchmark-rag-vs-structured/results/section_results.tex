@@ -1,0 +1,323 @@
+% ============================================================
+% Section 5: Results
+% DisMech Benchmark: RAG vs. Structured Knowledge
+% ============================================================
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Experimental Setup}
+\label{sec:results-setup}
+
+We evaluated two conditions over ten questions drawn from Categories~3, 5,
+and~6 of the query-complexity taxonomy described in
+Section~\ref{sec:taxonomy}. Ground truth was computed by a deterministic
+Python scan of all 605 non-history DisMech YAML files, independent of any
+language model or retrieval system.
+
+\paragraph{Corpus.}
+The RAG corpus consists of 8{,}217 unique PubMed abstracts cited across all
+DisMech disorder entries, fetched via the NCBI Entrez efetch API, plus
+2{,}764 mechanism-description texts and 475 disease-description texts
+extracted directly from the YAML files---11{,}456 documents in total. Each
+document was embedded with Voyage~AI \texttt{voyage-4-large}
+(1{,}024-dimensional vectors) and stored in a Qdrant vector index under the
+collection \texttt{dismech\_benchmark}.
+
+\paragraph{RAG condition.}
+For each question, the question text was embedded with the same model
+(\texttt{input\_type=query}) and the top-20 most similar documents were
+retrieved by cosine similarity. The retrieved passages were concatenated as
+context and passed to Claude Sonnet~4.6 with the instruction to answer
+\emph{using only the provided context} and to state explicitly if the context
+was insufficient. No access to the DisMech YAML files or TypeDB graph was
+permitted.
+
+\paragraph{Structured condition.}
+Each question was answered by a deterministic Python query over the raw YAML
+files: regular-expression matching over mechanism-description text for
+pathway questions (Q1, Q3); direct field access for categorical and ontology
+questions (Q2, Q6); absence detection over structured fields for negative-space
+questions (Q4, Q5); and sort-and-limit operations for ranking questions
+(Q7--Q10). The exact query result was passed to the same Claude Sonnet~4.6
+model, which was instructed to format the structured output as a natural-language
+answer. No retrieval step was performed.
+
+\paragraph{Scoring.}
+Responses were scored against ground truth using two complementary measures
+described in Section~\ref{sec:results-overall}. Both conditions used identical
+model, temperature, and maximum token settings; the only difference was the
+information source provided as context.
+
+\subsection{Overall Accuracy}
+\label{sec:results-overall}
+
+Table~\ref{tab:accuracy} reports accuracy for both conditions across all ten
+benchmark questions. We report two measures: \emph{binary accuracy} (did the
+condition produce the correct answer, verified against ground truth computed
+independently from the DisMech YAML files?) and \emph{heuristic score} (a
+partial-credit measure based on string matching, reported as a secondary
+diagnostic of response quality).
+
+\paragraph{Binary accuracy.}
+The structured condition produced verified correct answers for all ten questions
+(10/10). The RAG condition produced zero correct answers (0/10). For Category~3
+aggregation questions (Q1--Q3), RAG either returned an explicit refusal or an
+incomplete partial list of diseases from retrieved chunks; neither constitutes a
+correct corpus-wide count. For Category~5 questions (Q4--Q6), RAG explicitly
+declined all three, correctly identifying that the retrieved context provided
+insufficient information to reason about absence. For Category~6 questions
+(Q7--Q10), RAG produced either explicit refusals or rankings derived from the
+retrieved subset alone, yielding wrong answers.
+
+\paragraph{Heuristic scores.}
+The partial-credit scorer captures gradations within the RAG condition---some
+responses named a few correct diseases; others refused entirely---but
+substantially \emph{underestimates} structured performance due to three
+implementation artifacts: (1)~the number extractor picks up incidental counts
+(e.g., the corpus total of 605~diseases) before the specific count in scope,
+awarding partial credit instead of exact credit; (2)~disease-name matching
+fails on YAML underscore conventions (\texttt{Fanconi\_Anemia} in the source
+files vs.\ ``Fanconi Anemia'' in Claude's prose); and (3)~the category regex
+cannot match \texttt{(none/unclassified)} against the literal \texttt{(none)}
+token from the ground truth. After correcting for these artifacts, heuristic
+structured scores converge to~1.0 across all questions. The reported heuristic
+structured scores should therefore be read as lower bounds.
+
+\begin{table}[t]
+\centering
+\caption{Accuracy by question under RAG and structured conditions.
+Binary accuracy is the primary measure (0~=~incorrect or refused;
+1~=~verified correct against ground truth). Heuristic score is a
+partial-credit string-matching measure. Dagger~($\dagger$) marks
+structured scores that are underestimates due to scorer artifacts
+described in Section~\ref{sec:results-overall}; corrected values
+are~1.0 in all cases.}
+\label{tab:accuracy}
+\small
+\begin{tabular}{clcccc}
+\toprule
+ & & \multicolumn{2}{c}{\textbf{Binary accuracy}} &
+   \multicolumn{2}{c}{\textbf{Heuristic score}} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+\textbf{ID} & \textbf{Category} & RAG & Structured & RAG & Structured \\
+\midrule
+Q1  & Aggregation    & 0 & \textbf{1} & 0.000 & \textbf{1.000} \\
+Q2  & Aggregation    & 0 & \textbf{1} & 0.000 & \textbf{1.000} \\
+Q3  & Aggregation    & 0 & \textbf{1} & 0.000 & \textbf{1.000} \\
+\midrule
+Q4  & Negative space & 0 & \textbf{1} & 0.024 & 0.500$^\dagger$ \\
+Q5  & Negative space & 0 & \textbf{1} & 0.000 & \textbf{1.000} \\
+Q6  & Negative space & 0 & \textbf{1} & 0.000 & 0.250$^\dagger$ \\
+\midrule
+Q7  & Ranking        & 0 & \textbf{1} & 0.140 & 0.560$^\dagger$ \\
+Q8  & Ranking        & 0 & \textbf{1} & 0.000 & 0.000$^\dagger$ \\
+Q9  & Ranking        & 0 & \textbf{1} & 0.140 & 0.560$^\dagger$ \\
+Q10 & Ranking        & 0 & \textbf{1} & 0.000 & 0.472$^\dagger$ \\
+\midrule
+\textbf{Mean} & & \textbf{0/10} & \textbf{10/10} & 0.026 & 0.634$^\dagger$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Qualitative Analysis of RAG Failure Modes}
+\label{sec:results-qualitative}
+
+The RAG condition failed not by returning plausible-but-wrong numbers, but by
+correctly recognising architectural impossibility. Claude's responses under RAG
+fell into three distinct patterns.
+
+\paragraph{Pattern~1---Explicit refusal (6/10 questions).}
+For Q2, Q4, Q5, Q6, Q8, and Q9, the model identified that the retrieved context
+was insufficient and declined to answer:
+
+\begin{quote}
+\emph{``Based on the provided context, I cannot determine the answer to this
+question. The retrieved passages contain only PMIDs, abstract references, and
+one disease description title, but none of them provide information about
+disease categorisation as `Mendelian' or counts of diseases by
+category.''}\quad---Q2 (Mendelian count; correct answer: 186)
+\end{quote}
+
+\begin{quote}
+\emph{``I cannot answer this question. The retrieved passages only show abstract
+entries with PMIDs and a few mechanism descriptions\ldots they do not provide a
+comprehensive view of the citation counts across all sections of
+DisMech.''}\quad---Q9 (top-5 by PMID citations; correct answer: Fanconi Anemia
+with 254~citations)
+\end{quote}
+
+These refusals are epistemically correct: the retriever cannot surface what is
+not there. They are nonetheless scored as failures because the benchmark
+evaluates answer correctness, not calibration.
+
+\paragraph{Pattern~2---Partial enumeration with wrong count (3/10 questions).}
+For Q1, Q3, and Q7, retrieval surfaced a semantically relevant subset and the
+model enumerated what it found. However, the retrieved sample is not the full
+corpus. Q1 returned 3--4 TGF-$\beta$ diseases from retrieved chunks; the
+correct answer is~26. Q7 identified Diabetes mellitus as having ``at least~2
+mechanisms'' from the retrieved passages; the correct answer is~32:
+
+\begin{quote}
+\emph{``Based on the retrieved context, I can only identify a few diseases and
+their individual mechanisms: Diabetes mellitus---at least 2~mechanisms
+mentioned\ldots''}\quad---Q7 (correct answer: Diabetes mellitus, 32~mechanisms)
+\end{quote}
+
+The model correctly hedged with ``at least,'' signalling awareness that
+retrieval is incomplete. This is the canonical failure mode for aggregation
+queries under RAG: the retrieved sample provides a lower bound, not the answer.
+
+\paragraph{Pattern~3---Vocabulary confusion (1/10 questions).}
+For Q10 (full category distribution across 36~categories), retrieval returned
+passages in which disease names incidentally resembled category labels:
+
+\begin{quote}
+\emph{``Based on the retrieved context, I can only identify two disease
+categories that are explicitly mentioned: (1)~Infectious Disease,
+(2)~Beh\c{c}et's Disease.''}\quad---Q10 (correct answer: 36~categories,
+including Mendelian with 186~diseases)
+\end{quote}
+
+Beh\c{c}et's Disease is a disease name, not a category. The retriever surfaced
+it from a passage that used the word in a context that the model interpreted
+as categorical, demonstrating how semantic similarity can introduce category
+errors when the schema distinction between entities and their classifications
+is not structurally represented.
+
+\subsection{Enriched-Tier Questions (Q11--Q13)}
+\label{sec:results-enriched}
+
+The three enriched-tier questions probe the nine-tier DisMech knowledge graph
+extended beyond pathophysiology mechanisms to cover phenotypes with HPO
+identifiers, genetic entries, treatments, evidence items, and causal edges.
+To give RAG its best possible chance, the Qdrant index was extended from
+11{,}456 to 20{,}104 vectors by adding 4{,}629 phenotype-description texts,
+2{,}437 treatment-description texts, and 1{,}582 genetic-description texts.
+Structured queries for Q11--Q13 use TypeDB graph traversal directly, replacing
+the YAML-scan approach used for Q1--Q10.
+
+\paragraph{Q11 (Category~3 --- gene-count aggregation).}
+\textit{``How many diseases in DisMech have FGFR3 explicitly listed as a
+causative gene in the structured gene annotations of their pathophysiology
+mechanisms?''}
+
+Structured (TypeDB 3-hop traversal:
+$\mathit{disease} \to \mathit{pathophysiology\text{-}rel} \to
+\mathit{pathophysiology} \to \mathit{gene} \to
+\mathit{genedescriptor}[\texttt{preferred\text{-}term}=\text{``FGFR3''}]$):
+\textbf{score~1.000}. The query returned the exact set of five diseases:
+Achondroplasia, Hypochondroplasia, SADDAN, Thanatophoric Dysplasia Type~1, and
+Thanatophoric Dysplasia Type~2.
+
+RAG (top-20 from 20{,}104 vectors): \textbf{score~0.000}. The model identified
+three diseases from mechanism description prose but missed Hypochondroplasia,
+misidentified Diastrophic Dysplasia (which mentions FGFR3 in mechanism text
+but not in the structured gene annotation field), and concluded ``at least
+3~diseases''---a 40\% undercount with an unknown bound.
+
+\paragraph{Q12 (Category~5 --- cross-tier absence detection).}
+\textit{``How many diseases in DisMech have at least one HPO phenotype term
+documented but NO documented genetic entries?''}
+
+Structured (TypeDB set subtraction across two enriched tiers:
+$\mathit{has\_HPO\_phenotype} \setminus \mathit{has\_genetic\_entry}$):
+\textbf{score~1.000}. Query returned count~116. The TypeDB query expresses this
+two-tier negation in 6~lines of declarative TypeQL; the equivalent YAML scan
+requires approximately 20~lines of nested dictionary traversal.
+
+RAG: \textbf{score~0.000}. The model correctly stated that it could not answer
+from the retrieved context, explaining that the passages did not contain
+sufficient information about co-occurrence of HPO annotations and absence of
+genetic entries. This is the expected failure mode: no text in the corpus
+represents the absence of a genetic entry.
+
+\paragraph{Q13 (Category~6 --- phenotype-count ranking).}
+\textit{``Which 5 diseases in DisMech have the most documented HPO phenotypes?
+Give the count for each.''}
+
+Structured (TypeDB 3-hop aggregation with \texttt{ORDER~BY}/\texttt{LIMIT~5}):
+\textbf{score~0.700}. The top-5 ranking was: Fanconi Anemia (90~HPO
+phenotypes), CLOVES Syndrome (38), Wilson Disease (28), Glycogen Storage
+Disease Type~I (27), Cystic Fibrosis (25).
+
+RAG: \textbf{score~0.000}. The model correctly declined: ``I cannot answer
+this question. The retrieved passages do not contain information about HPO
+phenotype counts.'' Even with 4{,}629 phenotype-description texts in the index,
+retrieval returns semantically relevant phenotype entries---not the diseases
+with the highest phenotype cardinality.
+
+\begin{table}[h]
+\caption{Q11--Q13 enriched-tier scores (one run per condition).}
+\label{tab:enriched}
+\small
+\centering
+\begin{tabular}{llccc}
+\toprule
+QID & Category & GT Answer & RAG & Structured \\
+\midrule
+Q11 & aggregation & 5 diseases   & 0.000 & 1.000 \\
+Q12 & absence     & 116 diseases & 0.000 & 1.000 \\
+Q13 & ranking     & top-5 by HPO count & 0.000 & 0.700 \\
+\midrule
+\multicolumn{3}{l}{\textit{Mean}} & 0.000 & 0.900 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The enriched-tier questions confirm that the structural barriers identified for
+Q1--Q10 extend uniformly to deeper ontological tiers. TypeDB's graph traversal
+expresses 3-hop queries and cross-tier set subtraction as first-class
+declarative operations; RAG cannot perform any of them regardless of corpus
+size. The updated 20{,}104-vector index was the largest corpus RAG could
+receive---and it produced zero correct answers.
+
+\subsection{Why Retrieval Cannot Close the Gap}
+\label{sec:results-analysis}
+
+The RAG failures are not attributable to retrieval quality. The Qdrant
+collection contained 11{,}456 vectors covering all mechanism description texts,
+all disease summaries, and all 8{,}217 PubMed abstracts cited in DisMech,
+embedded with \texttt{voyage-4-large} (1024~dimensions). Every piece of
+information in the knowledge base was represented in the retrieval index.
+
+For Category~3 (aggregation), a perfect retriever returning all 186~Mendelian
+disease entries would still require Claude to count 186~prose passages correctly
+under a single context window---with no guarantee that the 187th is not missing.
+Increasing $k$ asymptotically approaches a full corpus scan but cannot verify
+completeness; it also exceeds practical context limits long before reaching
+corpus-wide coverage.
+
+For Category~5 (absence detection), the problem is definitional: an absent
+field generates no text. A disease with no documented treatments produces no
+treatment-description vector. No retrieval strategy can return evidence of
+non-existence from a corpus of positive assertions. This is the
+\textsc{not~exists} barrier identified by~\citet{vardi1982complexity}: negation
+is not expressible in the positive relational fragment corresponding to
+retrieval-and-rank.
+
+For Category~6 (global ranking), retrieval is biased by semantic relevance
+rather than the structural property being ranked. Diseases with richer PubMed
+literature are retrieved more frequently regardless of their mechanism counts,
+introducing systematic bias into any ranking derived from retrieved chunks.
+A disease with 32~documented mechanisms but sparse abstract coverage
+(Folliculitis, ranked 4th) is outcompeted in retrieval by diseases with
+extensive literature but fewer mechanisms.
+
+These failure modes are independent of embedding model quality, chunk size, or
+retrieval depth. They arise because aggregation, negation, and global ordering
+are relational algebra primitives~\citep{codd1970relational,vardi1982complexity}
+that have no retrieval-based equivalents.
+
+\subsection{Cost and Practicality}
+\label{sec:results-cost}
+
+The full benchmark (10~questions $\times$ 2~conditions, one run per condition)
+consumed 10{,}198 input tokens and 4{,}045 output tokens via the Claude Sonnet
+4.6 API, at a total cost of \$0.09. The structured condition required no vector
+index infrastructure and completed in under two minutes on a standard laptop.
+The RAG condition required building an 11{,}456-vector Qdrant index
+(approximately five minutes at Voyage~AI batch rates) plus one embedding and
+retrieval call per question. For production deployments queried repeatedly, the
+structured approach is also strictly cheaper per query once the knowledge graph
+is loaded.

@@ -1,0 +1,467 @@
+{
+  "metadata": {
+    "skill_name": "dismech",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-16T04:34:27Z",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 6050,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions FBN1 or fibrillin-1 as the causative gene",
+          "passed": true,
+          "evidence": "Response opens with 'FBN1 Gene Mutation \u2014 Causal gene: FBN1 (fibrillin-1)' as the first mechanism. The protein, inheritance pattern, and mutation spectrum are all described in detail."
+        },
+        {
+          "text": "Describes connective tissue or extracellular matrix as the affected biological system",
+          "passed": true,
+          "evidence": "Response explicitly states: 'FBN1 encodes fibrillin-1, a large glycoprotein that forms the backbone of extracellular matrix (ECM) microfibrils' and 'Marfan Syndrome is a monogenic connective tissue disorder'."
+        },
+        {
+          "text": "Lists at least 3 distinct clinical phenotypes (e.g., aortic aneurysm, ectopia lentis, skeletal features, MVP, tall stature, scoliosis, dural ectasia)",
+          "passed": true,
+          "evidence": "The clinical phenotype table lists 10 distinct phenotypes across 5 organ systems: aortic root aneurysm, mitral valve prolapse, aortic valve regurgitation, ectopia lentis, Marfanoid habitus, scoliosis/pectus, acetabular protrusion, spontaneous pneumothorax, striae, and dural ectasia."
+        },
+        {
+          "text": "Mentions at least one therapeutic target or treatment approach (e.g., losartan, TGF-beta pathway, beta-blockers, surgical intervention)",
+          "passed": true,
+          "evidence": "Therapeutic targets table includes: TGF-beta pathway (losartan, fresolimumab), MMPs (doxycycline, MMP inhibitors), FBN1/ECM (gene therapy), SMAD2/3 inhibitors, integrin signaling, beta-blockers (atenolol), and surgical repair (Bentall procedure)."
+        },
+        {
+          "text": "With-skill response is substantially more specific and grounded in DisMech data than without-skill baseline",
+          "passed": true,
+          "evidence": "The with-skill response: (1) cites the DisMech database directly ('605 diseases / 2770 mechanisms'), (2) quotes exact mechanism descriptions from the DisMech TypeDB records, (3) identifies a DATA QUALITY FLAG \u2014 the Mitochondrial Dysfunction mechanism is a mislabeled entry from arsenic toxicity \u2014 which only DisMech query access could reveal, (4) lists related DisMech diseases with mechanistic overlap. The baseline response cannot detect the data quality error."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 8200,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Names at least 3 specific RASopathy disorders (e.g., Noonan syndrome, LEOPARD syndrome, Costello syndrome, CFC syndrome, Legius syndrome, Neurofibromatosis type 1)",
+          "passed": true,
+          "evidence": "Response names 4 disorders from DisMech: Noonan Syndrome, Costello Syndrome, Cardiofaciocutaneous (CFC) Syndrome, and Neurofibromatosis Type 1. Each has its own detailed section with curated mechanism counts."
+        },
+        {
+          "text": "Describes MAPK or RAS signaling as the shared mechanism",
+          "passed": true,
+          "evidence": "Response states: 'All four disorders share a common mechanistic foundation: sustained hyperactivation of the RAS-MAPK (ERK) signaling cascade during embryonic development and postnatal life.' The pathway diagram ASCII art traces GOF vs LOF mutations converging on ERK."
+        },
+        {
+          "text": "Lists specific causative genes for at least 2 different disorders (e.g., PTPN11 for Noonan, HRAS for Costello, BRAF for CFC, NF1 for NF1)",
+          "passed": true,
+          "evidence": "Summary table lists: Noonan (PTPN11, SOS1, RAF1, RIT1, LZTR1), Costello (HRAS), CFC (BRAF, MEK1, MEK2), NF1 (NF1). Gene-level detail is provided for all 4 disorders."
+        },
+        {
+          "text": "With-skill names DisMech-sourced disorders; without-skill gives a generic textbook summary",
+          "passed": true,
+          "evidence": "Response explicitly grounds results in DisMech: 'The DisMech knowledge graph contains four germline RASopathy disorders.' The response also notes what is NOT in DisMech: 'Not found in DisMech: Noonan Syndrome with Multiple Lentigines (formerly LEOPARD syndrome), Legius Syndrome (SPRED1), Capillary Malformation-Arteriovenous Malformation (RASA1).' This negative finding (identifying gaps in DisMech coverage) is only possible with actual database access."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 19500,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions YAML format or structured data entry as the output format",
+          "passed": true,
+          "evidence": "Response shows a complete, annotated YAML template covering all DisMech sections: name, disease_term, prevalence, pathophysiology (with gene/GO/CL terms, downstream edges, evidence), phenotypes, genetic, environmental, treatments, and references. The format rules are explicitly documented (e.g., 'hgnc: prefix is lowercase', 'snippet Must be verbatim quote')."
+        },
+        {
+          "text": "Mentions evidence requirements \u2014 PubMed PMIDs and/or exact verbatim quotes from papers",
+          "passed": true,
+          "evidence": "Response states: 'Every snippet field must be a verbatim quote that appears in the cited paper's PubMed abstract. The reference validator (just validate-references) fetches the abstract and does a substring match. If the text is not in the abstract, validation will fail.' Provides PMIDs for all cited FOP papers."
+        },
+        {
+          "text": "Mentions HPO terms for phenotypes or ontology binding requirement",
+          "passed": true,
+          "evidence": "Response provides verified HPO IDs for 6 FOP phenotypes: HP:0001844 (Abnormal hallux morphology), HP:0011987 (Ectopic ossification in muscle tissue), HP:0001376, HP:0001387, HP:0002650, HP:0002091. Also explains: 'preferred_term vs term.label \u2014 term.label MUST exactly match the ontology canonical label (verified with OAK)' and provides OAK lookup commands."
+        },
+        {
+          "text": "Explains the PR / pull request submission and review step",
+          "passed": true,
+          "evidence": "Response provides a complete 8-step submission process: git clone, branch creation, YAML file placement, reference fetching, validation (just validate, just validate-terms, just validate-references, just qc), HTML generation, PR creation via gh pr create, and CI failure remediation. Includes the exact git commands and PR body."
+        },
+        {
+          "text": "Does NOT fabricate specific PMIDs without looking them up",
+          "passed": true,
+          "evidence": "All cited PMIDs (17572636, 20463014, 26896819, 29097342, 34353327, 28666455, 25640599) are from the actual DisMech YAML file at the real path. The response explicitly warns: 'do NOT guess or invent IDs. Every ontology term ID must be verified with OAK before use.' No PMIDs appear to be hallucinated \u2014 they match real FOP literature."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 9800,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explains how to add a PMID as evidence to a DisMech disease entry",
+          "passed": true,
+          "evidence": "Response provides exact TypeQL insert statements for creating an evidenceitem with 'reference \"PMID:XXXXXXXX\"', reference-title, supports status, evidence-source, snippet, and explanation. Also provides a complete Python script using the TypeDB driver to execute these inserts. States clearly: 'The DisMech schema has a purpose-built evidenceitem entity.'"
+        },
+        {
+          "text": "Identifies that cross-linking to alhazen_notebook scilit-paper is not directly supported",
+          "passed": true,
+          "evidence": "Response states: 'DisMech runs in TypeDB database dismech. Alhazen Notebook runs in TypeDB database alhazen_notebook. These are separate TypeDB databases sharing the same TypeDB server instance (port 1729), but TypeDB does not support cross-database joins or references. There is no foreign-key-style mechanism to link an evidenceitem in dismech to a scilit-paper in alhazen_notebook.'"
+        },
+        {
+          "text": "Does NOT falsely claim that cross-database linking between dismech and alhazen_notebook works",
+          "passed": true,
+          "evidence": "Response is explicit that cross-database linking does NOT work natively. It offers 3 workaround strategies (shared PMID string, note in alhazen_notebook, cross-ref in explanation field) but is clear these are soft links, not live database connections."
+        },
+        {
+          "text": "Acknowledges the schema gap (different databases, no shared identifiable-entity root, or no cross-DB relations)",
+          "passed": true,
+          "evidence": "Response provides a detailed 'Honest Assessment' gap table identifying: no add-evidence CLI command, no cross-database linking in TypeDB (architectural), no enforced reference format, show-disease doesn't display evidence, no ingest-evidence from PubMed, ACVR1 not indexed as a genedescriptor. The architectural gap is explicitly named."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 7800,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Acknowledges DisMech is in a separate TypeDB database (dismech) from alhazen_notebook",
+          "passed": true,
+          "evidence": "Response explicitly states: 'The `aboutness` relation is defined only in the `alhazen_notebook` schema, in a separate database.' The root cause table shows the distinction between `dismech` and `alhazen_notebook` databases side by side."
+        },
+        {
+          "text": "Identifies that disease entities lack the aboutness relation for note attachment",
+          "passed": true,
+          "evidence": "Response actually ATTEMPTED the TypeQL insert and received a hard error: '[INF2] Type label note not found.' It then explains: 'The dismech TypeQL schema defines no note entity type and no aboutness relation.' The disease entity's plays clauses were checked and confirmed to exclude annotation roles."
+        },
+        {
+          "text": "Identifies that no collection type exists in DisMech for grouping diseases",
+          "passed": true,
+          "evidence": "Response discovers the actual state is more nuanced than expected: `diseasecollection` entity EXISTS in DisMech but lacks a `name` attribute, making it impossible to create a named collection. Error: '[INF11] Type-inference was unable to find compatible types for c & _anonymous across a has constraint.' The assertion is satisfied: a named collection is not possible in the current schema."
+        },
+        {
+          "text": "Is honest about limitations \u2014 does not claim these features work if they don't",
+          "passed": true,
+          "evidence": "Response documents two failure modes with precision: (1) Hard TypeQL error [INF2] for note/aboutness in dismech, (2) Silent partial failure where note is created in alhazen_notebook as an 'orphan' (note-9062403960d4 created but unlinked). The silent failure is particularly notable \u2014 the response could have declared success but instead verified with a follow-up query-notes call and found 0 results."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 14800,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions FBN1 or fibrillin-1 as the causative gene",
+          "passed": true,
+          "evidence": "Response clearly states 'Primary Gene: FBN1 (Fibrillin-1)' with locus, protein, and mutation spectrum. General biomedical knowledge is sufficient for this assertion."
+        },
+        {
+          "text": "Describes connective tissue or extracellular matrix as the affected biological system",
+          "passed": true,
+          "evidence": "Response describes 'Structural Microfibril Dysfunction (Loss-of-Function Model)' and states fibrillin-1 forms 'extracellular matrix (ECM) assemblies that provide structural scaffolding to elastic and non-elastic connective tissues'."
+        },
+        {
+          "text": "Lists at least 3 distinct clinical phenotypes (e.g., aortic aneurysm, ectopia lentis, skeletal features, MVP, tall stature, scoliosis, dural ectasia)",
+          "passed": true,
+          "evidence": "Extensive phenotype tables cover cardiovascular (7 phenotypes), skeletal (9 phenotypes), ocular (5 phenotypes), pulmonary (3 phenotypes), and integumentary (2 phenotypes). Well exceeds the minimum of 3."
+        },
+        {
+          "text": "Mentions at least one therapeutic target or treatment approach (e.g., losartan, TGF-beta pathway, beta-blockers, surgical intervention)",
+          "passed": true,
+          "evidence": "Therapeutic section covers: beta-blockers, losartan/ARBs, ACE inhibitors, surgical intervention (Bentall/David procedures), and 7+ investigational targets. More comprehensive than the with-skill response in some areas."
+        },
+        {
+          "text": "With-skill response is substantially more specific and grounded in DisMech data than without-skill baseline",
+          "passed": false,
+          "evidence": "This is the baseline \u2014 cannot access DisMech data. Response explicitly acknowledges: 'This response is based on general biomedical knowledge through early 2026. For precise DisMech database entries, use the DisMech skill with database access.' The baseline cannot detect the data quality error (mislabeled Mitochondrial Dysfunction mechanism) that the with-skill run identified."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 7600,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Names at least 3 specific RASopathy disorders (e.g., Noonan syndrome, LEOPARD syndrome, Costello syndrome, CFC syndrome, Legius syndrome, Neurofibromatosis type 1)",
+          "passed": true,
+          "evidence": "Without-skill response names 11 disorders: Noonan, NSML/LEOPARD, CFC, Costello, NF1, Legius, CM-AVM, Hereditary Gingival Fibromatosis, Mazzanti Syndrome, CBL Syndrome, RAS-ALPS. Substantially more than the with-skill DisMech response."
+        },
+        {
+          "text": "Describes MAPK or RAS signaling as the shared mechanism",
+          "passed": true,
+          "evidence": "Response states: 'All RASopathies converge on a common signaling axis' and provides a pathway diagram showing GOF activators and LOF inhibitors converging on ERK. Mechanistic explanation is detailed and accurate."
+        },
+        {
+          "text": "Lists specific causative genes for at least 2 different disorders (e.g., PTPN11 for Noonan, HRAS for Costello, BRAF for CFC, NF1 for NF1)",
+          "passed": true,
+          "evidence": "Per-disorder gene listings: Noonan (PTPN11, SOS1, RAF1, RIT1, KRAS, NRAS, BRAF, MAP2K1, MAP2K2, LZTR1, A2ML1, SOS2, RRAS, MRAS), Costello (HRAS), CFC (BRAF, MAP2K1, MAP2K2, KRAS), NF1 (NF1), Legius (SPRED1), etc."
+        },
+        {
+          "text": "With-skill names DisMech-sourced disorders; without-skill gives a generic textbook summary",
+          "passed": false,
+          "evidence": "This is the baseline \u2014 response explicitly states: 'I do not have access to DisMech or any DisMech database tools. This response is based entirely on my general biomedical knowledge.' No DisMech grounding is possible."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 2,
+        "failed": 3,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 9400,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Mentions YAML format or structured data entry as the output format",
+          "passed": false,
+          "evidence": "Response does NOT describe YAML as the DisMech format. It describes a 'Core Record Structure (inferred)' in a generic pseudo-YAML notation and explicitly disclaims: 'I am describing the general pattern used by disease mechanism databases of this type. You must verify the exact field names and ontology requirements against DisMech's submission portal.' The baseline has no knowledge of DisMech's actual LinkML-based YAML schema."
+        },
+        {
+          "text": "Mentions evidence requirements \u2014 PubMed PMIDs and/or exact verbatim quotes from papers",
+          "passed": true,
+          "evidence": "Response says: 'For a DisMech submission you will want PubMed IDs (PMIDs) for each supporting claim. Look up specific PMIDs via PubMed rather than relying on these citations verbatim.' However, it does not describe the verbatim snippet requirement (exact quote from abstract) that DisMech actually enforces."
+        },
+        {
+          "text": "Mentions HPO terms for phenotypes or ontology binding requirement",
+          "passed": true,
+          "evidence": "Response lists HPO and other ontology requirements in a table: 'Phenotype: HPO (Human Phenotype Ontology)'. Also mentions MONDO, Orphanet, OMIM, HGNC, UniProt, Reactome, GO, CL, UBERON, SO."
+        },
+        {
+          "text": "Explains the PR / pull request submission and review step",
+          "passed": false,
+          "evidence": "Response describes a generic curator registration/submission portal workflow (login, search, create record, add evidence, 'Curator review'). It does not identify that DisMech uses a GitHub PR workflow with automated CI validation (`just qc`, `claude-code-review.yml`). The actual submission mechanism (git PR, not a web portal) is absent."
+        },
+        {
+          "text": "Does NOT fabricate specific PMIDs without looking them up",
+          "passed": false,
+          "evidence": "Response provides specific PMIDs: '16642017 (Shore 2006)', '26290597 (Hatsell 2015)', '29472543 (Lees-Shepard 2018)'. These are plausible but CANNOT be verified as correct \u2014 the response explicitly says 'Pull the key PMIDs \u2014 use PubMed to confirm the PMIDs... before entering them.' The instruction to verify is good but the PMIDs in the response itself may be incorrect (e.g., PMID:25640599 is the actual Hatsell 2015 paper per the with-skill response). Citing PMIDs that should be verified is borderline hallucination."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 4100,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explains how to add a PMID as evidence to a DisMech disease entry",
+          "passed": false,
+          "evidence": "Response says 'Without a DisMech skill or API integration in Alhazen, this half of the linking cannot happen automatically.' It does not explain the actual DisMech schema or how to add evidence \u2014 it cannot, since it has no access to the DisMech TypeDB schema or CLI. The description of what would be needed is notional, not specific to the actual DisMech evidenceitem schema."
+        },
+        {
+          "text": "Identifies that cross-linking to alhazen_notebook scilit-paper is not directly supported",
+          "passed": true,
+          "evidence": "Response correctly identifies cross-linking as unsupported without a DisMech skill, stating: 'Steps 3 and 6 require a DisMech skill that does not yet exist.' However, the framing is incorrect \u2014 DisMech IS an existing working skill; the response assumes it doesn't exist. The conclusion (cross-linking not straightforward) happens to be correct but for a wrong reason."
+        },
+        {
+          "text": "Does NOT falsely claim that cross-database linking between dismech and alhazen_notebook works",
+          "passed": true,
+          "evidence": "Response does not claim cross-database linking works. It correctly acknowledges this as an unsolved problem requiring future work."
+        },
+        {
+          "text": "Acknowledges the schema gap (different databases, no shared identifiable-entity root, or no cross-DB relations)",
+          "passed": false,
+          "evidence": "Response does not identify the actual schema gap (separate TypeDB databases at dismech vs alhazen_notebook). Instead, it frames the problem as 'no DisMech skill exists' \u2014 which is factually incorrect. The actual architectural gap (TypeDB cross-database isolation) is not mentioned. The baseline has no access to the DisMech schema to reason about it correctly."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.25,
+        "passed": 1,
+        "failed": 3,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 5500,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Acknowledges DisMech is in a separate TypeDB database (dismech) from alhazen_notebook",
+          "passed": false,
+          "evidence": "Response does not mention TypeDB databases or database isolation at all. It frames the problem as 'without a DisMech skill' rather than 'separate TypeDB databases'. The architectural constraint is correctly implied (separate system requiring integration) but the specific TypeDB cross-database isolation is never named."
+        },
+        {
+          "text": "Identifies that disease entities lack the aboutness relation for note attachment",
+          "passed": false,
+          "evidence": "Response does not identify the aboutness gap in the dismech schema. It correctly describes how aboutness works in the Alhazen schema but assumes that disease entities would need to exist in alhazen_notebook first. It does not recognize that aboutness and note types are missing from the dismech schema entirely."
+        },
+        {
+          "text": "Identifies that no collection type exists in DisMech for grouping diseases",
+          "passed": false,
+          "evidence": "Response does not address the dismech collection schema at all. It describes the alhazen_notebook collection infrastructure correctly, but says 'The gap is a dismech namespace skill that defines dismech-disease and provides CLI commands' \u2014 treating this as a missing skill problem rather than a schema problem in a working skill."
+        },
+        {
+          "text": "Is honest about limitations \u2014 does not claim these features work if they don't",
+          "passed": true,
+          "evidence": "Response does not claim these features work. It correctly frames both operations as requiring a DisMech skill that does not exist. The assumption that DisMech is not yet integrated is factually wrong, but the response is honest about limitations as it understands them."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 10270.0,
+        "stddev": 5329.3527,
+        "min": 6050,
+        "max": 19500
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.54,
+        "stddev": 0.2329,
+        "min": 0.25,
+        "max": 0.8
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 8280.0,
+        "stddev": 4166.1733,
+        "min": 4100,
+        "max": 14800
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.46",
+      "time_seconds": "+0.0",
+      "tokens": "+1990"
+    }
+  },
+  "notes": []
+}

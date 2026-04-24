@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "text": "Acknowledges DisMech is in a separate TypeDB database (dismech) from alhazen_notebook",
+      "passed": false,
+      "evidence": "Response does not mention TypeDB databases or database isolation at all. It frames the problem as 'without a DisMech skill' rather than 'separate TypeDB databases'. The architectural constraint is correctly implied (separate system requiring integration) but the specific TypeDB cross-database isolation is never named."
+    },
+    {
+      "text": "Identifies that disease entities lack the aboutness relation for note attachment",
+      "passed": false,
+      "evidence": "Response does not identify the aboutness gap in the dismech schema. It correctly describes how aboutness works in the Alhazen schema but assumes that disease entities would need to exist in alhazen_notebook first. It does not recognize that aboutness and note types are missing from the dismech schema entirely."
+    },
+    {
+      "text": "Identifies that no collection type exists in DisMech for grouping diseases",
+      "passed": false,
+      "evidence": "Response does not address the dismech collection schema at all. It describes the alhazen_notebook collection infrastructure correctly, but says 'The gap is a dismech namespace skill that defines dismech-disease and provides CLI commands' — treating this as a missing skill problem rather than a schema problem in a working skill."
+    },
+    {
+      "text": "Is honest about limitations — does not claim these features work if they don't",
+      "passed": true,
+      "evidence": "Response does not claim these features work. It correctly frames both operations as requiring a DisMech skill that does not exist. The assumption that DisMech is not yet integrated is factually wrong, but the response is honest about limitations as it understands them."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 3,
+    "total": 4,
+    "pass_rate": 0.25
+  },
+  "execution_metrics": {
+    "output_chars": 5500,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "A DisMech skill would need to be built to enable these operations",
+      "type": "factual",
+      "verified": false,
+      "evidence": "INCORRECT premise — DisMech IS an existing working skill with CLI, TypeDB database, and schema. The baseline's entire framing is based on the false assumption that DisMech doesn't exist as a working tool."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "This is the most discriminating eval for testing whether the skill reveals actual schema constraints vs. assuming the problem is about missing integration. The baseline fails because it doesn't know DisMech exists as a working skill, let alone what its schema contains. The assertions correctly identify what the skill should reveal."
+      }
+    ],
+    "overall": "1/4 pass. The baseline's core limitation is that it assumes DisMech doesn't exist as an integrated tool. All three substantive assertions require knowing the actual dismech TypeDB schema — which only the skill can access. This is the clearest demonstration of skill value in the eval set."
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "expectations": [
+    {
+      "text": "Explains how to add a PMID as evidence to a DisMech disease entry",
+      "passed": true,
+      "evidence": "Response provides exact TypeQL insert statements for creating an evidenceitem with 'reference \"PMID:XXXXXXXX\"', reference-title, supports status, evidence-source, snippet, and explanation. Also provides a complete Python script using the TypeDB driver to execute these inserts. States clearly: 'The DisMech schema has a purpose-built evidenceitem entity.'"
+    },
+    {
+      "text": "Identifies that cross-linking to alhazen_notebook scilit-paper is not directly supported",
+      "passed": true,
+      "evidence": "Response states: 'DisMech runs in TypeDB database dismech. Alhazen Notebook runs in TypeDB database alhazen_notebook. These are separate TypeDB databases sharing the same TypeDB server instance (port 1729), but TypeDB does not support cross-database joins or references. There is no foreign-key-style mechanism to link an evidenceitem in dismech to a scilit-paper in alhazen_notebook.'"
+    },
+    {
+      "text": "Does NOT falsely claim that cross-database linking between dismech and alhazen_notebook works",
+      "passed": true,
+      "evidence": "Response is explicit that cross-database linking does NOT work natively. It offers 3 workaround strategies (shared PMID string, note in alhazen_notebook, cross-ref in explanation field) but is clear these are soft links, not live database connections."
+    },
+    {
+      "text": "Acknowledges the schema gap (different databases, no shared identifiable-entity root, or no cross-DB relations)",
+      "passed": true,
+      "evidence": "Response provides a detailed 'Honest Assessment' gap table identifying: no add-evidence CLI command, no cross-database linking in TypeDB (architectural), no enforced reference format, show-disease doesn't display evidence, no ingest-evidence from PubMed, ACVR1 not indexed as a genedescriptor. The architectural gap is explicitly named."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 9800,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "FOP exists in DisMech with 5 curated ACVR1-related mechanisms",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Response lists 5 specific mechanisms: Constitutive BMP Signaling, Impaired FKBP1A Binding, Activin A Neomorphic Signaling, Heterotopic Ossification, Inflammatory Triggering. These are grounded in actual database query results."
+    },
+    {
+      "claim": "The dismech.py CLI has no add-evidence command",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Response lists 7 available CLI commands (init, ingest, list-diseases, show-disease, search, stats, serve) and explicitly states 'the dismech.py CLI has no add-evidence or insert-evidence command.' This is a genuine gap discovery."
+    },
+    {
+      "claim": "alhazen_notebook currently contains no FOP-related papers",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Response states 'I checked the alhazen_notebook database. It currently contains no FOP-related papers.' Cannot verify without independent database access, but the claim is stated with specificity."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "The response discovered an important unasserted finding: the dismech.py CLI has no add-evidence command despite the schema supporting evidenceitem. This is a concrete feature gap. An assertion like 'Response identifies at least one concrete missing CLI command or feature gap in the DisMech tooling' would capture this."
+      }
+    ],
+    "overall": "All 4 assertions pass with strong evidence. This is the most discriminating eval — the baseline cannot possibly provide TypeQL insert code for a specific DisMech schema entity it has never seen. The gap table is a particularly valuable output."
+  }
+}

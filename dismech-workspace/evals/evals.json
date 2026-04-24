@@ -1,0 +1,35 @@
+{
+  "skill_name": "dismech",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "What are the pathophysiological mechanisms underlying Marfan syndrome? I want to understand the genes involved, the molecular mechanisms, key clinical phenotypes, and any therapeutic targets tracked in DisMech.",
+      "expected_output": "FBN1 gene, connective tissue/ECM mechanism, at least 3 phenotypes, at least one therapeutic target",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I'm researching RASopathies — show me all disorders in DisMech that involve the RAS/MAPK pathway and summarize what they share mechanistically.",
+      "expected_output": "At least 3 RASopathy disorders named, MAPK/RAS mechanism, specific genes per disorder",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want to add Fibrodysplasia Ossificans Progressiva (FOP) to DisMech. It's caused by an ACVR1 gain-of-function mutation and leads to heterotopic ossification. Can you walk me through the DisMech curation process — what do I need to research, what format does the data go in, and how do I submit it?",
+      "expected_output": "YAML format, PubMed PMID evidence with exact quotes, HPO ontology terms, PR submission workflow explained",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "I'm reading a 2024 paper about ACVR1 inhibitors for FOP treatment. I want to connect this evidence to the FOP entry in DisMech AND to the paper I've stored in my Alhazen notebook. How would I do this?",
+      "expected_output": "Explains PMID evidence linking to DisMech entry; identifies cross-database linking to alhazen_notebook is not supported",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "After reviewing the Marfan syndrome entry in DisMech, I want to (a) write a short research note and attach it to the disease record in my knowledge graph, and (b) create a named collection in my notebook containing all connective tissue disorders from DisMech so I can track them together.",
+      "expected_output": "Identifies separate database isolation, missing aboutness relation, missing collection type; honest about limitations",
+      "files": []
+    }
+  ]
+}

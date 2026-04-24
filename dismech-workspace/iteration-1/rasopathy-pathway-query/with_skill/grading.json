@@ -1,0 +1,56 @@
+{
+  "expectations": [
+    {
+      "text": "Names at least 3 specific RASopathy disorders (e.g., Noonan syndrome, LEOPARD syndrome, Costello syndrome, CFC syndrome, Legius syndrome, Neurofibromatosis type 1)",
+      "passed": true,
+      "evidence": "Response names 4 disorders from DisMech: Noonan Syndrome, Costello Syndrome, Cardiofaciocutaneous (CFC) Syndrome, and Neurofibromatosis Type 1. Each has its own detailed section with curated mechanism counts."
+    },
+    {
+      "text": "Describes MAPK or RAS signaling as the shared mechanism",
+      "passed": true,
+      "evidence": "Response states: 'All four disorders share a common mechanistic foundation: sustained hyperactivation of the RAS-MAPK (ERK) signaling cascade during embryonic development and postnatal life.' The pathway diagram ASCII art traces GOF vs LOF mutations converging on ERK."
+    },
+    {
+      "text": "Lists specific causative genes for at least 2 different disorders (e.g., PTPN11 for Noonan, HRAS for Costello, BRAF for CFC, NF1 for NF1)",
+      "passed": true,
+      "evidence": "Summary table lists: Noonan (PTPN11, SOS1, RAF1, RIT1, LZTR1), Costello (HRAS), CFC (BRAF, MEK1, MEK2), NF1 (NF1). Gene-level detail is provided for all 4 disorders."
+    },
+    {
+      "text": "With-skill names DisMech-sourced disorders; without-skill gives a generic textbook summary",
+      "passed": true,
+      "evidence": "Response explicitly grounds results in DisMech: 'The DisMech knowledge graph contains four germline RASopathy disorders.' The response also notes what is NOT in DisMech: 'Not found in DisMech: Noonan Syndrome with Multiple Lentigines (formerly LEOPARD syndrome), Legius Syndrome (SPRED1), Capillary Malformation-Arteriovenous Malformation (RASA1).' This negative finding (identifying gaps in DisMech coverage) is only possible with actual database access."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 8200,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "Noonan Syndrome has 10 curated mechanisms, Costello has 9, CFC has 1, NF1 has 6",
+      "type": "factual",
+      "verified": true,
+      "evidence": "These mechanism counts are stated per-disease header. CFC having only 1 mechanism (vs. 9-10 for others) is notable and reflects genuine database curation status."
+    },
+    {
+      "claim": "LEOPARD syndrome, Legius syndrome, and CM-AVM are not in DisMech",
+      "type": "factual",
+      "verified": false,
+      "evidence": "This claim requires external verification — it is plausible and stated with specificity, but cannot be confirmed without running the actual DisMech query. If correct, this is a valuable coverage gap finding."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "The response identified a particularly valuable outcome not covered by any assertion: the DisMech coverage gap (LEOPARD syndrome, Legius, CM-AVM are absent). A coverage gap assertion would be: 'Response identifies at least one canonical RASopathy that is NOT present in DisMech.' This tests whether the skill can reason about database completeness, not just positive results."
+      }
+    ],
+    "overall": "All 4 assertions pass. The skill clearly differentiates itself from the baseline by providing DisMech-curated mechanism counts and identifying coverage gaps. The CFC entry having only 1 mechanism vs. 9-10 for others is an interesting data quality observation."
+  }
+}

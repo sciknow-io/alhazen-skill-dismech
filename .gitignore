@@ -97,3 +97,13 @@ typedb-data/
 *.crt
 secrets/
 credentials/
+
+# Benchmark generated outputs (large; reproduce via scripts)
+dismech-workspace/benchmark-rag-vs-structured/corpus/abstracts/
+dismech-workspace/benchmark-rag-vs-structured/corpus/manifest.json
+dismech-workspace/benchmark-rag-vs-structured/corpus/mechanism_texts.jsonl
+dismech-workspace/benchmark-rag-vs-structured/corpus/disease_descriptions.jsonl
+dismech-workspace/benchmark-rag-vs-structured/results/Q*/
+dismech-workspace/benchmark-rag-vs-structured/results/scores.json
+dismech-workspace/benchmark-rag-vs-structured/results/figures/
+dismech-workspace/benchmark-rag-vs-structured/results/report.md

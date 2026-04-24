@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q1",
+    "category": 3,
+    "category_name": "pathway_aggregation",
+    "scoring": "exact_count",
+    "expected_rag_performance": "low",
+    "structured_method": "typedb_count",
+    "relational_primitive": "GROUP BY + COUNT",
+    "question": "How many diseases in DisMech have at least one TGF-beta signaling mechanism documented in their pathophysiology?"
+  },
+  {
+    "id": "Q2",
+    "category": 3,
+    "category_name": "pathway_aggregation",
+    "scoring": "exact_count",
+    "expected_rag_performance": "low",
+    "structured_method": "typedb_count",
+    "relational_primitive": "GROUP BY + COUNT",
+    "question": "How many diseases in DisMech are classified as category 'Mendelian'?"
+  },
+  {
+    "id": "Q3",
+    "category": 3,
+    "category_name": "pathway_aggregation",
+    "scoring": "exact_count",
+    "expected_rag_performance": "low",
+    "structured_method": "typedb_count",
+    "relational_primitive": "GROUP BY + COUNT",
+    "question": "How many diseases in DisMech involve WNT/beta-catenin pathway mechanisms?"
+  },
+  {
+    "id": "Q4",
+    "category": 5,
+    "category_name": "negative_space",
+    "scoring": "partial_list",
+    "expected_rag_performance": "zero",
+    "structured_method": "yaml_scan",
+    "relational_primitive": "NOT EXISTS (subquery)",
+    "question": "Which diseases in DisMech have documented pathophysiology mechanisms but NO documented treatments? List them."
+  },
+  {
+    "id": "Q5",
+    "category": 5,
+    "category_name": "negative_space",
+    "scoring": "exact_count",
+    "expected_rag_performance": "zero",
+    "structured_method": "yaml_scan",
+    "relational_primitive": "NOT EXISTS (subquery)",
+    "question": "Which diseases in DisMech have NO genetic entries documented at all?"
+  },
+  {
+    "id": "Q6",
+    "category": 5,
+    "category_name": "negative_space",
+    "scoring": "exact_count",
+    "expected_rag_performance": "zero",
+    "structured_method": "yaml_scan",
+    "relational_primitive": "NOT EXISTS (subquery)",
+    "question": "Which diseases in DisMech have a documented MONDO disease term? Which do NOT?"
+  },
+  {
+    "id": "Q7",
+    "category": 6,
+    "category_name": "ranking",
+    "scoring": "exact_ranked_list",
+    "expected_rag_performance": "low",
+    "structured_method": "typedb_rank",
+    "relational_primitive": "ORDER BY \u2026 LIMIT N",
+    "question": "Which 5 diseases in DisMech have the most documented pathophysiology mechanisms? Give counts."
+  },
+  {
+    "id": "Q8",
+    "category": 6,
+    "category_name": "ranking",
+    "scoring": "exact_ranked_list",
+    "expected_rag_performance": "low",
+    "structured_method": "yaml_scan",
+    "relational_primitive": "ORDER BY \u2026 LIMIT N",
+    "question": "Which 3 disease categories (Mendelian, Genetic, Complex, etc.) have the most diseases in DisMech?"
+  },
+  {
+    "id": "Q9",
+    "category": 6,
+    "category_name": "ranking",
+    "scoring": "exact_ranked_list",
+    "expected_rag_performance": "zero",
+    "structured_method": "yaml_scan",
+    "relational_primitive": "ORDER BY \u2026 LIMIT N",
+    "question": "Which 5 diseases have the most total PMID citations across all sections of their DisMech entries?"
+  },
+  {
+    "id": "Q10",
+    "category": 6,
+    "category_name": "ranking",
+    "scoring": "exact_distribution",
+    "expected_rag_performance": "zero",
+    "structured_method": "yaml_scan",
+    "relational_primitive": "ORDER BY \u2026 LIMIT N",
+    "question": "List all unique disease categories in DisMech and the count of diseases in each."
+  },
+  {
+    "id": "Q11",
+    "category": 3,
+    "category_name": "pathway_aggregation",
+    "scoring": "exact_count",
+    "expected_rag_performance": "low",
+    "structured_method": "typedb_gene_traversal",
+    "relational_primitive": "3-HOP GRAPH TRAVERSAL + COUNT",
+    "question": "How many diseases in DisMech have FGFR3 explicitly listed as a causative gene in the structured gene annotations of their pathophysiology mechanisms?"
+  },
+  {
+    "id": "Q12",
+    "category": 5,
+    "category_name": "negative_space",
+    "scoring": "exact_count",
+    "expected_rag_performance": "zero",
+    "structured_method": "typedb_cross_tier_negation",
+    "relational_primitive": "SET SUBTRACTION ACROSS TWO TIERS",
+    "question": "How many diseases in DisMech have at least one HPO phenotype term documented but NO documented genetic entries?"
+  },
+  {
+    "id": "Q13",
+    "category": 6,
+    "category_name": "ranking",
+    "scoring": "ranked_list_with_counts",
+    "expected_rag_performance": "low",
+    "structured_method": "typedb_phenotype_rank",
+    "relational_primitive": "3-HOP AGGREGATION + ORDER BY LIMIT 5",
+    "question": "Which 5 diseases in DisMech have the most documented HPO phenotypes? Give the count for each."
+  }
+]

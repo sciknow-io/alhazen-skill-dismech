@@ -1,0 +1,64 @@
+{
+  "expectations": [
+    {
+      "text": "Mentions FBN1 or fibrillin-1 as the causative gene",
+      "passed": true,
+      "evidence": "Response opens with 'FBN1 Gene Mutation — Causal gene: FBN1 (fibrillin-1)' as the first mechanism. The protein, inheritance pattern, and mutation spectrum are all described in detail."
+    },
+    {
+      "text": "Describes connective tissue or extracellular matrix as the affected biological system",
+      "passed": true,
+      "evidence": "Response explicitly states: 'FBN1 encodes fibrillin-1, a large glycoprotein that forms the backbone of extracellular matrix (ECM) microfibrils' and 'Marfan Syndrome is a monogenic connective tissue disorder'."
+    },
+    {
+      "text": "Lists at least 3 distinct clinical phenotypes (e.g., aortic aneurysm, ectopia lentis, skeletal features, MVP, tall stature, scoliosis, dural ectasia)",
+      "passed": true,
+      "evidence": "The clinical phenotype table lists 10 distinct phenotypes across 5 organ systems: aortic root aneurysm, mitral valve prolapse, aortic valve regurgitation, ectopia lentis, Marfanoid habitus, scoliosis/pectus, acetabular protrusion, spontaneous pneumothorax, striae, and dural ectasia."
+    },
+    {
+      "text": "Mentions at least one therapeutic target or treatment approach (e.g., losartan, TGF-beta pathway, beta-blockers, surgical intervention)",
+      "passed": true,
+      "evidence": "Therapeutic targets table includes: TGF-beta pathway (losartan, fresolimumab), MMPs (doxycycline, MMP inhibitors), FBN1/ECM (gene therapy), SMAD2/3 inhibitors, integrin signaling, beta-blockers (atenolol), and surgical repair (Bentall procedure)."
+    },
+    {
+      "text": "With-skill response is substantially more specific and grounded in DisMech data than without-skill baseline",
+      "passed": true,
+      "evidence": "The with-skill response: (1) cites the DisMech database directly ('605 diseases / 2770 mechanisms'), (2) quotes exact mechanism descriptions from the DisMech TypeDB records, (3) identifies a DATA QUALITY FLAG — the Mitochondrial Dysfunction mechanism is a mislabeled entry from arsenic toxicity — which only DisMech query access could reveal, (4) lists related DisMech diseases with mechanistic overlap. The baseline response cannot detect the data quality error."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 6050,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "DisMech database contains 605 diseases and 2770 mechanisms",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Stated in the response header and likely confirmed by `stats` command query"
+    },
+    {
+      "claim": "DisMech curates 6 mechanisms for Marfan Syndrome, one of which is a data quality error",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The Mitochondrial Dysfunction entry quotes 'Arsenic causes decreased activity...' — this is verifiably from a different disease entry and is correctly flagged as an ingestion error. This is a genuinely valuable data quality finding."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "The 'substantially more specific' assertion is comparative but evaluated against a single run. Consider adding a more objective assertion: 'Response cites actual DisMech mechanism count or quotes exact mechanism text from the database' — this directly measures grounding in DisMech data rather than relative comparison."
+      },
+      {
+        "reason": "A valuable outcome not covered by any assertion: the with-skill response detected a real data quality error (Mitochondrial Dysfunction mislabeled as a Marfan mechanism). This is a meaningful demonstration of the skill's value that no assertion checks."
+      }
+    ],
+    "overall": "Strong eval. The 5 assertions are all meaningful and discriminating. The data quality detection is a bonus finding worth noting."
+  }
+}

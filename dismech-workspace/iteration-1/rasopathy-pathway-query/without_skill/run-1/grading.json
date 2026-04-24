@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "text": "Names at least 3 specific RASopathy disorders (e.g., Noonan syndrome, LEOPARD syndrome, Costello syndrome, CFC syndrome, Legius syndrome, Neurofibromatosis type 1)",
+      "passed": true,
+      "evidence": "Without-skill response names 11 disorders: Noonan, NSML/LEOPARD, CFC, Costello, NF1, Legius, CM-AVM, Hereditary Gingival Fibromatosis, Mazzanti Syndrome, CBL Syndrome, RAS-ALPS. Substantially more than the with-skill DisMech response."
+    },
+    {
+      "text": "Describes MAPK or RAS signaling as the shared mechanism",
+      "passed": true,
+      "evidence": "Response states: 'All RASopathies converge on a common signaling axis' and provides a pathway diagram showing GOF activators and LOF inhibitors converging on ERK. Mechanistic explanation is detailed and accurate."
+    },
+    {
+      "text": "Lists specific causative genes for at least 2 different disorders (e.g., PTPN11 for Noonan, HRAS for Costello, BRAF for CFC, NF1 for NF1)",
+      "passed": true,
+      "evidence": "Per-disorder gene listings: Noonan (PTPN11, SOS1, RAF1, RIT1, KRAS, NRAS, BRAF, MAP2K1, MAP2K2, LZTR1, A2ML1, SOS2, RRAS, MRAS), Costello (HRAS), CFC (BRAF, MAP2K1, MAP2K2, KRAS), NF1 (NF1), Legius (SPRED1), etc."
+    },
+    {
+      "text": "With-skill names DisMech-sourced disorders; without-skill gives a generic textbook summary",
+      "passed": false,
+      "evidence": "This is the baseline — response explicitly states: 'I do not have access to DisMech or any DisMech database tools. This response is based entirely on my general biomedical knowledge.' No DisMech grounding is possible."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  },
+  "execution_metrics": {
+    "output_chars": 7600,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "Response covers more RASopathy disorders than the with-skill DisMech response",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Baseline names 11 RASopathies; with-skill names only 4. The baseline has broader coverage because it draws from general biomedical knowledge of the full RASopathy spectrum, while DisMech only has 4 curated entries."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "Interesting asymmetry: the baseline names MORE disorders than the with-skill response, because DisMech only has 4 RASopathy entries. The with-skill response adds value through mechanism depth and coverage gap identification, not breadth. Eval assertions 1-3 don't discriminate well between skill and no-skill here — the baseline passes all three. The discriminating assertion is assertion 4 (DisMech grounding)."
+      }
+    ],
+    "overall": "The eval reveals that for broad catalog queries, the baseline's general knowledge may outperform DisMech's curated subset. The skill's value is in depth (mechanism counts, exact mechanism text) and gap identification, not breadth of disease coverage."
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "expectations": [
+    {
+      "text": "Mentions FBN1 or fibrillin-1 as the causative gene",
+      "passed": true,
+      "evidence": "Response clearly states 'Primary Gene: FBN1 (Fibrillin-1)' with locus, protein, and mutation spectrum. General biomedical knowledge is sufficient for this assertion."
+    },
+    {
+      "text": "Describes connective tissue or extracellular matrix as the affected biological system",
+      "passed": true,
+      "evidence": "Response describes 'Structural Microfibril Dysfunction (Loss-of-Function Model)' and states fibrillin-1 forms 'extracellular matrix (ECM) assemblies that provide structural scaffolding to elastic and non-elastic connective tissues'."
+    },
+    {
+      "text": "Lists at least 3 distinct clinical phenotypes (e.g., aortic aneurysm, ectopia lentis, skeletal features, MVP, tall stature, scoliosis, dural ectasia)",
+      "passed": true,
+      "evidence": "Extensive phenotype tables cover cardiovascular (7 phenotypes), skeletal (9 phenotypes), ocular (5 phenotypes), pulmonary (3 phenotypes), and integumentary (2 phenotypes). Well exceeds the minimum of 3."
+    },
+    {
+      "text": "Mentions at least one therapeutic target or treatment approach (e.g., losartan, TGF-beta pathway, beta-blockers, surgical intervention)",
+      "passed": true,
+      "evidence": "Therapeutic section covers: beta-blockers, losartan/ARBs, ACE inhibitors, surgical intervention (Bentall/David procedures), and 7+ investigational targets. More comprehensive than the with-skill response in some areas."
+    },
+    {
+      "text": "With-skill response is substantially more specific and grounded in DisMech data than without-skill baseline",
+      "passed": false,
+      "evidence": "This is the baseline — cannot access DisMech data. Response explicitly acknowledges: 'This response is based on general biomedical knowledge through early 2026. For precise DisMech database entries, use the DisMech skill with database access.' The baseline cannot detect the data quality error (mislabeled Mitochondrial Dysfunction mechanism) that the with-skill run identified."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "execution_metrics": {
+    "output_chars": 14800,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "Response is based on general biomedical knowledge only",
+      "type": "process",
+      "verified": true,
+      "evidence": "Explicit disclaimer at end: 'This response is based on general biomedical knowledge through early 2026. For precise DisMech database entries...use the DisMech skill'"
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "The baseline response is actually very comprehensive for Marfan syndrome — it covers more therapeutic targets and more phenotype detail than the with-skill response. The discriminating value of the skill is not better biomedical coverage but (1) DisMech-specific data grounding and (2) data quality detection. The assertions for eval 1 may not fully capture this distinction since general biomedical knowledge is also sufficient for assertions 1-4."
+      }
+    ],
+    "overall": "The baseline passes 4/5 assertions because Marfan syndrome is well-characterized and general knowledge is comprehensive. This is expected behavior — eval 1 demonstrates that the skill adds value through database grounding, not by discovering information unavailable to the baseline."
+  }
+}

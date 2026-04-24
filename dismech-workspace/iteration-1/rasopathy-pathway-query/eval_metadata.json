@@ -1,0 +1,23 @@
+{
+  "eval_id": 2,
+  "eval_name": "rasopathy-pathway-query",
+  "prompt": "I'm researching RASopathies — show me all disorders in DisMech that involve the RAS/MAPK pathway and summarize what they share mechanistically.",
+  "assertions": [
+    {
+      "text": "Names at least 3 specific RASopathy disorders (e.g., Noonan syndrome, LEOPARD syndrome, Costello syndrome, CFC syndrome, Legius syndrome, Neurofibromatosis type 1)",
+      "description": "The response identifies at least 3 named RASopathy disorders"
+    },
+    {
+      "text": "Describes MAPK or RAS signaling as the shared mechanism",
+      "description": "The response correctly identifies RAS/MAPK pathway dysregulation as the mechanistic thread shared across RASopathies"
+    },
+    {
+      "text": "Lists specific causative genes for at least 2 different disorders (e.g., PTPN11 for Noonan, HRAS for Costello, BRAF for CFC, NF1 for NF1)",
+      "description": "The response provides gene-disorder mapping for at least 2 RASopathies"
+    },
+    {
+      "text": "With-skill response names DisMech-sourced disorders; without-skill gives a generic textbook summary",
+      "description": "The with-skill response is grounded in actual DisMech records vs. generic biomedical knowledge"
+    }
+  ]
+}

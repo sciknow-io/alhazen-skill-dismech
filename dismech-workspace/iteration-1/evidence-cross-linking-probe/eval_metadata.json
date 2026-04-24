@@ -1,0 +1,23 @@
+{
+  "eval_id": 4,
+  "eval_name": "evidence-cross-linking-probe",
+  "prompt": "I'm reading a 2024 paper about ACVR1 inhibitors for FOP treatment. I want to connect this evidence to the FOP entry in DisMech AND to the paper I've stored in my Alhazen notebook. How would I do this?",
+  "assertions": [
+    {
+      "text": "Explains how to add a PMID as evidence to a DisMech disease entry",
+      "description": "The response correctly describes the DisMech evidence workflow (PMID + quote → evidence entity in YAML/TypeDB)"
+    },
+    {
+      "text": "Identifies that cross-linking to alhazen_notebook scilit-paper is not directly supported",
+      "description": "The response honestly acknowledges the database isolation between dismech and alhazen_notebook TypeDB databases"
+    },
+    {
+      "text": "Does NOT falsely claim that cross-database linking between dismech and alhazen_notebook works",
+      "description": "The response avoids hallucinating a cross-database linking mechanism that does not exist"
+    },
+    {
+      "text": "Acknowledges the schema gap (different databases, no shared identifiable-entity root, or no cross-DB relations)",
+      "description": "The response explicitly names the architectural reason why cross-linking is unavailable"
+    }
+  ]
+}

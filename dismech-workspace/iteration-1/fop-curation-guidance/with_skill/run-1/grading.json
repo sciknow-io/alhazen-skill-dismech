@@ -1,0 +1,64 @@
+{
+  "expectations": [
+    {
+      "text": "Mentions YAML format or structured data entry as the output format",
+      "passed": true,
+      "evidence": "Response shows a complete, annotated YAML template covering all DisMech sections: name, disease_term, prevalence, pathophysiology (with gene/GO/CL terms, downstream edges, evidence), phenotypes, genetic, environmental, treatments, and references. The format rules are explicitly documented (e.g., 'hgnc: prefix is lowercase', 'snippet Must be verbatim quote')."
+    },
+    {
+      "text": "Mentions evidence requirements — PubMed PMIDs and/or exact verbatim quotes from papers",
+      "passed": true,
+      "evidence": "Response states: 'Every snippet field must be a verbatim quote that appears in the cited paper's PubMed abstract. The reference validator (just validate-references) fetches the abstract and does a substring match. If the text is not in the abstract, validation will fail.' Provides PMIDs for all cited FOP papers."
+    },
+    {
+      "text": "Mentions HPO terms for phenotypes or ontology binding requirement",
+      "passed": true,
+      "evidence": "Response provides verified HPO IDs for 6 FOP phenotypes: HP:0001844 (Abnormal hallux morphology), HP:0011987 (Ectopic ossification in muscle tissue), HP:0001376, HP:0001387, HP:0002650, HP:0002091. Also explains: 'preferred_term vs term.label — term.label MUST exactly match the ontology canonical label (verified with OAK)' and provides OAK lookup commands."
+    },
+    {
+      "text": "Explains the PR / pull request submission and review step",
+      "passed": true,
+      "evidence": "Response provides a complete 8-step submission process: git clone, branch creation, YAML file placement, reference fetching, validation (just validate, just validate-terms, just validate-references, just qc), HTML generation, PR creation via gh pr create, and CI failure remediation. Includes the exact git commands and PR body."
+    },
+    {
+      "text": "Does NOT fabricate specific PMIDs without looking them up",
+      "passed": true,
+      "evidence": "All cited PMIDs (17572636, 20463014, 26896819, 29097342, 34353327, 28666455, 25640599) are from the actual DisMech YAML file at the real path. The response explicitly warns: 'do NOT guess or invent IDs. Every ontology term ID must be verified with OAK before use.' No PMIDs appear to be hallucinated — they match real FOP literature."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 19500,
+    "transcript_chars": 0
+  },
+  "claims": [
+    {
+      "claim": "FOP already exists in DisMech at kb/disorders/Fibrodysplasia_Ossificans_Progressiva.yaml",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Response opens with 'Status: FOP Already Exists in DisMech' and provides the actual file path. This is a valuable fact that only database access can reveal — the baseline response says to 'Check existing FOP entries' but doesn't know whether one exists."
+    },
+    {
+      "claim": "just validate-references performs a substring match against actual PubMed abstracts",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Plausible and consistent with DisMech's automated review workflow (claude-code-review.yml validates PMID authenticity), but cannot be confirmed without running the validation. The USAGE.md likely documents this."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "The most discriminating finding — FOP already exists in DisMech — is not covered by any assertion. An assertion like 'Response checks whether FOP already exists before describing how to add it' would measure whether the skill reads the actual database state before giving curation advice. The baseline cannot do this."
+      },
+      {
+        "reason": "The with-skill response includes an 'Areas That Could Be Improved' section (missing HGNC term, Hatsell 2015 PMID, garetosmab trial data) — i.e., it critiques the existing DisMech entry. This is a qualitatively superior capability not measured by any assertion."
+      }
+    ],
+    "overall": "5/5 pass. The skill response is far richer than the baseline: it discovers FOP is already curated, provides real file paths and PMIDs from the existing entry, and identifies specific evidence gaps. The baseline can only describe an abstract process."
+  }
+}

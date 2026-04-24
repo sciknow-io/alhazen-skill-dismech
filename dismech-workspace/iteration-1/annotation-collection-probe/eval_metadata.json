@@ -1,0 +1,23 @@
+{
+  "eval_id": 5,
+  "eval_name": "annotation-collection-probe",
+  "prompt": "After reviewing the Marfan syndrome entry in DisMech, I want to (a) write a short research note and attach it to the disease record in my knowledge graph, and (b) create a named collection in my notebook containing all connective tissue disorders from DisMech so I can track them together.",
+  "assertions": [
+    {
+      "text": "Acknowledges DisMech is in a separate TypeDB database (dismech) from alhazen_notebook",
+      "description": "The response correctly identifies the database isolation as the root cause of these limitations"
+    },
+    {
+      "text": "Identifies that disease entities lack the aboutness relation for note attachment",
+      "description": "The response explains that DisMech disease entities don't support the Alhazen aboutness relation for annotation"
+    },
+    {
+      "text": "Identifies that no collection type exists in DisMech for grouping diseases",
+      "description": "The response explains that the DisMech schema has no collection subtype for creating disease groupings"
+    },
+    {
+      "text": "Is honest about limitations — does not claim these features work when they do not",
+      "description": "The response avoids falsely claiming that note attachment or collection creation is supported in the current schema"
+    }
+  ]
+}

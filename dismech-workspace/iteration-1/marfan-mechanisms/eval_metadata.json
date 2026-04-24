@@ -1,0 +1,27 @@
+{
+  "eval_id": 1,
+  "eval_name": "marfan-mechanisms",
+  "prompt": "What are the pathophysiological mechanisms underlying Marfan syndrome? I want to understand the genes involved, the molecular mechanisms, key clinical phenotypes, and any therapeutic targets tracked in DisMech.",
+  "assertions": [
+    {
+      "text": "Mentions FBN1 or fibrillin-1 as the causative gene",
+      "description": "The response correctly identifies FBN1 (fibrillin-1) as the primary gene involved in Marfan syndrome"
+    },
+    {
+      "text": "Describes connective tissue or extracellular matrix as the affected biological system",
+      "description": "The response identifies connective tissue and/or ECM as the primary affected system"
+    },
+    {
+      "text": "Lists at least 3 distinct clinical phenotypes (e.g., aortic aneurysm, ectopia lentis, skeletal features, MVP, tall stature, scoliosis, dural ectasia)",
+      "description": "The response enumerates at least 3 specific clinical phenotypes of Marfan syndrome"
+    },
+    {
+      "text": "Mentions at least one therapeutic target or treatment approach (e.g., losartan, TGF-beta pathway, beta-blockers, surgical intervention)",
+      "description": "The response identifies at least one therapeutic target or treatment strategy"
+    },
+    {
+      "text": "With-skill response is substantially more specific and grounded in DisMech data than without-skill baseline",
+      "description": "The with-skill response cites actual DisMech data (genes, HPO terms, evidence PMIDs) rather than giving a generic textbook answer"
+    }
+  ]
+}
