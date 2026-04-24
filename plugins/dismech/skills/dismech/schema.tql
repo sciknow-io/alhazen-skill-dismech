@@ -1112,10 +1112,8 @@ define
       owns collection-name,
       plays diseases:diseasecollection;
   
-  entity note,
-      owns content,
-      plays aboutness:note;
-  
+  # note entity is defined in alhazen_notebook.tql core schema (sub information-content-entity)
+  # content is inherited; aboutness:note is already played by the core note type
 
   # Relations (from object-ranged slots)
   relation term-rel,
