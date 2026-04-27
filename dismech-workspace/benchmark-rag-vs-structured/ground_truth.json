@@ -1,7 +1,7 @@
 {
   "Q1": {
     "answer": {
-      "count": 26,
+      "count": 33,
       "diseases": [
         "Aortic Valve Disease 2",
         "Arsenic Poisoning",
@@ -9,6 +9,7 @@
         "Benign Prostatic Hyperplasia",
         "Brachyolmia",
         "Camurati-Engelmann Disease",
+        "Cardiospondylocarpofacial syndrome",
         "Cholesteatoma",
         "Congestive Splenomegaly",
         "Cutaneous Squamous Cell Carcinoma",
@@ -16,119 +17,188 @@
         "Dystrophic Epidermolysis Bullosa",
         "Endometriosis",
         "Fanconi_Anemia",
+        "Hairy Cell Leukemia",
         "Hereditary Hemorrhagic Telangiectasia",
         "Hypertrophic Cardiomyopathy",
+        "Idiopathic Pulmonary Fibrosis",
         "IgG4-Related Disease",
+        "Inherited Aplastic Anemia",
         "Juvenile Polyposis Syndrome",
         "Loeys-Dietz Syndrome",
         "MSI-High Colorectal Cancer",
         "Marfan Syndrome",
+        "Osteogenesis Imperfecta Type IV",
         "Pancreatic Ductal Adenocarcinoma",
         "Pancreatic Mucinous Cystadenoma",
         "Primary Myelofibrosis",
         "Shprintzen-Goldberg Syndrome",
         "Systemic Sclerosis",
-        "TGFBI Corneal Dystrophies"
+        "TGFBI Corneal Dystrophies",
+        "Wilson Disease",
+        "X-linked Hypohidrotic Ectodermal Dysplasia"
       ],
       "question": "How many diseases in DisMech have at least one TGF-beta signaling mechanism documented in their pathophysiology?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q2": {
     "answer": {
-      "count": 186,
+      "count": 304,
       "diseases": [
+        "15q11q13 Microduplication Syndrome",
         "2-Methylbutyryl-CoA Dehydrogenase Deficiency",
+        "2q37 Microdeletion Syndrome",
         "3-Hydroxy-3-Methylglutaric Aciduria",
+        "3-hydroxyisobutyryl-CoA hydrolase deficiency",
+        "46,XX Gonadal Dysgenesis",
+        "46,XY complete gonadal dysgenesis",
+        "ADan amyloidosis",
+        "AIP-related pituitary adenoma predisposition",
         "ALDH18A1-Related Autosomal Dominant Cutis Laxa Type 3",
         "ALDH18A1-Related Spastic Paraplegia and Neurocutaneous Spectrum",
         "Achondrogenesis Type II",
         "Achondroplasia",
+        "Achromatopsia",
+        "Acrodysostosis",
         "Acromesomelic Dysplasia Maroteaux Type",
+        "Activated PI3K-delta syndrome",
+        "Acute Intermittent Porphyria",
+        "Adenosine Kinase Deficiency",
+        "Aicardi Syndrome",
+        "Alagille syndrome",
         "Alexander Disease",
         "Alpha Thalassemia",
         "Alpha-1 Antitrypsin Deficiency",
+        "Alternating Hemiplegia of Childhood",
         "Angelman Syndrome",
         "Aortic Valve Disease 2",
         "Apert Syndrome",
         "Arginase Deficiency",
         "Argininosuccinic Aciduria",
+        "Arts syndrome",
         "Ataxia-telangiectasia",
         "Atelosteogenesis Type I",
         "Atelosteogenesis Type II",
         "Atelosteogenesis Type III",
+        "Atypical Hemolytic Uremic Syndrome",
+        "Autoimmune Polyendocrine Syndrome Type 1",
         "Autosomal Dominant Osteopetrosis Type II",
         "Autosomal Recessive Osteopetrosis Type 2",
+        "Ayme-Gripp syndrome",
+        "BLOC1S1-related Complex Neurodevelopmental Disorder with Leukodystrophy",
+        "Bardet-Biedl syndrome",
+        "Barth syndrome",
+        "Bartter syndrome",
         "Beta Mannosidosis",
         "Beta Thalassemia",
         "Beta-Ketothiolase Deficiency",
+        "Bilateral Striopallidodentate Calcinosis",
         "Biotinidase Deficiency",
+        "Blau Syndrome",
+        "Blepharophimosis, Ptosis, and Epicanthus Inversus Syndrome",
+        "Bloom syndrome",
+        "Bohring-Opitz syndrome",
+        "Borjeson-Forssman-Lehmann syndrome",
         "Brachydactyly Type A1",
         "Brachyolmia",
         "CACNA1A-Related Disorder",
         "CADASIL Type 1",
+        "CD27-related lymphoproliferative and immune disorder",
+        "CHRNA1-Associated Fetal Hypo-akinesia Disorder of Prenatal Onset",
         "CINCA Syndrome",
         "CN-Related Developmental and Epileptic Encephalopathy",
         "COL11A2-Related Hearing Loss",
         "COL11A2-Related Skeletal Spectrum",
+        "COPA Syndrome",
         "CRB1 Retinal Dystrophies",
         "CTCF-related Neurodevelopmental Disorder",
+        "CTLA4 Haploinsufficiency",
         "Campomelic Dysplasia",
         "Camurati-Engelmann Disease",
         "Carbamoyl Phosphate Synthetase I Deficiency",
         "Cardiofaciocutaneous Syndrome",
+        "Cardiospondylocarpofacial syndrome",
         "Carnitine Palmitoyltransferase II Deficiency",
         "Carnitine-acylcarnitine Translocase Deficiency",
         "Central Core Myopathy",
+        "Cernunnos-XLF deficiency",
+        "Charlevoix-Saguenay spastic ataxia",
         "Chorea-acanthocytosis",
         "Citrin Deficiency",
         "Citrullinemia Type I",
         "Classic Familial Adenomatous Polyposis",
         "Cleidocranial Dysplasia",
+        "Clouston Syndrome",
+        "Coffin-Lowry syndrome",
         "Coffin-Siris syndrome",
+        "Congenital Insensitivity to Pain",
+        "Congenital Sucrase-Isomaltase Deficiency",
         "Cori Forbes Disease",
         "Costello Syndrome",
         "Cowden Syndrome",
         "Crouzon Syndrome",
         "Crouzon Syndrome with Acanthosis Nigricans",
         "D-2-Hydroxyglutaric Aciduria",
+        "DK1-congenital disorder of glycosylation",
         "Dacryocystitis-Osteopoikilosis Syndrome",
         "Danon disease",
+        "DeSanto-Shinawi syndrome",
+        "Delpire-McNeill Syndrome",
         "Dentatorubral-Pallidoluysian Atrophy",
+        "Dentici-Novelli neurodevelopmental syndrome",
         "Diamond-Blackfan Anemia",
         "Diastrophic Dysplasia",
+        "Donnai-Barrow syndrome",
         "Dystroglycanopathy",
         "Dystrophic Epidermolysis Bullosa",
+        "EFL1-related Shwachman-Diamond syndrome",
+        "Ectodermal Dysplasia and Immunodeficiency 2",
         "Ellis-van Creveld Syndrome",
         "Epidermolysis Bullosa",
         "Epidermolysis Bullosa Simplex",
+        "Episodic Ataxia",
+        "Erythrokeratodermia Variabilis",
+        "FAS-related Autoimmune Lymphoproliferative Syndrome",
         "FGFR1-Related Hypogonadotropic Hypogonadism",
         "FOXE3-Related Anterior Segment Dysgenesis",
         "Fabry disease",
         "Familial Hypercholesterolemia",
         "Fibrochondrogenesis",
+        "Floating-Harbor syndrome",
         "Friedreich Ataxia",
+        "Galloway-Mowat syndrome",
         "Gilbert's Syndrome",
         "Glutaryl-CoA Dehydrogenase Deficiency",
         "Glycogen Storage Disease Type I",
+        "Glycogen Storage Disease XV",
         "Gorlin Syndrome",
         "Greig Cephalopolysyndactyly Syndrome",
         "Guanidinoacetate Methyltransferase Deficiency",
         "Hand-Foot-Genital Syndrome",
+        "Hao-Fountain syndrome",
         "Hartsfield Syndrome",
         "Hemochromatosis",
+        "Hepatic veno-occlusive disease-immunodeficiency syndrome",
         "Hereditary Hemorrhagic Telangiectasia",
+        "Hereditary Neuropathy with Liability to Pressure Palsies",
         "Hereditary Spherocytosis",
+        "Heyn-Sproul-Jackson syndrome",
         "Holocarboxylase Synthetase Deficiency",
         "Holt-Oram Syndrome",
         "Homocystinuria",
         "Houge-Janssens Syndrome",
+        "Hunter syndrome",
         "Huntington Disease",
+        "Huppke-Brendel syndrome",
+        "Hurler syndrome",
         "Hypochondrogenesis",
         "Hypochondroplasia",
         "Hypophosphatasia",
+        "Hypotrichosis with Juvenile Macular Dystrophy",
+        "IKBKG ectodermal dysplasia with immunodeficiency",
+        "IRX5-related craniofacial dysostosis with osteopenia, intellectual disability, and dental anomalies",
         "Inherited Threoninemia",
         "Isobutyryl-CoA Dehydrogenase Deficiency",
         "Isovaleric Acidemia",
@@ -138,36 +208,57 @@
         "Juvenile Polyposis Syndrome",
         "KRT1 Keratinopathies",
         "Kabuki Syndrome",
+        "Keipert syndrome",
         "Keratoderma Hereditarium Mutilans",
+        "Kilquist syndrome",
         "Kindler Epidermolysis Bullosa",
         "Kleefstra Syndrome",
         "Kniest Dysplasia",
         "Koolen-de Vries syndrome",
+        "Kufor-Rakeb syndrome",
         "L-2-Hydroxyglutaric Aciduria",
+        "LRBA Deficiency",
         "Lafora_Disease",
         "Larsen Syndrome",
+        "Lenz-Majewski hyperostotic dwarfism",
         "Leri-Weill Dyschondrosteosis",
         "Lesch-Nyhan Syndrome",
+        "Liberfarb syndrome",
         "Lipoic Acid Synthetase Deficiency",
         "Lipoyl Transferase 1 Deficiency",
         "Loeys-Dietz Syndrome",
         "Long-chain 3-hydroxyacyl-CoA Dehydrogenase Deficiency",
+        "Lowe syndrome",
+        "MCM9-related gametogenic failure",
+        "MED13 Syndrome",
+        "MEDNIK syndrome",
+        "MGAT2-congenital disorder of glycosylation",
+        "MMACHC-related Methylmalonic Aciduria and Homocystinuria, cblC Type",
         "MYO6_Hearing_Loss",
+        "Malan Syndrome",
+        "Meacham syndrome",
         "Metaphyseal Chondrodysplasia, Schmid Type",
         "Metatropic Dysplasia",
         "Methylmalonic Acidemia",
         "Mitochondrial Trifunctional Protein Deficiency",
+        "Morquio syndrome",
+        "Mowat-Wilson syndrome",
         "Mucopolysaccharidosis",
         "Muenke Syndrome",
         "Multiple Acyl-CoA Dehydrogenase Deficiency",
         "Multiple Synostoses Syndrome",
         "Myotonic Dystrophy Type 1",
         "N-Acetylglutamate Synthase Deficiency",
+        "NARP syndrome",
         "Nemaline Myopathy",
         "Neonatal Severe Encephalopathy with Lactic Acidosis and Brain Abnormalities",
+        "Nestor-Guillermo progeria syndrome",
         "Netherton syndrome",
+        "Nijmegen breakage syndrome",
         "Nonketotic Hyperglycinemia",
         "Oculodentodigital Dysplasia",
+        "Odonto-Onycho-Dermal Dysplasia",
+        "Ogden syndrome",
         "Okur-Chung Neurodevelopmental Syndrome",
         "Omodysplasia",
         "Opsismodysplasia",
@@ -181,72 +272,112 @@
         "Osteogenesis Imperfecta Type VII",
         "Osteoglophonic Dysplasia",
         "Osteopetrosis",
+        "PCWH syndrome",
+        "PHARC syndrome",
         "PRPH2-Related Retinopathy",
         "PTCH1-related nevoid basal cell carcinoma syndrome",
         "Pallister-Hall Syndrome",
+        "Parenti-Mignot Neurodevelopmental Syndrome",
+        "Pentanucleotide Repeat Familial Adult Myoclonus Epilepsy",
         "Pfeiffer Syndrome",
         "Phelan-McDermid Syndrome",
+        "Pilarowski-Bjornsson syndrome",
         "Polycystic Kidney Disease",
         "Pompe Disease",
         "Prader-Willi Syndrome",
         "Primary Carnitine Deficiency",
         "Propionic Acidemia",
+        "Proteasome-Associated Autoinflammatory Syndrome",
         "Proteus syndrome",
         "Pycnodysostosis",
+        "RNU12-related minor spliceopathy",
         "RPGR-Related Retinopathy",
+        "Renpenning syndrome",
         "SADDAN",
         "SMAD6-related craniosynostosis",
+        "STING-Associated Vasculopathy with Onset in Infancy",
+        "STRA6-related syndromic microphthalmia",
         "SUFU-related nevoid basal cell carcinoma syndrome",
         "Salla Disease",
+        "Sandhoff Disease",
+        "Sanfilippo syndrome",
+        "Schinzel-Giedion syndrome",
         "Schneckenbecken Dysplasia",
         "Sclerosteosis",
         "Sengers syndrome",
         "Short-Rib Polydactyly Syndrome",
         "Shprintzen-Goldberg Syndrome",
         "Sickle Cell Disease",
+        "Smith-Lemli-Opitz syndrome",
         "Spinocerebellar ataxia type 17",
         "Spondylocarpotarsal Synostosis Syndrome",
         "Spondylodysplastic Ehlers-Danlos Syndrome",
         "Spondyloepimetaphyseal Dysplasia Strudwick Type",
         "Spondyloepiphyseal Dysplasia Congenita",
         "Spondylometaphyseal Dysplasia Kozlowski Type",
+        "Stankiewicz-Isidor syndrome",
         "Stargardt Disease",
         "Stickler Syndrome Type 1",
         "TARP syndrome",
+        "TTN-Related Myopathy, Dominant-Negative TTNsv",
+        "Tatton-Brown-Rahman overgrowth syndrome",
         "Taurodontism",
         "Temple-Baraitser Syndrome",
         "Thanatophoric Dysplasia Type 1",
         "Thanatophoric Dysplasia Type 2",
+        "Thomsen and Becker disease",
+        "Timothy Syndrome",
         "Tuberous Sclerosis Complex",
         "Tyrosinemia Type I",
+        "UNC13A-Related Congenital NDD with Epilepsy",
+        "UNC13A-Related NDD with Seizures and Movement Disorder",
         "Ulnar-Mammary Syndrome",
         "Urea Cycle Disorder",
+        "VCP-Associated Multisystem Proteinopathy",
         "Van Buchem Disease",
         "Very Long-Chain Acyl-CoA Dehydrogenase Deficiency",
+        "Warsaw breakage syndrome",
+        "Wolman Disease",
         "X-Linked Hypophosphatemia",
+        "X-linked cerebral adrenoleukodystrophy",
         "YWHAG Syndrome",
-        "You-Hoover-Fong Syndrome"
+        "You-Hoover-Fong Syndrome",
+        "ZTTK syndrome",
+        "Zlotogora-Ogur Syndrome",
+        "aceruloplasminemia",
+        "adrenoleukodystrophy",
+        "arrhythmogenic right ventricular cardiomyopathy",
+        "deafness-lymphedema-leukemia syndrome",
+        "neuroferritinopathy",
+        "ornithine aminotransferase deficiency",
+        "pantothenate kinase-associated neurodegeneration"
       ],
       "question": "How many diseases in DisMech are classified as category 'Mendelian'?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q3": {
     "answer": {
-      "count": 27,
+      "count": 36,
       "diseases": [
+        "Aicardi Syndrome",
         "Ankylosing Spondylitis",
         "Benign Prostatic Hyperplasia",
+        "Bohring-Opitz syndrome",
         "CKD-Mineral Bone Disorder",
         "Cholesteatoma",
+        "Choroid Plexus Carcinoma",
         "Classic Familial Adenomatous Polyposis",
+        "Coffin-Siris syndrome",
         "Colon Adenocarcinoma",
         "Down_syndrome",
+        "Endometrial Carcinoma",
         "FOXE3-Related Anterior Segment Dysgenesis",
         "Familial Adenomatous Polyposis",
         "Gastric Cancer H. pylori Associated",
+        "Hepatoblastoma",
         "Hepatocellular Carcinoma",
         "Meckel Syndrome",
         "Mediator Complex Neurodevelopmental Disorder",
@@ -254,7 +385,9 @@
         "Metastatic Colorectal Cancer",
         "Metastatic Hepatocellular Carcinoma",
         "Nephronophthisis",
+        "Odonto-Onycho-Dermal Dysplasia",
         "Omodysplasia",
+        "Oppositional Defiant Disorder",
         "Orofaciodigital Syndrome Type I",
         "PKP2_Cardiomyopathy",
         "Pancreatic Mucinous Cystadenoma",
@@ -263,32 +396,45 @@
         "Thanatophoric Dysplasia Type 2",
         "Triple-Negative Breast Cancer",
         "Van Buchem Disease",
-        "Wilms Tumor"
+        "Wilms Tumor",
+        "X-linked Hypohidrotic Ectodermal Dysplasia"
       ],
       "question": "How many diseases in DisMech involve WNT/beta-catenin pathway mechanisms?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q4": {
     "answer": {
-      "count": 42,
+      "count": 65,
       "diseases": [
+        "ADan amyloidosis",
         "Alcoholic Liver Disease",
         "Aortic Valve Disease 2",
+        "Atelosteogenesis Type I",
+        "BLOC1S1-related Complex Neurodevelopmental Disorder with Leukodystrophy",
+        "Borjeson-Forssman-Lehmann syndrome",
         "Brachyolmia",
         "CRB1 Retinal Dystrophies",
+        "Cardiospondylocarpofacial syndrome",
+        "Congenital Insensitivity to Pain",
         "Dengue",
         "Dentatorubral-Pallidoluysian Atrophy",
+        "Dentici-Novelli neurodevelopmental syndrome",
         "Dorsalgia",
         "Dracunculiasis",
         "FOXE3-Related Anterior Segment Dysgenesis",
         "Gastric Ulcer",
+        "Hao-Fountain syndrome",
+        "Heyn-Sproul-Jackson syndrome",
+        "Huppke-Brendel syndrome",
+        "IRX5-related craniofacial dysostosis with osteopenia, intellectual disability, and dental anomalies",
+        "Keipert syndrome",
         "Koolen-de Vries syndrome",
+        "Liberfarb syndrome",
         "Lichen Simplex Chronicus",
         "MITF Waardenburg-Tietz Spectrum",
-        "MYO6_Hearing_Loss",
         "Malnutrition-Related Diabetes Mellitus",
         "Mediator Complex Neurodevelopmental Disorder",
         "Metastatic Breast Carcinoma",
@@ -302,41 +448,55 @@
         "Metastatic Prostate Cancer",
         "Metastatic Renal Cell Carcinoma",
         "Mycetoma",
+        "Nestor-Guillermo progeria syndrome",
         "Noma",
         "Oculodentodigital Dysplasia",
         "Okur-Chung Neurodevelopmental Syndrome",
         "PRPH2-Related Retinopathy",
+        "Pilarowski-Bjornsson syndrome",
         "Prurigo Nodularis",
         "Pseudohypoparathyroidism",
+        "RNU12-related minor spliceopathy",
         "RPGR-Related Retinopathy",
+        "Renpenning syndrome",
         "SHH_Holoprosencephaly_Spectrum",
         "SMAD6-related craniosynostosis",
+        "STRA6-related syndromic microphthalmia",
         "Secondary Hypertension",
+        "Southern Tick-Associated Rash Illness",
         "Spondylocarpotarsal Synostosis Syndrome",
         "Spondylodysplastic Ehlers-Danlos Syndrome",
+        "Stankiewicz-Isidor syndrome",
+        "TTN-Related Myopathy, Dominant-Negative TTNsv",
+        "Tatton-Brown-Rahman overgrowth syndrome",
         "Triphalangeal_Thumb_Polysyndactyly",
         "Urticaria",
-        "YWHAG Syndrome"
+        "Warsaw breakage syndrome",
+        "YWHAG Syndrome",
+        "ZTTK syndrome"
       ],
       "question": "Which diseases in DisMech have documented pathophysiology mechanisms but NO documented treatments? List them."
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q5": {
     "answer": {
-      "count": 119,
+      "count": 141,
       "diseases": [
+        "Acrodysostosis",
+        "Adenosine Kinase Deficiency",
         "Ainhum",
         "Akinetopsia",
         "Alcoholic Liver Disease",
-        "Alpha-1 Antitrypsin Deficiency",
+        "Anorexia Nervosa",
         "Auto-Brewery Syndrome",
         "Autoimmune Encephalitis",
         "Autoimmune Hemolytic Anemia",
         "Bacterial meningitis",
         "Bejel",
+        "Bohring-Opitz syndrome",
         "Botulism",
         "Buruli ulcer",
         "Cadmium Poisoning",
@@ -350,11 +510,13 @@
         "Cholangiocarcinoma",
         "Cholera",
         "Cholesteatoma",
+        "Chondrosarcoma",
         "Chromoblastomycosis",
         "Chronic Inflammatory Demyelinating Polyneuropathy",
         "Clostridioides difficile Infection",
         "Cogan Syndrome",
         "Colon Adenocarcinoma",
+        "Conduct Disorder",
         "Congestive Splenomegaly",
         "Cori Forbes Disease",
         "Cough Variant Asthma",
@@ -371,14 +533,18 @@
         "Folliculitis",
         "Foodborne trematodiases",
         "Furunculosis",
+        "Galloway-Mowat syndrome",
         "Gastric Ulcer",
         "Giardiasis",
+        "Gorham-Stout disease",
         "Green Tobacco Sickness",
         "Guillain-Barre Syndrome",
         "Hemophilia B",
         "Hereditary von Willebrand Disease",
         "Human African trypanosomiasis",
+        "Hunter syndrome",
         "Hypertensive Heart Disease",
+        "IRX5-related craniofacial dysostosis with osteopenia, intellectual disability, and dental anomalies",
         "IgG4-Related Disease",
         "Immune Thrombocytopenia",
         "Infectious Disease",
@@ -396,17 +562,21 @@
         "Lung Carcinoma",
         "Lymphatic filariasis",
         "Lymphoma",
+        "Malignant Atrophic Papulosis",
         "Malnutrition-Related Diabetes Mellitus",
         "Meckel Diverticulum",
         "Meniere's Disease",
         "Mesial Temporal Lobe Epilepsy with Hippocampal Sclerosis",
+        "Migraine with aura",
         "Multicentric Castleman Disease",
         "Mycetoma",
         "Neuromyelitis Optica",
         "Noma",
         "Onchocerciasis",
+        "Oppositional Defiant Disorder",
         "Osteosarcoma",
         "Otomycosis",
+        "Panic Disorder",
         "Parvovirus B19 Infection",
         "Pinta",
         "Polycystic echinococcosis",
@@ -416,11 +586,13 @@
         "Primary_Tonsillar_Lymphoma",
         "Prurigo Nodularis",
         "Psoriatic Arthritis",
+        "RNU12-related minor spliceopathy",
         "Rabies",
         "Raynaud Disease",
         "Refeeding Syndrome",
         "Renal Cell Carcinoma",
         "Retrograde Cricopharyngeus Dysfunction",
+        "Sanfilippo syndrome",
         "Scabies",
         "Schistosomiasis",
         "Scurvy",
@@ -431,13 +603,17 @@
         "Silent Sinus Syndrome",
         "Small Intestinal Bacterial Overgrowth",
         "Snakebite envenoming",
+        "Sneddon syndrome",
         "Soil-transmitted helminthiases",
+        "Southern Tick-Associated Rash Illness",
         "Spaceflight Associated Neuro-Ocular Syndrome",
         "Taeniasis/cysticercosis",
         "Takayasu Arteritis",
         "Temporal Lobe Epilepsy",
         "Tetanus",
         "Thallium Poisoning",
+        "Thromboangiitis obliterans",
+        "Timothy Syndrome",
         "Trachoma",
         "Transverse Myelitis",
         "Traveler's Diarrhea",
@@ -446,34 +622,40 @@
         "Visual Snow Syndrome",
         "Whipple Disease",
         "Wissler syndrome",
-        "Yaws"
+        "Wolman Disease",
+        "Yaws",
+        "capillary leak syndrome",
+        "pseudotumor cerebri"
       ],
       "question": "Which diseases in DisMech have NO genetic entries documented at all?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q6": {
     "answer": {
-      "count_with_mondo": 597,
-      "count_without_mondo": 8,
-      "total": 605,
+      "count_with_mondo": 786,
+      "count_without_mondo": 11,
+      "total": 797,
       "without_mondo_diseases": [
+        "AIP-related pituitary adenoma predisposition",
         "Arsenic Poisoning",
         "CKD-Mineral Bone Disorder",
         "Chemotherapy-Induced Nausea and Vomiting",
         "FICUS syndrome",
         "Green Tobacco Sickness",
+        "MCM9-related gametogenic failure",
+        "RNU12-related minor spliceopathy",
         "Spaceflight Associated Neuro-Ocular Syndrome",
         "Transient Neonatal Pustular Melanosis",
         "Wolf-Hirschhorn_Syndrome"
       ],
       "question": "Which diseases in DisMech have a documented MONDO disease term? Which do NOT?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q7": {
     "answer": {
@@ -521,12 +703,24 @@
           "count": 18
         },
         {
+          "name": "Li-Fraumeni Syndrome",
+          "count": 18
+        },
+        {
           "name": "Rosacea",
           "count": 18
         },
         {
           "name": "Arsenic Poisoning",
           "count": 17
+        },
+        {
+          "name": "Familial Hypercholesterolemia",
+          "count": 16
+        },
+        {
+          "name": "Noonan Syndrome",
+          "count": 15
         },
         {
           "name": "Systemic Lupus Erythematosus",
@@ -549,7 +743,15 @@
           "count": 13
         },
         {
+          "name": "Pentanucleotide Repeat Familial Adult Myoclonus Epilepsy",
+          "count": 13
+        },
+        {
           "name": "Cholesteatoma",
+          "count": 12
+        },
+        {
+          "name": "Cockayne Syndrome",
           "count": 12
         },
         {
@@ -573,7 +775,19 @@
           "count": 12
         },
         {
+          "name": "Angelman Syndrome",
+          "count": 11
+        },
+        {
           "name": "Bird Fancier's Lung",
+          "count": 11
+        },
+        {
+          "name": "Coffin-Siris syndrome",
+          "count": 11
+        },
+        {
+          "name": "Gorlin Syndrome",
           "count": 11
         },
         {
@@ -605,6 +819,10 @@
           "count": 11
         },
         {
+          "name": "Wilms Tumor",
+          "count": 11
+        },
+        {
           "name": "Akinetopsia",
           "count": 10
         },
@@ -617,11 +835,15 @@
           "count": 10
         },
         {
+          "name": "COPA Syndrome",
+          "count": 10
+        },
+        {
           "name": "Clostridioides difficile Infection",
           "count": 10
         },
         {
-          "name": "Cockayne Syndrome",
+          "name": "Congenital Insensitivity to Pain",
           "count": 10
         },
         {
@@ -629,11 +851,19 @@
           "count": 10
         },
         {
+          "name": "Malignant Peripheral Nerve Sheath Tumor",
+          "count": 10
+        },
+        {
           "name": "Mantle Cell Lymphoma",
           "count": 10
         },
         {
-          "name": "Noonan Syndrome",
+          "name": "Morquio syndrome",
+          "count": 10
+        },
+        {
+          "name": "Multiple Mitochondrial Dysfunctions Syndrome 9B",
           "count": 10
         },
         {
@@ -646,6 +876,10 @@
         },
         {
           "name": "Ulcerative Colitis",
+          "count": 10
+        },
+        {
+          "name": "Wilson Disease",
           "count": 10
         },
         {
@@ -665,6 +899,10 @@
           "count": 9
         },
         {
+          "name": "Chondrosarcoma",
+          "count": 9
+        },
+        {
           "name": "Chronic Myeloid Leukemia, BCR-ABL1 Positive",
           "count": 9
         },
@@ -674,6 +912,10 @@
         },
         {
           "name": "Costello Syndrome",
+          "count": 9
+        },
+        {
+          "name": "Esophageal Squamous Cell Carcinoma",
           "count": 9
         },
         {
@@ -689,11 +931,19 @@
           "count": 9
         },
         {
+          "name": "Hypereosinophilic syndrome",
+          "count": 9
+        },
+        {
+          "name": "IgA Nephropathy",
+          "count": 9
+        },
+        {
           "name": "Juvenile Polyposis Syndrome",
           "count": 9
         },
         {
-          "name": "Multiple Mitochondrial Dysfunctions Syndrome 9B",
+          "name": "Kilquist syndrome",
           "count": 9
         },
         {
@@ -705,15 +955,31 @@
           "count": 9
         },
         {
+          "name": "Pleuropulmonary Blastoma",
+          "count": 9
+        },
+        {
           "name": "Scimitar Syndrome",
           "count": 9
         },
         {
-          "name": "Angelman Syndrome",
+          "name": "Wolman Disease",
+          "count": 9
+        },
+        {
+          "name": "Arts syndrome",
+          "count": 8
+        },
+        {
+          "name": "Bartter syndrome",
           "count": 8
         },
         {
           "name": "Bronchiectasis",
+          "count": 8
+        },
+        {
+          "name": "CADASIL Type 1",
           "count": 8
         },
         {
@@ -725,11 +991,27 @@
           "count": 8
         },
         {
+          "name": "Clear Cell Ovarian Carcinoma",
+          "count": 8
+        },
+        {
+          "name": "Endometrial Carcinoma",
+          "count": 8
+        },
+        {
+          "name": "Esophageal Adenocarcinoma",
+          "count": 8
+        },
+        {
           "name": "Furunculosis",
           "count": 8
         },
         {
           "name": "Hepatocellular Carcinoma",
+          "count": 8
+        },
+        {
+          "name": "Hunter syndrome",
           "count": 8
         },
         {
@@ -741,11 +1023,31 @@
           "count": 8
         },
         {
+          "name": "LRBA Deficiency",
+          "count": 8
+        },
+        {
           "name": "Maple Syrup Urine Disease",
           "count": 8
         },
         {
+          "name": "Mycosis Fungoides",
+          "count": 8
+        },
+        {
+          "name": "Ovarian High-Grade Serous Carcinoma",
+          "count": 8
+        },
+        {
+          "name": "PCWH syndrome",
+          "count": 8
+        },
+        {
           "name": "Plague",
+          "count": 8
+        },
+        {
+          "name": "Sandhoff Disease",
           "count": 8
         },
         {
@@ -761,11 +1063,15 @@
           "count": 8
         },
         {
-          "name": "Wilson Disease",
+          "name": "X-linked cerebral adrenoleukodystrophy",
           "count": 8
         },
         {
           "name": "Acne Vulgaris",
+          "count": 7
+        },
+        {
+          "name": "Alstrom Syndrome",
           "count": 7
         },
         {
@@ -777,7 +1083,19 @@
           "count": 7
         },
         {
+          "name": "Autism Spectrum Disorder",
+          "count": 7
+        },
+        {
+          "name": "Bardet-Biedl syndrome",
+          "count": 7
+        },
+        {
           "name": "CKD-Mineral Bone Disorder",
+          "count": 7
+        },
+        {
+          "name": "Chronic Myelomonocytic Leukemia",
           "count": 7
         },
         {
@@ -790,6 +1108,10 @@
         },
         {
           "name": "Endometriosis",
+          "count": 7
+        },
+        {
+          "name": "Eosinophilic granulomatosis with polyangiitis",
           "count": 7
         },
         {
@@ -813,6 +1135,10 @@
           "count": 7
         },
         {
+          "name": "Hepatic veno-occlusive disease-immunodeficiency syndrome",
+          "count": 7
+        },
+        {
           "name": "Huntington's Disease",
           "count": 7
         },
@@ -821,7 +1147,15 @@
           "count": 7
         },
         {
+          "name": "Inherited Aplastic Anemia",
+          "count": 7
+        },
+        {
           "name": "Kaposi Sarcoma",
+          "count": 7
+        },
+        {
+          "name": "MMACHC-related Methylmalonic Aciduria and Homocystinuria, cblC Type",
           "count": 7
         },
         {
@@ -830,6 +1164,10 @@
         },
         {
           "name": "Metastatic Renal Cell Carcinoma",
+          "count": 7
+        },
+        {
+          "name": "Minimal Change Disease",
           "count": 7
         },
         {
@@ -853,11 +1191,19 @@
           "count": 7
         },
         {
+          "name": "Neuromyelitis Optica Spectrum Disorder with Anti-AQP4 Antibodies",
+          "count": 7
+        },
+        {
           "name": "PKP2_Cardiomyopathy",
           "count": 7
         },
         {
           "name": "Pelizaeus-Merzbacher Disease",
+          "count": 7
+        },
+        {
+          "name": "Peripheral T-Cell Lymphoma",
           "count": 7
         },
         {
@@ -873,11 +1219,23 @@
           "count": 7
         },
         {
+          "name": "Pyruvate Carboxylase Deficiency Disease",
+          "count": 7
+        },
+        {
           "name": "Raynaud Disease",
           "count": 7
         },
         {
           "name": "Schizophrenia",
+          "count": 7
+        },
+        {
+          "name": "Sezary Syndrome",
+          "count": 7
+        },
+        {
+          "name": "Smith-Lemli-Opitz syndrome",
           "count": 7
         },
         {
@@ -905,6 +1263,10 @@
           "count": 6
         },
         {
+          "name": "Activated PI3K-delta syndrome",
+          "count": 6
+        },
+        {
           "name": "Acute Myeloid Leukemia, IDH-Mutated",
           "count": 6
         },
@@ -913,7 +1275,31 @@
           "count": 6
         },
         {
+          "name": "Adenosine Kinase Deficiency",
+          "count": 6
+        },
+        {
           "name": "Aflatoxin-Related Hepatocellular Carcinoma",
+          "count": 6
+        },
+        {
+          "name": "Aicardi Syndrome",
+          "count": 6
+        },
+        {
+          "name": "Alpha-1 Antitrypsin Deficiency",
+          "count": 6
+        },
+        {
+          "name": "Anaplastic Large Cell Lymphoma",
+          "count": 6
+        },
+        {
+          "name": "Anaplastic Thyroid Carcinoma",
+          "count": 6
+        },
+        {
+          "name": "Ataxia-telangiectasia",
           "count": 6
         },
         {
@@ -929,6 +1315,14 @@
           "count": 6
         },
         {
+          "name": "Blau Syndrome",
+          "count": 6
+        },
+        {
+          "name": "Cardiospondylocarpofacial syndrome",
+          "count": 6
+        },
+        {
           "name": "Chemotherapy-Induced Diarrhea",
           "count": 6
         },
@@ -941,11 +1335,23 @@
           "count": 6
         },
         {
+          "name": "Classic Hodgkin Lymphoma",
+          "count": 6
+        },
+        {
           "name": "Clear Cell Renal Cell Carcinoma",
           "count": 6
         },
         {
+          "name": "Coffin-Lowry syndrome",
+          "count": 6
+        },
+        {
           "name": "Cogan Syndrome",
+          "count": 6
+        },
+        {
+          "name": "Conduct Disorder",
           "count": 6
         },
         {
@@ -969,6 +1375,10 @@
           "count": 6
         },
         {
+          "name": "Ectodermal Dysplasia and Immunodeficiency 2",
+          "count": 6
+        },
+        {
           "name": "Ehlers-Danlos Syndrome",
           "count": 6
         },
@@ -981,7 +1391,19 @@
           "count": 6
         },
         {
+          "name": "Focal Segmental Glomerulosclerosis",
+          "count": 6
+        },
+        {
+          "name": "Follicular Lymphoma",
+          "count": 6
+        },
+        {
           "name": "Gastroesophageal Reflux Disease",
+          "count": 6
+        },
+        {
+          "name": "Gorham-Stout disease",
           "count": 6
         },
         {
@@ -989,7 +1411,19 @@
           "count": 6
         },
         {
+          "name": "Hairy Cell Leukemia",
+          "count": 6
+        },
+        {
           "name": "Hepatitis B",
+          "count": 6
+        },
+        {
+          "name": "Hepatoblastoma",
+          "count": 6
+        },
+        {
+          "name": "Hereditary Hemorrhagic Telangiectasia",
           "count": 6
         },
         {
@@ -998,6 +1432,10 @@
         },
         {
           "name": "Hypochondrogenesis",
+          "count": 6
+        },
+        {
+          "name": "IKBKG ectodermal dysplasia with immunodeficiency",
           "count": 6
         },
         {
@@ -1013,7 +1451,15 @@
           "count": 6
         },
         {
-          "name": "Li-Fraumeni Syndrome",
+          "name": "Left ventricular noncompaction",
+          "count": 6
+        },
+        {
+          "name": "Long QT Syndrome",
+          "count": 6
+        },
+        {
+          "name": "Lowe syndrome",
           "count": 6
         },
         {
@@ -1026,6 +1472,14 @@
         },
         {
           "name": "Marfan Syndrome",
+          "count": 6
+        },
+        {
+          "name": "Mediator Complex Neurodevelopmental Disorder",
+          "count": 6
+        },
+        {
+          "name": "Membranous nephropathy",
           "count": 6
         },
         {
@@ -1049,6 +1503,10 @@
           "count": 6
         },
         {
+          "name": "NARP syndrome",
+          "count": 6
+        },
+        {
           "name": "Neurofibromatosis Type 1",
           "count": 6
         },
@@ -1065,6 +1523,10 @@
           "count": 6
         },
         {
+          "name": "PHARC syndrome",
+          "count": 6
+        },
+        {
           "name": "Pancreatic Mucinous Cystadenoma",
           "count": 6
         },
@@ -1073,7 +1535,15 @@
           "count": 6
         },
         {
+          "name": "Pineoblastoma",
+          "count": 6
+        },
+        {
           "name": "Propionic Acidemia",
+          "count": 6
+        },
+        {
+          "name": "Prostate Adenocarcinoma",
           "count": 6
         },
         {
@@ -1082,6 +1552,10 @@
         },
         {
           "name": "SHH_Holoprosencephaly_Spectrum",
+          "count": 6
+        },
+        {
+          "name": "STRA6-related syndromic microphthalmia",
           "count": 6
         },
         {
@@ -1105,6 +1579,14 @@
           "count": 6
         },
         {
+          "name": "Thymoma",
+          "count": 6
+        },
+        {
+          "name": "Timothy Syndrome",
+          "count": 6
+        },
+        {
           "name": "Urea Cycle Disorder",
           "count": 6
         },
@@ -1113,11 +1595,27 @@
           "count": 6
         },
         {
+          "name": "Waldenstrom Macroglobulinemia",
+          "count": 6
+        },
+        {
+          "name": "X-linked Hypohidrotic Ectodermal Dysplasia",
+          "count": 6
+        },
+        {
+          "name": "pantothenate kinase-associated neurodegeneration",
+          "count": 6
+        },
+        {
           "name": "2-Methylbutyryl-CoA Dehydrogenase Deficiency",
           "count": 5
         },
         {
           "name": "3-Hydroxy-3-Methylglutaric Aciduria",
+          "count": 5
+        },
+        {
+          "name": "ADan amyloidosis",
           "count": 5
         },
         {
@@ -1137,11 +1635,19 @@
           "count": 5
         },
         {
+          "name": "Achromatopsia",
+          "count": 5
+        },
+        {
           "name": "Acute Myeloid Leukemia, FLT3-Mutated",
           "count": 5
         },
         {
           "name": "Acute Myeloid Leukemia, NPM1-Mutated",
+          "count": 5
+        },
+        {
+          "name": "Adams-Oliver Syndrome",
           "count": 5
         },
         {
@@ -1157,7 +1663,15 @@
           "count": 5
         },
         {
-          "name": "Alpha-1 Antitrypsin Deficiency",
+          "name": "Alport Syndrome",
+          "count": 5
+        },
+        {
+          "name": "Angiosarcoma",
+          "count": 5
+        },
+        {
+          "name": "Anorexia Nervosa",
           "count": 5
         },
         {
@@ -1173,15 +1687,15 @@
           "count": 5
         },
         {
-          "name": "Ataxia-telangiectasia",
-          "count": 5
-        },
-        {
           "name": "Axenfeld-Rieger_syndrome",
           "count": 5
         },
         {
           "name": "BRAF V600 Mutant Melanoma",
+          "count": 5
+        },
+        {
+          "name": "Barth syndrome",
           "count": 5
         },
         {
@@ -1197,7 +1711,15 @@
           "count": 5
         },
         {
+          "name": "Bloom syndrome",
+          "count": 5
+        },
+        {
           "name": "CACNA1A-Related Disorder",
+          "count": 5
+        },
+        {
+          "name": "CD27-related lymphoproliferative and immune disorder",
           "count": 5
         },
         {
@@ -1217,11 +1739,31 @@
           "count": 5
         },
         {
+          "name": "Chordoma",
+          "count": 5
+        },
+        {
+          "name": "Choroid Plexus Carcinoma",
+          "count": 5
+        },
+        {
           "name": "Chronic Lymphocytic Leukemia",
           "count": 5
         },
         {
           "name": "Citrullinemia Type I",
+          "count": 5
+        },
+        {
+          "name": "Clouston Syndrome",
+          "count": 5
+        },
+        {
+          "name": "Cowden Syndrome",
+          "count": 5
+        },
+        {
+          "name": "DK1-congenital disorder of glycosylation",
           "count": 5
         },
         {
@@ -1241,11 +1783,19 @@
           "count": 5
         },
         {
+          "name": "EDAR-Related Hypohidrotic Ectodermal Dysplasia",
+          "count": 5
+        },
+        {
           "name": "Ebola Virus Disease (EVD)",
           "count": 5
         },
         {
           "name": "Epidermolysis Bullosa Simplex",
+          "count": 5
+        },
+        {
+          "name": "Episodic Ataxia",
           "count": 5
         },
         {
@@ -1262,6 +1812,10 @@
         },
         {
           "name": "Fibrodysplasia Ossificans Progressiva",
+          "count": 5
+        },
+        {
+          "name": "Galloway-Mowat syndrome",
           "count": 5
         },
         {
@@ -1293,6 +1847,10 @@
           "count": 5
         },
         {
+          "name": "Huppke-Brendel syndrome",
+          "count": 5
+        },
+        {
           "name": "Hypochondroplasia",
           "count": 5
         },
@@ -1305,6 +1863,10 @@
           "count": 5
         },
         {
+          "name": "Idiopathic Pulmonary Fibrosis",
+          "count": 5
+        },
+        {
           "name": "Influenza",
           "count": 5
         },
@@ -1314,6 +1876,10 @@
         },
         {
           "name": "Isovaleric Acidemia",
+          "count": 5
+        },
+        {
+          "name": "Juvenile Myelomonocytic Leukemia",
           "count": 5
         },
         {
@@ -1361,7 +1927,7 @@
           "count": 5
         },
         {
-          "name": "Mediator Complex Neurodevelopmental Disorder",
+          "name": "Malignant Peritoneal Mesothelioma",
           "count": 5
         },
         {
@@ -1437,11 +2003,23 @@
           "count": 5
         },
         {
+          "name": "Oppositional Defiant Disorder",
+          "count": 5
+        },
+        {
           "name": "Ornithine Carbamoyltransferase Deficiency",
           "count": 5
         },
         {
           "name": "PIK3CA-Mutant Breast Cancer",
+          "count": 5
+        },
+        {
+          "name": "Pancreatic Ductal Adenocarcinoma",
+          "count": 5
+        },
+        {
+          "name": "Panic Disorder",
           "count": 5
         },
         {
@@ -1461,11 +2039,31 @@
           "count": 5
         },
         {
+          "name": "Primary Hypertrophic Osteoarthropathy",
+          "count": 5
+        },
+        {
           "name": "Primary_Tonsillar_Lymphoma",
           "count": 5
         },
         {
+          "name": "Proteasome-Associated Autoinflammatory Syndrome",
+          "count": 5
+        },
+        {
           "name": "Pseudohypoparathyroidism",
+          "count": 5
+        },
+        {
+          "name": "Psoriasis",
+          "count": 5
+        },
+        {
+          "name": "Sanfilippo syndrome",
+          "count": 5
+        },
+        {
+          "name": "Schinzel-Giedion syndrome",
           "count": 5
         },
         {
@@ -1497,6 +2095,10 @@
           "count": 5
         },
         {
+          "name": "Thromboangiitis obliterans",
+          "count": 5
+        },
+        {
           "name": "Twin to Twin Transfusion Syndrome",
           "count": 5
         },
@@ -1509,19 +2111,55 @@
           "count": 5
         },
         {
-          "name": "Wilms Tumor",
+          "name": "YWHAG Syndrome",
           "count": 5
         },
         {
-          "name": "YWHAG Syndrome",
+          "name": "adrenoleukodystrophy",
           "count": 5
+        },
+        {
+          "name": "angioosteohypertrophic syndrome",
+          "count": 5
+        },
+        {
+          "name": "neuroferritinopathy",
+          "count": 5
+        },
+        {
+          "name": "pseudotumor cerebri",
+          "count": 5
+        },
+        {
+          "name": "15q11q13 Microduplication Syndrome",
+          "count": 4
         },
         {
           "name": "22q11.2 Deletion Syndrome",
           "count": 4
         },
         {
+          "name": "2q37 Microdeletion Syndrome",
+          "count": 4
+        },
+        {
+          "name": "3-hydroxyisobutyryl-CoA hydrolase deficiency",
+          "count": 4
+        },
+        {
+          "name": "46,XX Gonadal Dysgenesis",
+          "count": 4
+        },
+        {
           "name": "ALK-Rearranged Non-Small Cell Lung Cancer",
+          "count": 4
+        },
+        {
+          "name": "Acrodysostosis",
+          "count": 4
+        },
+        {
+          "name": "Acute Intermittent Porphyria",
           "count": 4
         },
         {
@@ -1541,7 +2179,15 @@
           "count": 4
         },
         {
+          "name": "Alagille syndrome",
+          "count": 4
+        },
+        {
           "name": "Alopecia Areata",
+          "count": 4
+        },
+        {
+          "name": "Alternating Hemiplegia of Childhood",
           "count": 4
         },
         {
@@ -1553,11 +2199,27 @@
           "count": 4
         },
         {
+          "name": "Atypical Hemolytic Uremic Syndrome",
+          "count": 4
+        },
+        {
+          "name": "Atypical Teratoid/Rhabdoid Tumor",
+          "count": 4
+        },
+        {
+          "name": "Autoimmune Polyendocrine Syndrome Type 1",
+          "count": 4
+        },
+        {
           "name": "Autosomal Recessive Osteopetrosis Type 2",
           "count": 4
         },
         {
           "name": "BEST1 Bestrophinopathies",
+          "count": 4
+        },
+        {
+          "name": "BLOC1S1-related Complex Neurodevelopmental Disorder with Leukodystrophy",
           "count": 4
         },
         {
@@ -1569,10 +2231,6 @@
           "count": 4
         },
         {
-          "name": "Bardet-Biedl Syndrome",
-          "count": 4
-        },
-        {
           "name": "Beta-Ketothiolase Deficiency",
           "count": 4
         },
@@ -1581,11 +2239,19 @@
           "count": 4
         },
         {
-          "name": "Burkitt Lymphoma",
+          "name": "Bladder Urothelial Carcinoma",
           "count": 4
         },
         {
-          "name": "CADASIL Type 1",
+          "name": "Borjeson-Forssman-Lehmann syndrome",
+          "count": 4
+        },
+        {
+          "name": "Brugada syndrome",
+          "count": 4
+        },
+        {
+          "name": "Burkitt Lymphoma",
           "count": 4
         },
         {
@@ -1598,6 +2264,10 @@
         },
         {
           "name": "CTCF-related Neurodevelopmental Disorder",
+          "count": 4
+        },
+        {
+          "name": "CTLA4 Haploinsufficiency",
           "count": 4
         },
         {
@@ -1625,6 +2295,10 @@
           "count": 4
         },
         {
+          "name": "Charlevoix-Saguenay spastic ataxia",
+          "count": 4
+        },
+        {
           "name": "Chemotherapy-Induced Nausea and Vomiting",
           "count": 4
         },
@@ -1649,10 +2323,6 @@
           "count": 4
         },
         {
-          "name": "Coffin-Siris syndrome",
-          "count": 4
-        },
-        {
           "name": "Common Variable Immunodeficiency",
           "count": 4
         },
@@ -1666,6 +2336,14 @@
         },
         {
           "name": "DSP Cardiomyopathy",
+          "count": 4
+        },
+        {
+          "name": "DeSanto-Shinawi syndrome",
+          "count": 4
+        },
+        {
+          "name": "Delpire-McNeill Syndrome",
           "count": 4
         },
         {
@@ -1685,6 +2363,10 @@
           "count": 4
         },
         {
+          "name": "EDARADD-Related Hypohidrotic Ectodermal Dysplasia",
+          "count": 4
+        },
+        {
           "name": "EGFR-Mutant Non-Small Cell Lung Cancer",
           "count": 4
         },
@@ -1693,7 +2375,7 @@
           "count": 4
         },
         {
-          "name": "Familial Hypercholesterolemia",
+          "name": "FAS-related Autoimmune Lymphoproliferative Syndrome",
           "count": 4
         },
         {
@@ -1773,6 +2455,10 @@
           "count": 4
         },
         {
+          "name": "Hypotrichosis with Juvenile Macular Dystrophy",
+          "count": 4
+        },
+        {
           "name": "Immune Thrombocytopenia",
           "count": 4
         },
@@ -1805,7 +2491,19 @@
           "count": 4
         },
         {
+          "name": "Leiomyosarcoma",
+          "count": 4
+        },
+        {
           "name": "Liver Cirrhosis",
+          "count": 4
+        },
+        {
+          "name": "MCM9-related gametogenic failure",
+          "count": 4
+        },
+        {
+          "name": "MED13 Syndrome",
           "count": 4
         },
         {
@@ -1814,6 +2512,10 @@
         },
         {
           "name": "MITF Waardenburg-Tietz Spectrum",
+          "count": 4
+        },
+        {
+          "name": "MYO6_Hearing_Loss",
           "count": 4
         },
         {
@@ -1841,6 +2543,10 @@
           "count": 4
         },
         {
+          "name": "Migraine with aura",
+          "count": 4
+        },
+        {
           "name": "Morgagni-Stewart-Morel Syndrome",
           "count": 4
         },
@@ -1865,6 +2571,10 @@
           "count": 4
         },
         {
+          "name": "Nijmegen breakage syndrome",
+          "count": 4
+        },
+        {
           "name": "Oculodentodigital Dysplasia",
           "count": 4
         },
@@ -1881,11 +2591,7 @@
           "count": 4
         },
         {
-          "name": "Ovarian High-Grade Serous Carcinoma",
-          "count": 4
-        },
-        {
-          "name": "Pancreatic Ductal Adenocarcinoma",
+          "name": "Pacak-Zhuang syndrome",
           "count": 4
         },
         {
@@ -1898,6 +2604,10 @@
         },
         {
           "name": "Periventricular Nodular Heterotopia",
+          "count": 4
+        },
+        {
+          "name": "Phelan-McDermid Syndrome",
           "count": 4
         },
         {
@@ -1929,10 +2639,6 @@
           "count": 4
         },
         {
-          "name": "Psoriasis",
-          "count": 4
-        },
-        {
           "name": "RET-Rearranged Non-Small Cell Lung Cancer",
           "count": 4
         },
@@ -1949,11 +2655,19 @@
           "count": 4
         },
         {
+          "name": "Rhabdoid Tumor",
+          "count": 4
+        },
+        {
           "name": "Roifman-syndrome",
           "count": 4
         },
         {
           "name": "SMAD6-related craniosynostosis",
+          "count": 4
+        },
+        {
+          "name": "STING-Associated Vasculopathy with Onset in Infancy",
           "count": 4
         },
         {
@@ -1977,11 +2691,23 @@
           "count": 4
         },
         {
+          "name": "Stankiewicz-Isidor syndrome",
+          "count": 4
+        },
+        {
+          "name": "Tall Stature-Intellectual Disability-Renal Anomalies Syndrome",
+          "count": 4
+        },
+        {
           "name": "Tay-Sachs Disease",
           "count": 4
         },
         {
           "name": "Terminal Osseous Dysplasia",
+          "count": 4
+        },
+        {
+          "name": "Thomsen and Becker disease",
           "count": 4
         },
         {
@@ -1995,6 +2721,38 @@
         {
           "name": "Uveal Melanoma",
           "count": 4
+        },
+        {
+          "name": "VCP-Associated Multisystem Proteinopathy",
+          "count": 4
+        },
+        {
+          "name": "Warsaw breakage syndrome",
+          "count": 4
+        },
+        {
+          "name": "ZTTK syndrome",
+          "count": 4
+        },
+        {
+          "name": "arrhythmogenic right ventricular cardiomyopathy",
+          "count": 4
+        },
+        {
+          "name": "capillary leak syndrome",
+          "count": 4
+        },
+        {
+          "name": "erythromelalgia",
+          "count": 4
+        },
+        {
+          "name": "46,XY complete gonadal dysgenesis",
+          "count": 3
+        },
+        {
+          "name": "AIP-related pituitary adenoma predisposition",
+          "count": 3
         },
         {
           "name": "ALDH18A1-Related Spastic Paraplegia and Neurocutaneous Spectrum",
@@ -2033,6 +2791,14 @@
           "count": 3
         },
         {
+          "name": "Autosomal Recessive Ataxia Due to Ubiquinone Deficiency",
+          "count": 3
+        },
+        {
+          "name": "Ayme-Gripp syndrome",
+          "count": 3
+        },
+        {
           "name": "BRAF-Mutant Papillary Thyroid Cancer",
           "count": 3
         },
@@ -2042,6 +2808,10 @@
         },
         {
           "name": "Behcet's Disease",
+          "count": 3
+        },
+        {
+          "name": "Blepharophimosis, Ptosis, and Epicanthus Inversus Syndrome",
           "count": 3
         },
         {
@@ -2061,6 +2831,10 @@
           "count": 3
         },
         {
+          "name": "Cernunnos-XLF deficiency",
+          "count": 3
+        },
+        {
           "name": "Chronic Inflammatory Demyelinating Polyneuropathy",
           "count": 3
         },
@@ -2073,6 +2847,10 @@
           "count": 3
         },
         {
+          "name": "Congenital Sucrase-Isomaltase Deficiency",
+          "count": 3
+        },
+        {
           "name": "Congestive Splenomegaly",
           "count": 3
         },
@@ -2082,10 +2860,6 @@
         },
         {
           "name": "Coronary Artery Disease",
-          "count": 3
-        },
-        {
-          "name": "Cowden Syndrome",
           "count": 3
         },
         {
@@ -2102,6 +2876,10 @@
         },
         {
           "name": "Dementia with Lewy Bodies",
+          "count": 3
+        },
+        {
+          "name": "Dentici-Novelli neurodevelopmental syndrome",
           "count": 3
         },
         {
@@ -2137,6 +2915,10 @@
           "count": 3
         },
         {
+          "name": "Erythrokeratodermia Variabilis",
+          "count": 3
+        },
+        {
           "name": "Essential Thrombocythemia",
           "count": 3
         },
@@ -2146,6 +2928,10 @@
         },
         {
           "name": "FGFR-Altered Urothelial Carcinoma",
+          "count": 3
+        },
+        {
+          "name": "Facioscapulohumeral Muscular Dystrophy",
           "count": 3
         },
         {
@@ -2161,7 +2947,7 @@
           "count": 3
         },
         {
-          "name": "Gorlin Syndrome",
+          "name": "Glycogen Storage Disease XV",
           "count": 3
         },
         {
@@ -2177,7 +2963,19 @@
           "count": 3
         },
         {
+          "name": "Hereditary Neuropathy with Liability to Pressure Palsies",
+          "count": 3
+        },
+        {
           "name": "Hereditary Spherocytosis",
+          "count": 3
+        },
+        {
+          "name": "Heyn-Sproul-Jackson syndrome",
+          "count": 3
+        },
+        {
+          "name": "Hurler syndrome",
           "count": 3
         },
         {
@@ -2185,7 +2983,7 @@
           "count": 3
         },
         {
-          "name": "IgA Nephropathy",
+          "name": "IRX5-related craniofacial dysostosis with osteopenia, intellectual disability, and dental anomalies",
           "count": 3
         },
         {
@@ -2205,6 +3003,10 @@
           "count": 3
         },
         {
+          "name": "Keipert syndrome",
+          "count": 3
+        },
+        {
           "name": "Kleefstra Syndrome",
           "count": 3
         },
@@ -2217,7 +3019,23 @@
           "count": 3
         },
         {
+          "name": "Kufor-Rakeb syndrome",
+          "count": 3
+        },
+        {
+          "name": "Liberfarb syndrome",
+          "count": 3
+        },
+        {
           "name": "Lyme Disease",
+          "count": 3
+        },
+        {
+          "name": "MEDNIK syndrome",
+          "count": 3
+        },
+        {
+          "name": "MGAT2-congenital disorder of glycosylation",
           "count": 3
         },
         {
@@ -2225,7 +3043,11 @@
           "count": 3
         },
         {
-          "name": "MYO6_Hearing_Loss",
+          "name": "Malan Syndrome",
+          "count": 3
+        },
+        {
+          "name": "Malignant Atrophic Papulosis",
           "count": 3
         },
         {
@@ -2245,11 +3067,19 @@
           "count": 3
         },
         {
+          "name": "Mowat-Wilson syndrome",
+          "count": 3
+        },
+        {
           "name": "Myasthenia Gravis",
           "count": 3
         },
         {
           "name": "NTRK Fusion-Positive Cancer",
+          "count": 3
+        },
+        {
+          "name": "Nestor-Guillermo progeria syndrome",
           "count": 3
         },
         {
@@ -2261,7 +3091,15 @@
           "count": 3
         },
         {
+          "name": "Ogden syndrome",
+          "count": 3
+        },
+        {
           "name": "Omodysplasia",
+          "count": 3
+        },
+        {
+          "name": "Osteogenesis Imperfecta Type IV",
           "count": 3
         },
         {
@@ -2277,6 +3115,14 @@
           "count": 3
         },
         {
+          "name": "Papillary Thyroid Carcinoma",
+          "count": 3
+        },
+        {
+          "name": "Parenti-Mignot Neurodevelopmental Syndrome",
+          "count": 3
+        },
+        {
           "name": "Penttinen_Premature_Aging_Syndrome",
           "count": 3
         },
@@ -2285,11 +3131,15 @@
           "count": 3
         },
         {
-          "name": "Phelan-McDermid Syndrome",
+          "name": "Pick Disease",
           "count": 3
         },
         {
-          "name": "Pick Disease",
+          "name": "Pilarowski-Bjornsson syndrome",
+          "count": 3
+        },
+        {
+          "name": "Pilocytic Astrocytoma",
           "count": 3
         },
         {
@@ -2333,7 +3183,23 @@
           "count": 3
         },
         {
+          "name": "Short QT Syndrome",
+          "count": 3
+        },
+        {
           "name": "Silent Sinus Syndrome",
+          "count": 3
+        },
+        {
+          "name": "Sneddon syndrome",
+          "count": 3
+        },
+        {
+          "name": "Southern Tick-Associated Rash Illness",
+          "count": 3
+        },
+        {
+          "name": "Spasticity-Ataxia-Gait Anomalies Syndrome",
           "count": 3
         },
         {
@@ -2361,6 +3227,10 @@
           "count": 3
         },
         {
+          "name": "Tatton-Brown-Rahman overgrowth syndrome",
+          "count": 3
+        },
+        {
           "name": "Tetanus",
           "count": 3
         },
@@ -2377,7 +3247,27 @@
           "count": 3
         },
         {
+          "name": "UNC13A-Related Congenital NDD with Epilepsy",
+          "count": 3
+        },
+        {
           "name": "Whipple Disease",
+          "count": 3
+        },
+        {
+          "name": "Zlotogora-Ogur Syndrome",
+          "count": 3
+        },
+        {
+          "name": "aceruloplasminemia",
+          "count": 3
+        },
+        {
+          "name": "deafness-lymphedema-leukemia syndrome",
+          "count": 3
+        },
+        {
+          "name": "ornithine aminotransferase deficiency",
           "count": 3
         },
         {
@@ -2397,6 +3287,14 @@
           "count": 2
         },
         {
+          "name": "Bilateral Striopallidodentate Calcinosis",
+          "count": 2
+        },
+        {
+          "name": "Bohring-Opitz syndrome",
+          "count": 2
+        },
+        {
           "name": "Botulism",
           "count": 2
         },
@@ -2406,6 +3304,10 @@
         },
         {
           "name": "CHIME_syndrome",
+          "count": 2
+        },
+        {
+          "name": "CHRNA1-Associated Fetal Hypo-akinesia Disorder of Prenatal Onset",
           "count": 2
         },
         {
@@ -2422,6 +3324,10 @@
         },
         {
           "name": "Dieulafoy Lesion",
+          "count": 2
+        },
+        {
+          "name": "EFL1-related Shwachman-Diamond syndrome",
           "count": 2
         },
         {
@@ -2457,11 +3363,19 @@
           "count": 2
         },
         {
+          "name": "Hao-Fountain syndrome",
+          "count": 2
+        },
+        {
           "name": "Hartsfield Syndrome",
           "count": 2
         },
         {
           "name": "Hemophilia A",
+          "count": 2
+        },
+        {
+          "name": "Hereditary Fructose Intolerance",
           "count": 2
         },
         {
@@ -2489,11 +3403,19 @@
           "count": 2
         },
         {
+          "name": "KRT85-Related Pure Hair-Nail Ectodermal Dysplasia",
+          "count": 2
+        },
+        {
           "name": "Kawasaki Disease",
           "count": 2
         },
         {
           "name": "Lafora_Disease",
+          "count": 2
+        },
+        {
+          "name": "Lenz-Majewski hyperostotic dwarfism",
           "count": 2
         },
         {
@@ -2529,6 +3451,10 @@
           "count": 2
         },
         {
+          "name": "Meacham syndrome",
+          "count": 2
+        },
+        {
           "name": "Mesial Temporal Lobe Epilepsy with Hippocampal Sclerosis",
           "count": 2
         },
@@ -2558,6 +3484,10 @@
         },
         {
           "name": "Neuromyelitis Optica",
+          "count": 2
+        },
+        {
+          "name": "Odonto-Onycho-Dermal Dysplasia",
           "count": 2
         },
         {
@@ -2609,11 +3539,19 @@
           "count": 2
         },
         {
+          "name": "RNU12-related minor spliceopathy",
+          "count": 2
+        },
+        {
           "name": "Rabies",
           "count": 2
         },
         {
           "name": "Renal Cell Carcinoma",
+          "count": 2
+        },
+        {
+          "name": "Renpenning syndrome",
           "count": 2
         },
         {
@@ -2665,7 +3603,15 @@
           "count": 2
         },
         {
+          "name": "TTN-Related Myopathy, Dominant-Negative TTNsv",
+          "count": 2
+        },
+        {
           "name": "Temporal Lobe Epilepsy",
+          "count": 2
+        },
+        {
+          "name": "UNC13A-Related NDD with Seizures and Movement Disorder",
           "count": 2
         },
         {
@@ -2674,6 +3620,10 @@
         },
         {
           "name": "Van Buchem Disease",
+          "count": 2
+        },
+        {
+          "name": "Visceral heterotaxy",
           "count": 2
         },
         {
@@ -2733,6 +3683,10 @@
           "count": 1
         },
         {
+          "name": "Donnai-Barrow syndrome",
+          "count": 1
+        },
+        {
           "name": "Dorsalgia",
           "count": 1
         },
@@ -2745,6 +3699,10 @@
           "count": 1
         },
         {
+          "name": "Floating-Harbor syndrome",
+          "count": 1
+        },
+        {
           "name": "Friedreich Ataxia",
           "count": 1
         },
@@ -2754,10 +3712,6 @@
         },
         {
           "name": "Hemophilia B",
-          "count": 1
-        },
-        {
-          "name": "Hereditary Hemorrhagic Telangiectasia",
           "count": 1
         },
         {
@@ -2810,10 +3764,6 @@
         },
         {
           "name": "Osteogenesis Imperfecta Type III",
-          "count": 1
-        },
-        {
-          "name": "Osteogenesis Imperfecta Type IV",
           "count": 1
         },
         {
@@ -2923,42 +3873,42 @@
       ],
       "question": "Which 5 diseases in DisMech have the most documented pathophysiology mechanisms? Give counts."
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q8": {
     "answer": {
       "top3": [
         {
           "category": "Mendelian",
-          "count": 186
-        },
-        {
-          "category": "Complex",
-          "count": 107
+          "count": 304
         },
         {
           "category": "(none)",
-          "count": 103
+          "count": 124
+        },
+        {
+          "category": "Complex",
+          "count": 121
         }
       ],
       "all_categories": [
         {
           "category": "Mendelian",
-          "count": 186
-        },
-        {
-          "category": "Complex",
-          "count": 107
+          "count": 304
         },
         {
           "category": "(none)",
-          "count": 103
+          "count": 124
+        },
+        {
+          "category": "Complex",
+          "count": 121
         },
         {
           "category": "Genetic",
-          "count": 84
+          "count": 99
         },
         {
           "category": "Infectious Disease",
@@ -2966,14 +3916,22 @@
         },
         {
           "category": "Autoimmune",
-          "count": 26
+          "count": 27
         },
         {
           "category": "Infectious",
-          "count": 16
+          "count": 17
         },
         {
           "category": "Cancer",
+          "count": 16
+        },
+        {
+          "category": "Neurological Disorder",
+          "count": 7
+        },
+        {
+          "category": "Psychiatric",
           "count": 6
         },
         {
@@ -2981,19 +3939,19 @@
           "count": 5
         },
         {
-          "category": "Neurological Disorder",
-          "count": 4
-        },
-        {
           "category": "Respiratory Disease",
-          "count": 2
+          "count": 3
         },
         {
           "category": "Structural",
           "count": 2
         },
         {
-          "category": "Psychiatric",
+          "category": "Cardiovascular",
+          "count": 2
+        },
+        {
+          "category": "Neoplastic",
           "count": 2
         },
         {
@@ -3045,10 +4003,6 @@
           "count": 1
         },
         {
-          "category": "Cardiovascular",
-          "count": 1
-        },
-        {
           "category": "Pediatric Condition",
           "count": 1
         },
@@ -3058,10 +4012,6 @@
         },
         {
           "category": "Skin Cancer",
-          "count": 1
-        },
-        {
-          "category": "Neoplastic",
           "count": 1
         },
         {
@@ -3077,11 +4027,19 @@
           "count": 1
         },
         {
+          "category": "Metabolic Disorder",
+          "count": 1
+        },
+        {
           "category": "Syndromic",
           "count": 1
         },
         {
           "category": "Injury",
+          "count": 1
+        },
+        {
+          "category": "Developmental Disorder",
           "count": 1
         },
         {
@@ -3091,9 +4049,9 @@
       ],
       "question": "Which 3 disease categories (Mendelian, Genetic, Complex, etc.) have the most diseases in DisMech?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q9": {
     "answer": {
@@ -3126,30 +4084,30 @@
       ],
       "question": "Which 5 diseases have the most total PMID citations across all sections of their DisMech entries?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q10": {
     "answer": {
-      "total_diseases": 605,
-      "category_count": 36,
+      "total_diseases": 797,
+      "category_count": 38,
       "distribution": [
         {
           "category": "Mendelian",
-          "count": 186
-        },
-        {
-          "category": "Complex",
-          "count": 107
+          "count": 304
         },
         {
           "category": "(none)",
-          "count": 103
+          "count": 124
+        },
+        {
+          "category": "Complex",
+          "count": 121
         },
         {
           "category": "Genetic",
-          "count": 84
+          "count": 99
         },
         {
           "category": "Infectious Disease",
@@ -3157,14 +4115,22 @@
         },
         {
           "category": "Autoimmune",
-          "count": 26
+          "count": 27
         },
         {
           "category": "Infectious",
-          "count": 16
+          "count": 17
         },
         {
           "category": "Cancer",
+          "count": 16
+        },
+        {
+          "category": "Neurological Disorder",
+          "count": 7
+        },
+        {
+          "category": "Psychiatric",
           "count": 6
         },
         {
@@ -3172,19 +4138,19 @@
           "count": 5
         },
         {
-          "category": "Neurological Disorder",
-          "count": 4
-        },
-        {
           "category": "Respiratory Disease",
-          "count": 2
+          "count": 3
         },
         {
           "category": "Structural",
           "count": 2
         },
         {
-          "category": "Psychiatric",
+          "category": "Cardiovascular",
+          "count": 2
+        },
+        {
+          "category": "Neoplastic",
           "count": 2
         },
         {
@@ -3236,10 +4202,6 @@
           "count": 1
         },
         {
-          "category": "Cardiovascular",
-          "count": 1
-        },
-        {
           "category": "Pediatric Condition",
           "count": 1
         },
@@ -3249,10 +4211,6 @@
         },
         {
           "category": "Skin Cancer",
-          "count": 1
-        },
-        {
-          "category": "Neoplastic",
           "count": 1
         },
         {
@@ -3268,11 +4226,19 @@
           "count": 1
         },
         {
+          "category": "Metabolic Disorder",
+          "count": 1
+        },
+        {
           "category": "Syndromic",
           "count": 1
         },
         {
           "category": "Injury",
+          "count": 1
+        },
+        {
+          "category": "Developmental Disorder",
           "count": 1
         },
         {
@@ -3282,9 +4248,9 @@
       ],
       "question": "List all unique disease categories in DisMech and the count of diseases in each."
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q11": {
     "answer": {
@@ -3298,23 +4264,26 @@
       ],
       "question": "How many diseases in DisMech have FGFR3 explicitly listed as a causative gene in the structured gene annotations of their pathophysiology mechanisms?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q12": {
     "answer": {
-      "count": 116,
+      "count": 138,
       "diseases": [
+        "Acrodysostosis",
+        "Adenosine Kinase Deficiency",
         "Ainhum",
         "Akinetopsia",
         "Alcoholic Liver Disease",
-        "Alpha-1 Antitrypsin Deficiency",
+        "Anorexia Nervosa",
         "Auto-Brewery Syndrome",
         "Autoimmune Encephalitis",
         "Autoimmune Hemolytic Anemia",
         "Bacterial meningitis",
         "Bejel",
+        "Bohring-Opitz syndrome",
         "Botulism",
         "Buruli ulcer",
         "Cadmium Poisoning",
@@ -3328,11 +4297,13 @@
         "Cholangiocarcinoma",
         "Cholera",
         "Cholesteatoma",
+        "Chondrosarcoma",
         "Chromoblastomycosis",
         "Chronic Inflammatory Demyelinating Polyneuropathy",
         "Clostridioides difficile Infection",
         "Cogan Syndrome",
         "Colon Adenocarcinoma",
+        "Conduct Disorder",
         "Congestive Splenomegaly",
         "Cori Forbes Disease",
         "Cough Variant Asthma",
@@ -3347,14 +4318,18 @@
         "FICUS syndrome",
         "Folliculitis",
         "Furunculosis",
+        "Galloway-Mowat syndrome",
         "Gastric Ulcer",
         "Giardiasis",
+        "Gorham-Stout disease",
         "Green Tobacco Sickness",
         "Guillain-Barre Syndrome",
         "Hemophilia B",
         "Hereditary von Willebrand Disease",
         "Human African trypanosomiasis",
+        "Hunter syndrome",
         "Hypertensive Heart Disease",
+        "IRX5-related craniofacial dysostosis with osteopenia, intellectual disability, and dental anomalies",
         "IgG4-Related Disease",
         "Immune Thrombocytopenia",
         "Influenza",
@@ -3371,17 +4346,21 @@
         "Lung Carcinoma",
         "Lymphatic filariasis",
         "Lymphoma",
+        "Malignant Atrophic Papulosis",
         "Malnutrition-Related Diabetes Mellitus",
         "Meckel Diverticulum",
         "Meniere's Disease",
         "Mesial Temporal Lobe Epilepsy with Hippocampal Sclerosis",
+        "Migraine with aura",
         "Multicentric Castleman Disease",
         "Mycetoma",
         "Neuromyelitis Optica",
         "Noma",
         "Onchocerciasis",
+        "Oppositional Defiant Disorder",
         "Osteosarcoma",
         "Otomycosis",
+        "Panic Disorder",
         "Parvovirus B19 Infection",
         "Pinta",
         "Polycystic echinococcosis",
@@ -3391,11 +4370,13 @@
         "Primary_Tonsillar_Lymphoma",
         "Prurigo Nodularis",
         "Psoriatic Arthritis",
+        "RNU12-related minor spliceopathy",
         "Rabies",
         "Raynaud Disease",
         "Refeeding Syndrome",
         "Renal Cell Carcinoma",
         "Retrograde Cricopharyngeus Dysfunction",
+        "Sanfilippo syndrome",
         "Scabies",
         "Schistosomiasis",
         "Scurvy",
@@ -3406,13 +4387,17 @@
         "Silent Sinus Syndrome",
         "Small Intestinal Bacterial Overgrowth",
         "Snakebite envenoming",
+        "Sneddon syndrome",
         "Soil-transmitted helminthiases",
+        "Southern Tick-Associated Rash Illness",
         "Spaceflight Associated Neuro-Ocular Syndrome",
         "Taeniasis/cysticercosis",
         "Takayasu Arteritis",
         "Temporal Lobe Epilepsy",
         "Tetanus",
         "Thallium Poisoning",
+        "Thromboangiitis obliterans",
+        "Timothy Syndrome",
         "Trachoma",
         "Transverse Myelitis",
         "Traveler's Diarrhea",
@@ -3421,13 +4406,16 @@
         "Visual Snow Syndrome",
         "Whipple Disease",
         "Wissler syndrome",
-        "Yaws"
+        "Wolman Disease",
+        "Yaws",
+        "capillary leak syndrome",
+        "pseudotumor cerebri"
       ],
       "question": "How many diseases in DisMech have at least one HPO phenotype term documented but NO documented genetic entries?"
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   },
   "Q13": {
     "answer": {
@@ -3441,22 +4429,22 @@
           "count": 38
         },
         {
+          "name": "Cockayne Syndrome",
+          "count": 32
+        },
+        {
           "name": "Wilson Disease",
+          "count": 29
+        },
+        {
+          "name": "Opsismodysplasia",
           "count": 28
-        },
-        {
-          "name": "Glycogen Storage Disease Type I",
-          "count": 27
-        },
-        {
-          "name": "Cystic Fibrosis",
-          "count": 25
         }
       ],
       "question": "Which 5 diseases in DisMech have the most documented HPO phenotypes? Give the count for each."
     },
-    "computed_at": "2026-04-24T18:18:56.203111+00:00",
+    "computed_at": "2026-04-26T05:15:41.787732+00:00",
     "disorders_dir": "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-    "total_disorders_scanned": 605
+    "total_disorders_scanned": 797
   }
 }

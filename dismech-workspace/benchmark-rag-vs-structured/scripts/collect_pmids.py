@@ -136,7 +136,7 @@ def main():
     parser = argparse.ArgumentParser(description="Collect PubMed abstracts for DisMech PMIDs")
     parser.add_argument(
         "--disorders-dir",
-        default="/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
+        default=os.getenv("DISMECH_DISORDERS_DIR", ""),
     )
     parser.add_argument(
         "--corpus-dir",

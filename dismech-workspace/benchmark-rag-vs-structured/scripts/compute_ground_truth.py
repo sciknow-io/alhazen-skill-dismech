@@ -458,8 +458,8 @@ def main():
     parser = argparse.ArgumentParser(description="Compute DisMech benchmark ground truth")
     parser.add_argument(
         "--disorders-dir",
-        default="/Users/gullyburns/Documents/GitHub/dismech/kb/disorders",
-        help="Path to dismech/kb/disorders/ directory",
+        default=os.getenv("DISMECH_DISORDERS_DIR", ""),
+        help="Path to dismech/kb/disorders/ directory (or set DISMECH_DISORDERS_DIR env var)",
     )
     parser.add_argument(
         "--output-dir",

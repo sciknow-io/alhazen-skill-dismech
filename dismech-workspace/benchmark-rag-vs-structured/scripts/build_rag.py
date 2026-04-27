@@ -151,6 +151,7 @@ def load_abstracts(corpus_dir: str) -> list[dict]:
         if not title and not abstract:
             continue
         text = f"{title}\n\n{abstract}" if abstract else title
+        diseases = meta.get("diseases", [])
         items.append({
             "logical_id": f"abstract_{pmid}",
             "text": text,
@@ -158,7 +159,9 @@ def load_abstracts(corpus_dir: str) -> list[dict]:
                 "source_type": "abstract",
                 "pmid": pmid,
                 "title": title,
-                "diseases": meta.get("diseases", []),
+                "disease": ", ".join(diseases),
+                "diseases": diseases,
+                "text": text,
             },
         })
     return items
@@ -178,8 +181,14 @@ def load_jsonl(path: str) -> list[dict]:
             obj = json.loads(line)
             logical_id = obj.get("id") or obj.get("logical_id")
             text = obj["text"]
-            # Build payload from all fields except 'text'
-            payload = {k: v for k, v in obj.items() if k not in ("text",)}
+            # Handle both flat and nested payload formats
+            # extract_enriched_texts.py writes {"payload": {...}}, older files are flat
+            if "payload" in obj and isinstance(obj["payload"], dict):
+                payload = dict(obj["payload"])
+            else:
+                payload = {k: v for k, v in obj.items()
+                           if k not in ("text", "id", "logical_id")}
+            payload["text"] = text  # Always include text in Qdrant payload
             items.append({
                 "logical_id": logical_id,
                 "text": text,

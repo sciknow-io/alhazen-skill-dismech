@@ -86,14 +86,9 @@ def retrieve_chunks(query_vector: list[float], collection: str, top_k: int) -> l
             "pmid": payload.get("pmid", ""),
             "disease": payload.get("disease", ""),
             "mechanism": payload.get("mechanism", ""),
-            "text": payload.get("text", "") or _load_abstract_text(payload),
+            "text": payload.get("text", ""),
         })
     return chunks
-
-
-def _load_abstract_text(payload: dict) -> str:
-    """For abstract points, text may not be in payload — that's fine, we stored it."""
-    return ""
 
 
 def format_context(chunks: list[dict]) -> str:

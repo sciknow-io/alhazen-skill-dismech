@@ -1,44 +1,42 @@
 """
 run_structured.py
 -----------------
-Run each of the 10 benchmark questions under the structured condition.
+Run each of the 13 benchmark questions under the structured condition.
 
-Strategy per category:
-  Cat 3 (aggregation) — Python YAML scan with regex/field matching (same logic as compute_ground_truth.py)
-  Cat 5 (negative space) — Python YAML scan with absence detection
-  Cat 6 (ranking) — Python YAML scan with sort/limit
+All questions use TypeQL queries against the TypeDB `dismech` database.
+For questions requiring regex matching on text fields (Q1, Q3), the query
+fetches mechanism names and descriptions, then filters in Python.
 
 For each question:
-  1. Execute structured query (deterministic Python scan of YAML files)
+  1. Execute TypeDB structured query (deterministic)
   2. Pass structured result + question to Claude Sonnet 4.6 to format the answer
   3. Save full run record to results/{question_id}/structured_run1.json
 
 Usage:
     python run_structured.py \
         [--questions-file ../questions.json] \
-        [--disorders-dir /path/to/dismech/kb/disorders] \
         [--results-dir ../results] \
         [--question-ids Q1,Q2,Q3]   # optional: run subset
 
 Environment:
     ANTHROPIC_API_KEY  — required for Claude API
+    TYPEDB_HOST        — TypeDB host (default: localhost)
+    TYPEDB_PORT        — TypeDB port (default: 1729)
+    TYPEDB_DATABASE    — TypeDB database name (default: dismech)
 """
 
 import argparse
-import collections
-import glob
 import json
 import os
 import re
 import sys
 import time
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-import yaml
-
 # ---------------------------------------------------------------------------
-# TypeDB connection config (for Q11–Q13 TypeDB-backed structured queries)
+# TypeDB connection config
 # ---------------------------------------------------------------------------
 TYPEDB_HOST = os.getenv("TYPEDB_HOST", "localhost")
 TYPEDB_PORT = int(os.getenv("TYPEDB_PORT", "1729"))
@@ -57,217 +55,341 @@ def get_typedb_driver():
 
 
 MODEL = "claude-sonnet-4-6"
-DEFAULT_DISORDERS_DIR = "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders"
 
 SYSTEM_PROMPT = (
     "You are answering questions about DisMech, a curated database of rare disease "
-    "mechanisms maintained by the Monarch Initiative. The database contains entries for "
-    "approximately 605 diseases.\n\n"
+    "mechanisms maintained by the Monarch Initiative.\n\n"
     "You have been given the exact, authoritative result from a structured database query. "
     "Format it as a clear, direct answer to the question. Do not hedge or add caveats — "
     "the structured result is complete and accurate. Present numbers exactly as given."
 )
 
-# ---------------------------------------------------------------------------
-# YAML loading (shared with compute_ground_truth.py)
-# ---------------------------------------------------------------------------
-
-PMID_RE = re.compile(r"PMID:(\d+)")
-
-
-def load_disorders(disorders_dir: str) -> list[dict]:
-    paths = sorted(
-        p for p in glob.glob(os.path.join(disorders_dir, "*.yaml"))
-        if ".history." not in os.path.basename(p)
-    )
-    disorders = []
-    for p in paths:
-        try:
-            with open(p, encoding="utf-8") as f:
-                d = yaml.safe_load(f)
-            if d is None or "name" not in d:
-                continue
-            d["_filename"] = os.path.basename(p)
-            disorders.append(d)
-        except Exception as e:
-            print(f"[WARN] {p}: {e}", file=sys.stderr)
-    return disorders
-
-
-def mechanism_descriptions(d: dict) -> list[str]:
-    mechs = d.get("pathophysiology") or []
-    result = []
-    for m in mechs:
-        if not isinstance(m, dict):
-            continue
-        parts = []
-        if m.get("name"):
-            parts.append(m["name"])
-        if m.get("description"):
-            parts.append(m["description"])
-        result.append(" ".join(parts))
-    return result
-
 
 # ---------------------------------------------------------------------------
-# Structured queries (same logic as compute_ground_truth.py)
+# TypeDB helper: fetch all results for a query
 # ---------------------------------------------------------------------------
 
-def q1_structured(disorders):
-    pattern = re.compile(r"tgf.?beta|tgf-?b|transforming growth factor.?beta", re.IGNORECASE)
-    matching = sorted(
-        d["name"] for d in disorders
-        if any(pattern.search(t) for t in mechanism_descriptions(d))
-    )
-    return {"count": len(matching), "diseases": matching}
-
-
-def q2_structured(disorders):
-    matching = sorted(d["name"] for d in disorders if d.get("category") == "Mendelian")
-    return {"count": len(matching), "diseases": matching}
-
-
-def q3_structured(disorders):
-    pattern = re.compile(r"wnt|beta.?catenin|\u03b2.?catenin", re.IGNORECASE)
-    matching = sorted(
-        d["name"] for d in disorders
-        if any(pattern.search(t) for t in mechanism_descriptions(d))
-    )
-    return {"count": len(matching), "diseases": matching}
-
-
-def q4_structured(disorders):
-    results = sorted(
-        d["name"] for d in disorders
-        if d.get("pathophysiology") and not (d.get("treatments") or [])
-    )
-    return {"count": len(results), "diseases": results}
-
-
-def q5_structured(disorders):
-    results = sorted(d["name"] for d in disorders if not (d.get("genetic") or []))
-    return {"count": len(results), "diseases": results}
-
-
-def _has_mondo(dt) -> bool:
-    if not dt or not isinstance(dt, dict):
-        return False
-    term = dt.get("term") or {}
-    if isinstance(term, dict):
-        return term.get("id", "").startswith("MONDO:")
-    return False
-
-
-def q6_structured(disorders):
-    with_mondo = sorted(d["name"] for d in disorders if _has_mondo(d.get("disease_term")))
-    without_mondo = sorted(d["name"] for d in disorders if not _has_mondo(d.get("disease_term")))
-    return {
-        "count_with_mondo": len(with_mondo),
-        "count_without_mondo": len(without_mondo),
-        "total": len(disorders),
-        "with_mondo_diseases": with_mondo,
-        "without_mondo_diseases": without_mondo,
-    }
-
-
-def q7_structured(disorders):
-    counts = [(d["name"], len(d.get("pathophysiology") or [])) for d in disorders]
-    counts.sort(key=lambda x: (-x[1], x[0]))
-    top5 = [{"name": n, "count": c} for n, c in counts[:5]]
-    return {"ranking": top5}
-
-
-def q8_structured(disorders):
-    cat_counts = collections.Counter(d.get("category", "(none)") for d in disorders)
-    top3 = [{"category": cat, "count": n} for cat, n in cat_counts.most_common(3)]
-    return {"top3": top3}
-
-
-def q9_structured(disorders):
-    def count_pmids(d):
-        text = yaml.dump(d)
-        return len(re.findall(r"PMID:\d+", text))
-
-    counts = [(d["name"], count_pmids(d)) for d in disorders]
-    counts.sort(key=lambda x: (-x[1], x[0]))
-    top5 = [{"name": n, "total_citations": c} for n, c in counts[:5]]
-    return {"ranking": top5}
-
-
-def q10_structured(disorders):
-    cat_counts = collections.Counter(d.get("category", "(none)") for d in disorders)
-    distribution = sorted(
-        [{"category": cat, "count": n} for cat, n in cat_counts.items()],
-        key=lambda x: -x["count"],
-    )
-    return {"total_diseases": len(disorders), "distribution": distribution}
-
-
-def q11_structured(_disorders):
-    """Q11: TypeDB graph traversal — diseases with FGFR3 in gene annotations."""
+def _fetch(driver, query: str) -> list[dict]:
     from typedb.driver import TransactionType
+    with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:
+        return list(tx.query(query).resolve())
+
+
+# ---------------------------------------------------------------------------
+# Structured queries (all TypeDB-backed)
+# ---------------------------------------------------------------------------
+
+def q1_structured():
+    """Q1: Count diseases with TGF-beta signaling in pathophysiology name or description."""
     driver = get_typedb_driver()
     try:
-        with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:
-            results = list(tx.query('''
-                match
-                  $d isa disease, has name $dn;
-                  (disease: $d, pathophysiology: $p) isa pathophysiology-rel;
-                  (pathophysiology: $p, genedescriptor: $gd) isa gene;
-                  $gd has preferred-term $pt;
-                  $pt == "FGFR3";
-                fetch { "disease": $dn };
-            ''').resolve())
+        # Fetch mechanism names
+        names = _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $p) isa pathophysiology-rel;
+              $p isa pathophysiology, has name $pn;
+            fetch { "disease": $dn, "text": $pn };
+        ''')
+        # Fetch mechanism descriptions
+        descs = _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $p) isa pathophysiology-rel;
+              $p isa pathophysiology, has description $pd;
+            fetch { "disease": $dn, "text": $pd };
+        ''')
+        pattern = re.compile(r"tgf.?beta|tgf-?b|transforming growth factor.?beta", re.IGNORECASE)
+        matching = set()
+        for r in names + descs:
+            if pattern.search(r["text"]):
+                matching.add(r["disease"])
+        diseases = sorted(matching)
+        return {"count": len(diseases), "diseases": diseases}
+    finally:
+        driver.close()
+
+
+def q2_structured():
+    """Q2: Count diseases classified as category 'Mendelian'."""
+    driver = get_typedb_driver()
+    try:
+        results = _fetch(driver, '''
+            match $d isa disease, has name $dn, has category $c;
+              $c == "Mendelian";
+            fetch { "name": $dn };
+        ''')
+        diseases = sorted(r["name"] for r in results)
+        return {"count": len(diseases), "diseases": diseases}
+    finally:
+        driver.close()
+
+
+def q3_structured():
+    """Q3: Count diseases with WNT/beta-catenin pathway in pathophysiology name or description."""
+    driver = get_typedb_driver()
+    try:
+        names = _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $p) isa pathophysiology-rel;
+              $p isa pathophysiology, has name $pn;
+            fetch { "disease": $dn, "text": $pn };
+        ''')
+        descs = _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $p) isa pathophysiology-rel;
+              $p isa pathophysiology, has description $pd;
+            fetch { "disease": $dn, "text": $pd };
+        ''')
+        pattern = re.compile(r"wnt|beta.?catenin|\u03b2.?catenin", re.IGNORECASE)
+        matching = set()
+        for r in names + descs:
+            if pattern.search(r["text"]):
+                matching.add(r["disease"])
+        diseases = sorted(matching)
+        return {"count": len(diseases), "diseases": diseases}
+    finally:
+        driver.close()
+
+
+def q4_structured():
+    """Q4: Diseases with pathophysiology mechanisms but NO treatments."""
+    driver = get_typedb_driver()
+    try:
+        has_mech = set(r["name"] for r in _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $p) isa pathophysiology-rel;
+            fetch { "name": $dn };
+        '''))
+        has_treat = set(r["name"] for r in _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $t) isa treatments;
+            fetch { "name": $dn };
+        '''))
+        diseases = sorted(has_mech - has_treat)
+        return {"count": len(diseases), "diseases": diseases}
+    finally:
+        driver.close()
+
+
+def q5_structured():
+    """Q5: Diseases with NO genetic entries."""
+    driver = get_typedb_driver()
+    try:
+        all_diseases = set(r["name"] for r in _fetch(driver, '''
+            match $d isa disease, has name $dn;
+            fetch { "name": $dn };
+        '''))
+        has_genetic = set(r["name"] for r in _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $g) isa genetic-rel;
+            fetch { "name": $dn };
+        '''))
+        diseases = sorted(all_diseases - has_genetic)
+        return {"count": len(diseases), "diseases": diseases}
+    finally:
+        driver.close()
+
+
+def q6_structured():
+    """Q6: Diseases with/without a MONDO disease term."""
+    driver = get_typedb_driver()
+    try:
+        # Get all diseases with a disease-term -> descriptor -> term-rel -> id
+        term_results = _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $dd) isa disease-term;
+              $dd isa diseasedescriptor;
+              ($dd, $t) isa term-rel;
+              $t has id $tid;
+            fetch { "name": $dn, "term_id": $tid };
+        ''')
+        mondo_diseases = set()
+        for r in term_results:
+            if r["term_id"].startswith("MONDO:"):
+                mondo_diseases.add(r["name"])
+
+        all_diseases = set(r["name"] for r in _fetch(driver, '''
+            match $d isa disease, has name $dn;
+            fetch { "name": $dn };
+        '''))
+        without_mondo = all_diseases - mondo_diseases
+
+        return {
+            "count_with_mondo": len(mondo_diseases),
+            "count_without_mondo": len(without_mondo),
+            "total": len(all_diseases),
+            "with_mondo_diseases": sorted(mondo_diseases),
+            "without_mondo_diseases": sorted(without_mondo),
+        }
+    finally:
+        driver.close()
+
+
+def q7_structured():
+    """Q7: Top 5 diseases by pathophysiology mechanism count."""
+    driver = get_typedb_driver()
+    try:
+        results = _fetch(driver, '''
+            match $d isa disease, has name $dn;
+              ($d, $p) isa pathophysiology-rel;
+              $p isa pathophysiology, has name $pn;
+            fetch { "disease": $dn, "mech": $pn };
+        ''')
+        counts = Counter(r["disease"] for r in results)
+        top5 = [{"name": n, "count": c} for n, c in counts.most_common(5)]
+        return {"ranking": top5}
+    finally:
+        driver.close()
+
+
+def q8_structured():
+    """Q8: Top 3 disease categories by disease count."""
+    driver = get_typedb_driver()
+    try:
+        cat_results = _fetch(driver, '''
+            match $d isa disease, has name $dn, has category $c;
+            fetch { "name": $dn, "cat": $c };
+        ''')
+        all_diseases = set(r["name"] for r in _fetch(driver, '''
+            match $d isa disease, has name $dn;
+            fetch { "name": $dn };
+        '''))
+        has_cat = set(r["name"] for r in cat_results)
+        cat_counts = Counter(r["cat"] for r in cat_results)
+        no_cat = len(all_diseases - has_cat)
+        if no_cat > 0:
+            cat_counts["(none)"] = no_cat
+        top3 = [{"category": cat, "count": n} for cat, n in cat_counts.most_common(3)]
+        return {"top3": top3}
+    finally:
+        driver.close()
+
+
+def q9_structured():
+    """Q9: Top 5 diseases by total PMID citation count across all evidence tiers."""
+    driver = get_typedb_driver()
+    try:
+        evidence_queries = [
+            # Pathophysiology evidence
+            '''match $d isa disease, has name $dn;
+                ($d, $p) isa pathophysiology-rel;
+                ($p, $ei) isa evidence;
+                $ei isa evidenceitem, has reference $ref;
+            fetch { "disease": $dn, "ref": $ref };''',
+            # Genetic evidence
+            '''match $d isa disease, has name $dn;
+                ($d, $g) isa genetic-rel;
+                ($g, $ei) isa evidence;
+                $ei isa evidenceitem, has reference $ref;
+            fetch { "disease": $dn, "ref": $ref };''',
+            # Treatment evidence
+            '''match $d isa disease, has name $dn;
+                ($d, $t) isa treatments;
+                ($t, $ei) isa evidence;
+                $ei isa evidenceitem, has reference $ref;
+            fetch { "disease": $dn, "ref": $ref };''',
+            # Phenotype evidence
+            '''match $d isa disease, has name $dn;
+                ($d, $ph) isa phenotypes;
+                ($ph, $ei) isa evidence;
+                $ei isa evidenceitem, has reference $ref;
+            fetch { "disease": $dn, "ref": $ref };''',
+            # Inheritance evidence
+            '''match $d isa disease, has name $dn;
+                ($d, $i) isa inheritance-rel;
+                ($i, $ei) isa evidence;
+                $ei isa evidenceitem, has reference $ref;
+            fetch { "disease": $dn, "ref": $ref };''',
+        ]
+        all_refs = []
+        for query in evidence_queries:
+            all_refs.extend(_fetch(driver, query))
+
+        counts = Counter(r["disease"] for r in all_refs)
+        top5 = [{"name": n, "total_citations": c} for n, c in counts.most_common(5)]
+        return {"ranking": top5}
+    finally:
+        driver.close()
+
+
+def q10_structured():
+    """Q10: Full disease category distribution."""
+    driver = get_typedb_driver()
+    try:
+        cat_results = _fetch(driver, '''
+            match $d isa disease, has name $dn, has category $c;
+            fetch { "name": $dn, "cat": $c };
+        ''')
+        all_diseases = set(r["name"] for r in _fetch(driver, '''
+            match $d isa disease, has name $dn;
+            fetch { "name": $dn };
+        '''))
+        has_cat = set(r["name"] for r in cat_results)
+        cat_counts = Counter(r["cat"] for r in cat_results)
+        no_cat = len(all_diseases - has_cat)
+        if no_cat > 0:
+            cat_counts["(none)"] = no_cat
+        distribution = sorted(
+            [{"category": cat, "count": n} for cat, n in cat_counts.items()],
+            key=lambda x: -x["count"],
+        )
+        return {"total_diseases": len(all_diseases), "distribution": distribution}
+    finally:
+        driver.close()
+
+
+def q11_structured():
+    """Q11: TypeDB graph traversal — diseases with FGFR3 in gene annotations."""
+    driver = get_typedb_driver()
+    try:
+        results = _fetch(driver, '''
+            match
+              $d isa disease, has name $dn;
+              (disease: $d, pathophysiology: $p) isa pathophysiology-rel;
+              (pathophysiology: $p, genedescriptor: $gd) isa gene;
+              $gd has preferred-term $pt;
+              $pt == "FGFR3";
+            fetch { "disease": $dn };
+        ''')
         diseases = sorted(set(r["disease"] for r in results))
         return {"count": len(diseases), "diseases": diseases}
     finally:
         driver.close()
 
 
-def q12_structured(_disorders):
+def q12_structured():
     """Q12: TypeDB cross-tier NOT EXISTS — HPO phenotypes but no genetic entries."""
-    from typedb.driver import TransactionType
     driver = get_typedb_driver()
     try:
-        with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:
-            has_hpo = set(
-                r["disease"] for r in tx.query('''
-                    match
-                      $d isa disease, has name $dn;
-                      (disease: $d, phenotype: $ph) isa phenotypes;
-                      (phenotype: $ph, phenotypedescriptor: $pd) isa phenotype-term;
-                    fetch { "disease": $dn };
-                ''').resolve()
-            )
-        with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:
-            has_genetic = set(
-                r["disease"] for r in tx.query('''
-                    match
-                      $d isa disease, has name $dn;
-                      (disease: $d, genetic: $g) isa genetic-rel;
-                    fetch { "disease": $dn };
-                ''').resolve()
-            )
+        has_hpo = set(r["disease"] for r in _fetch(driver, '''
+            match
+              $d isa disease, has name $dn;
+              (disease: $d, phenotype: $ph) isa phenotypes;
+              (phenotype: $ph, phenotypedescriptor: $pd) isa phenotype-term;
+            fetch { "disease": $dn };
+        '''))
+        has_genetic = set(r["disease"] for r in _fetch(driver, '''
+            match
+              $d isa disease, has name $dn;
+              (disease: $d, genetic: $g) isa genetic-rel;
+            fetch { "disease": $dn };
+        '''))
         result = sorted(has_hpo - has_genetic)
         return {"count": len(result), "diseases": result}
     finally:
         driver.close()
 
 
-def q13_structured(_disorders):
+def q13_structured():
     """Q13: TypeDB phenotype aggregation — top 5 by HPO phenotype count."""
-    from collections import Counter
-    from typedb.driver import TransactionType
     driver = get_typedb_driver()
     try:
-        with driver.transaction(TYPEDB_DATABASE, TransactionType.READ) as tx:
-            results = list(tx.query('''
-                match
-                  $d isa disease, has name $dn;
-                  (disease: $d, phenotype: $ph) isa phenotypes;
-                  (phenotype: $ph, phenotypedescriptor: $pd) isa phenotype-term;
-                fetch { "disease": $dn };
-            ''').resolve())
+        results = _fetch(driver, '''
+            match
+              $d isa disease, has name $dn;
+              (disease: $d, phenotype: $ph) isa phenotypes;
+              (phenotype: $ph, phenotypedescriptor: $pd) isa phenotype-term;
+            fetch { "disease": $dn };
+        ''')
         counts = Counter(r["disease"] for r in results)
         top5 = [{"name": n, "count": c} for n, c in counts.most_common(5)]
         return {"ranking": top5}
@@ -302,7 +424,6 @@ def format_result_for_prompt(qid: str, result: dict) -> str:
     for key, value in result.items():
         if isinstance(value, list):
             if len(value) > 20:
-                # Truncate long lists for the prompt; the result itself has the full list
                 preview = value[:20]
                 lines.append(f"{key}: {json.dumps(preview)} ... ({len(value)} total)")
             else:
@@ -347,13 +468,12 @@ def call_claude(question: str, structured_result_text: str) -> dict | None:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Run DisMech benchmark under structured condition"
+        description="Run DisMech benchmark under structured condition (all TypeDB)"
     )
     parser.add_argument(
         "--questions-file",
         default=str(Path(__file__).parent.parent / "questions.json"),
     )
-    parser.add_argument("--disorders-dir", default=DEFAULT_DISORDERS_DIR)
     parser.add_argument(
         "--results-dir",
         default=str(Path(__file__).parent.parent / "results"),
@@ -365,9 +485,7 @@ def main():
     )
     args = parser.parse_args()
 
-    print(f"[info] Loading disorders from {args.disorders_dir}...", file=sys.stderr)
-    disorders = load_disorders(args.disorders_dir)
-    print(f"[info] {len(disorders)} disorders loaded", file=sys.stderr)
+    print(f"[info] TypeDB: {TYPEDB_HOST}:{TYPEDB_PORT}/{TYPEDB_DATABASE}", file=sys.stderr)
 
     with open(args.questions_file) as f:
         questions = json.load(f)
@@ -396,11 +514,11 @@ def main():
 
         try:
             # Run structured query
-            print(f"  [query] Running structured query...", file=sys.stderr)
-            structured_result = QUERY_FUNCTIONS[qid](disorders)
+            print(f"  [query] Running TypeDB structured query...", file=sys.stderr)
+            structured_result = QUERY_FUNCTIONS[qid]()
             result_text = format_result_for_prompt(qid, structured_result)
 
-            # Format answer with Claude (optional — falls back gracefully without API key)
+            # Format answer with Claude (optional)
             print(f"  [claude] Calling {MODEL} to format answer...", file=sys.stderr)
             llm_result = call_claude(q["question"], result_text)
 
@@ -428,6 +546,8 @@ def main():
 
         except Exception as e:
             print(f"  [ERROR] {qid}: {e}", file=sys.stderr)
+            import traceback
+            traceback.print_exc(file=sys.stderr)
         time.sleep(0.3)
 
     print("\n[done] Structured condition complete", file=sys.stderr)

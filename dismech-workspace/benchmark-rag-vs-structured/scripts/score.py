@@ -32,7 +32,7 @@ import re
 import sys
 from pathlib import Path
 
-DEFAULT_DISORDERS_DIR = "/Users/gullyburns/Documents/GitHub/dismech/kb/disorders"
+DEFAULT_DISORDERS_DIR = os.getenv("DISMECH_DISORDERS_DIR", "")
 
 
 # ---------------------------------------------------------------------------
@@ -199,7 +199,111 @@ def score_category_distribution(response: str, gt_distribution: list[dict]) -> d
 
 
 # ---------------------------------------------------------------------------
-# Per-question scoring
+# Per-question scoring — structured condition (direct JSON comparison)
+# ---------------------------------------------------------------------------
+
+def score_exact_count_direct(result_count: int, gt_count: int) -> float:
+    if result_count == gt_count:
+        return 1.0
+    if gt_count > 0 and abs(result_count - gt_count) / gt_count <= 0.15:
+        return 0.5
+    return 0.0
+
+
+def score_structured_question(qid: str, structured_result: dict, gt: dict, all_names: set[str]) -> dict:
+    """Score the structured condition by comparing JSON dicts directly — no regex."""
+    answer = gt.get("answer", {})
+
+    if qid in ("Q1", "Q2", "Q3", "Q5", "Q11", "Q12"):
+        gt_count = answer["count"]
+        result_count = structured_result.get("count", -1)
+        s = score_exact_count_direct(result_count, gt_count)
+        return {"score": s, "gt_count": gt_count, "result_count": result_count, "method": "exact_count_direct"}
+
+    elif qid == "Q4":
+        gt_diseases = {normalize_name(n) for n in answer.get("diseases", [])}
+        result_diseases = {normalize_name(n) for n in structured_result.get("diseases", [])}
+        recall = len(gt_diseases & result_diseases) / len(gt_diseases) if gt_diseases else 0.0
+        precision = len(gt_diseases & result_diseases) / len(result_diseases) if result_diseases else 1.0
+        hallucination_rate = len(result_diseases - gt_diseases) / len(result_diseases) if result_diseases else 0.0
+        return {
+            "score": round(recall, 4),
+            "recall": round(recall, 4),
+            "precision": round(precision, 4),
+            "hallucination_rate": round(hallucination_rate, 4),
+            "gt_count": len(gt_diseases),
+            "found_count": len(result_diseases),
+            "correct_count": len(gt_diseases & result_diseases),
+            "method": "partial_list_direct",
+        }
+
+    elif qid == "Q6":
+        gt_with = answer["count_with_mondo"]
+        gt_without = answer["count_without_mondo"]
+        result_with = structured_result.get("count_with_mondo", -1)
+        result_without = structured_result.get("count_without_mondo", -1)
+        s_with = score_exact_count_direct(result_with, gt_with)
+        s_without = score_exact_count_direct(result_without, gt_without)
+        avg = (s_with + s_without) / 2
+        return {
+            "score": round(avg, 4),
+            "gt_with_mondo": gt_with, "result_with_mondo": result_with,
+            "gt_without_mondo": gt_without, "result_without_mondo": result_without,
+            "method": "dual_exact_count_direct",
+        }
+
+    elif qid in ("Q7", "Q9", "Q13"):
+        count_key = "total_citations" if qid == "Q9" else "count"
+        gt_ranking = answer.get("ranking", [])
+        result_ranking = structured_result.get("ranking", [])
+        gt_names = {normalize_name(item["name"]) for item in gt_ranking}
+        gt_counts = {normalize_name(item["name"]): item.get(count_key) for item in gt_ranking}
+        result_names = {normalize_name(item["name"]) for item in result_ranking}
+        result_counts = {normalize_name(item["name"]): item.get(count_key) for item in result_ranking}
+        overlap = gt_names & result_names
+        name_recall = len(overlap) / len(gt_names) if gt_names else 0.0
+        count_correct = sum(1 for n in overlap if gt_counts.get(n) == result_counts.get(n))
+        count_score = count_correct / len(overlap) if overlap else 0.0
+        composite = 0.7 * name_recall + 0.3 * count_score
+        return {
+            "score": round(composite, 4),
+            "name_recall": round(name_recall, 4),
+            "count_accuracy": round(count_score, 4),
+            "gt_count": len(gt_names),
+            "found_count": len(result_names),
+            "correct_names": sorted(overlap),
+            "method": "ranked_list_direct",
+        }
+
+    elif qid == "Q8":
+        gt_dist = answer.get("top3", [])
+        result_dist = structured_result.get("top3", [])
+        result_map = {item["category"]: item["count"] for item in result_dist}
+        correct = sum(1 for item in gt_dist if result_map.get(item["category"]) == item["count"])
+        return {
+            "score": round(correct / len(gt_dist), 4) if gt_dist else 0.0,
+            "correct_categories": correct,
+            "total_categories": len(gt_dist),
+            "method": "ranked_categories_direct",
+        }
+
+    elif qid == "Q10":
+        gt_dist = answer.get("distribution", [])
+        result_dist = structured_result.get("distribution", [])
+        result_map = {item["category"]: item["count"] for item in result_dist}
+        correct = sum(1 for item in gt_dist if result_map.get(item["category"]) == item["count"])
+        return {
+            "score": round(correct / len(gt_dist), 4) if gt_dist else 0.0,
+            "correct_categories": correct,
+            "total_categories": len(gt_dist),
+            "method": "full_distribution_direct",
+        }
+
+    return {"score": 0.0, "method": "unknown_direct"}
+
+
+# ---------------------------------------------------------------------------
+# Per-question scoring — RAG condition (text response parsing)
 # ---------------------------------------------------------------------------
 
 def score_question(qid: str, response: str, gt: dict, all_names: set[str]) -> dict:
@@ -320,8 +424,12 @@ def main():
             with open(run_path) as f:
                 run_data = json.load(f)
 
-            response = run_data.get("response", "")
-            result = score_question(qid, response, gt, all_names)
+            structured_result = run_data.get("structured_result")
+            if condition == "structured" and structured_result is not None:
+                result = score_structured_question(qid, structured_result, gt, all_names)
+            else:
+                response = run_data.get("response", "")
+                result = score_question(qid, response, gt, all_names)
             scores[qid][condition] = result
 
             s = result.get("score")

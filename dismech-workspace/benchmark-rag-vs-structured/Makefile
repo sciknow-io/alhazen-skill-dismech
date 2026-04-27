@@ -6,9 +6,11 @@
 #   - Qdrant running at localhost:6333
 #   - VOYAGE_API_KEY set (for RAG embedding)
 #   - ANTHROPIC_API_KEY set (for RAG answer generation)
+#   - DISMECH_DISORDERS_DIR set to path of dismech/kb/disorders/
 #   - uv installed (python package manager)
 #
 # Quick start:
+#   export DISMECH_DISORDERS_DIR=/path/to/dismech/kb/disorders
 #   make all          # run everything end to end
 #   make all-new      # run only Q11–Q13 (enriched tiers)
 
@@ -16,7 +18,7 @@ PYTHON      := uv run --python 3.12 python
 SCRIPTS     := scripts
 RESULTS     := results
 CORPUS      := corpus
-DISORDERS   := /Users/gullyburns/Documents/GitHub/dismech/kb/disorders
+DISORDERS   ?= $(DISMECH_DISORDERS_DIR)
 TYPEDB_DB   := dismech
 
 .PHONY: all all-new ground-truth corpus-extract corpus-build \
@@ -80,12 +82,10 @@ corpus-build-all:
 
 run-structured:
 	$(PYTHON) $(SCRIPTS)/run_structured.py \
-	    --disorders-dir $(DISORDERS) \
 	    --results-dir $(RESULTS)
 
 $(RESULTS)/Q11/structured_run1.json $(RESULTS)/Q12/structured_run1.json $(RESULTS)/Q13/structured_run1.json:
 	$(PYTHON) $(SCRIPTS)/run_structured.py \
-	    --disorders-dir $(DISORDERS) \
 	    --results-dir $(RESULTS) \
 	    --question-ids Q11,Q12,Q13
 
