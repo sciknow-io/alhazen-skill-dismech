@@ -140,7 +140,7 @@ relation dm-evidence-citation,
 # ENTITY TYPES - DisMech Collection
 # -----------------------------------------------------------------------------
 
-entity dm-investigation sub collection,
+entity dm-investigation sub alh-collection,
     owns dm-investigation-status,
     plays dm-investigation-for-disease:dm-ifd-investigation;
 
@@ -149,7 +149,7 @@ entity dm-investigation sub collection,
 # ENTITY TYPES - DisMech Domain Things
 # -----------------------------------------------------------------------------
 
-entity dm-disease sub domain-thing,
+entity dm-disease sub alh-domain-thing,
     owns dm-mondo-id,
     owns dm-category,
     owns dm-slug,
@@ -160,7 +160,7 @@ entity dm-disease sub domain-thing,
     plays dm-disease-term-link:dm-dtl-disease,
     plays dm-investigation-for-disease:dm-ifd-disease;
 
-entity dm-mechanism sub domain-thing,
+entity dm-mechanism sub alh-domain-thing,
     owns dm-mechanism-confidence,
     owns dm-causal-link-type,
     plays dm-disease-has-mechanism:dm-dhm-mechanism,
@@ -170,7 +170,7 @@ entity dm-mechanism sub domain-thing,
     plays dm-mechanism-celltype:dm-mc-mechanism,
     plays dm-mechanism-process:dm-mp-mechanism;
 
-entity dm-phenotype sub domain-thing,
+entity dm-phenotype sub alh-domain-thing,
     owns dm-hpo-id,
     owns dm-frequency,
     owns dm-severity,
@@ -180,23 +180,23 @@ entity dm-phenotype sub domain-thing,
     plays dm-phenotype-term:dm-pt-phenotype,
     plays dm-treatment-targets-phenotype:dm-ttp-phenotype;
 
-entity dm-genetic sub domain-thing,
+entity dm-genetic sub alh-domain-thing,
     owns dm-relationship-type,
     owns dm-association,
     plays dm-disease-has-genetic:dm-dhg-genetic,
     plays dm-gene-annotation:dm-ga-subject;
 
-entity dm-treatment sub domain-thing,
+entity dm-treatment sub alh-domain-thing,
     plays dm-disease-has-treatment:dm-dht-treatment,
     plays dm-treatment-targets-phenotype:dm-ttp-treatment;
 
-entity dm-causal-edge sub domain-thing,
+entity dm-causal-edge sub alh-domain-thing,
     owns dm-causal-link-type,
     owns dm-intermediate-mechanisms,
     plays dm-mechanism-downstream:dm-md-edge,
     plays dm-mechanism-sequelae:dm-ms-edge;
 
-entity dm-variant sub domain-thing,
+entity dm-variant sub alh-domain-thing,
     owns dm-allele-type,
     owns dm-functional-impact,
     owns dm-clinical-significance;
@@ -206,28 +206,28 @@ entity dm-variant sub domain-thing,
 # ENTITY TYPES - DisMech Descriptors (controlled vocabulary terms)
 # -----------------------------------------------------------------------------
 
-entity dm-gene-descriptor sub domain-thing,
+entity dm-gene-descriptor sub alh-domain-thing,
     owns dm-preferred-term,
     plays dm-gene-annotation:dm-ga-gene;
 
-entity dm-phenotype-descriptor sub domain-thing,
+entity dm-phenotype-descriptor sub alh-domain-thing,
     owns dm-preferred-term,
     plays dm-phenotype-term:dm-pt-descriptor,
     plays dm-disease-term-link:dm-dtl-descriptor;
 
-entity dm-disease-descriptor sub domain-thing,
+entity dm-disease-descriptor sub alh-domain-thing,
     owns dm-preferred-term,
     plays dm-disease-term-link:dm-dtl-descriptor;
 
-entity dm-anatomical-descriptor sub domain-thing,
+entity dm-anatomical-descriptor sub alh-domain-thing,
     owns dm-preferred-term,
     plays dm-mechanism-location:dm-ml-location;
 
-entity dm-celltype-descriptor sub domain-thing,
+entity dm-celltype-descriptor sub alh-domain-thing,
     owns dm-preferred-term,
     plays dm-mechanism-celltype:dm-mc-celltype;
 
-entity dm-process-descriptor sub domain-thing,
+entity dm-process-descriptor sub alh-domain-thing,
     owns dm-preferred-term,
     owns dm-modifier,
     plays dm-mechanism-process:dm-mp-process;
@@ -237,14 +237,14 @@ entity dm-process-descriptor sub domain-thing,
 # ENTITY TYPES - DisMech Notes
 # -----------------------------------------------------------------------------
 
-entity dm-evidence-note sub note,
+entity dm-evidence-note sub alh-note,
     owns dm-support-rating,
     owns dm-evidence-source,
     owns dm-reference-pmid,
     owns dm-snippet,
     plays dm-evidence-citation:dm-ec-note;
 
-entity dm-finding-note sub note,
+entity dm-finding-note sub alh-note,
     owns dm-statement,
     owns dm-supporting-text;
 
