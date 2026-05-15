@@ -13,5 +13,5 @@ target_insert: |
     $p isa scilit-paper,
       has id $skolem_id,
       has name $reference,
-      has pmid $reference;
+      has scilit-pmid $reference;
 skolem_keys: [reference]
