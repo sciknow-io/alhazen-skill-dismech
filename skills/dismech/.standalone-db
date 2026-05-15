@@ -1,0 +1,2 @@
+# This skill manages its own TypeDB database (TYPEDB_DATABASE=dismech).
+# Do NOT load its schema into alhazen_notebook during make db-init.
