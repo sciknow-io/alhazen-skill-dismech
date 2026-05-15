@@ -1567,6 +1567,62 @@ def _api_search(driver, query: str, limit: int = 50) -> dict:
     return {"query": query, "count": len(hits[:limit]), "results": hits[:limit]}
 
 
+# ── Init: create database and load schema ─────────────────────────────────────
+
+
+def cmd_init(args):
+    """Create the dismech database and load schema.tql."""
+    import subprocess
+
+    # Ensure TypeDB container is running
+    result = subprocess.run(
+        ["docker", "ps", "--filter", "name=alhazen-typedb", "--format", "{{.Names}}"],
+        capture_output=True, text=True,
+    )
+    if "alhazen-typedb" not in (result.stdout or ""):
+        print(json.dumps({"success": False, "error": "TypeDB container 'alhazen-typedb' is not running. Start it first."}))
+        sys.exit(1)
+
+    from typedb.driver import Credentials, DriverOptions, TransactionType, TypeDB
+
+    driver = TypeDB.driver(
+        f"{TYPEDB_HOST}:{TYPEDB_PORT}",
+        Credentials(TYPEDB_USERNAME, TYPEDB_PASSWORD),
+        DriverOptions(is_tls_enabled=False),
+    )
+
+    db_created = False
+    if not driver.databases.contains(TYPEDB_DATABASE):
+        driver.databases.create(TYPEDB_DATABASE)
+        db_created = True
+
+    schema_path = Path(__file__).parent / "schema.tql"
+    if not schema_path.exists():
+        driver.close()
+        print(json.dumps({"success": False, "error": f"Schema not found: {schema_path}"}))
+        sys.exit(1)
+
+    schema = schema_path.read_text()
+    try:
+        with driver.transaction(TYPEDB_DATABASE, TransactionType.SCHEMA) as tx:
+            tx.query(schema).resolve()
+            tx.commit()
+        schema_status = "loaded"
+    except Exception as e:
+        schema_status = f"error: {e}"
+
+    driver.close()
+
+    print(json.dumps({
+        "success": schema_status == "loaded",
+        "typedb": "running",
+        "database": TYPEDB_DATABASE,
+        "database_created": db_created,
+        "schema": schema_status,
+        "message": "DisMech ready. Run dismech.py ingest to load disease data.",
+    }, indent=2))
+
+
 # ── CLI entry point ────────────────────────────────────────────────────────────
 
 
@@ -1576,6 +1632,8 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     sub = parser.add_subparsers(dest="command", required=True)
+
+    sub.add_parser("init", help="Create dismech database and load schema")
 
     ingest_p = sub.add_parser("ingest", help="Bulk-ingest disorder YAML files")
     ingest_p.add_argument("--source", required=True, help="Path to kb/disorders directory")
@@ -1609,6 +1667,7 @@ def main():
 
     args = parser.parse_args()
     dispatch = {
+        "init": cmd_init,
         "ingest": cmd_ingest,
         "show-disease": cmd_show_disease,
         "list-diseases": cmd_list_diseases,
