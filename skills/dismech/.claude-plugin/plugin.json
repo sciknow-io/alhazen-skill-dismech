@@ -9,6 +9,24 @@
   },
   "repository": "https://github.com/sciknow-io/alhazen-skill-dismech",
   "license": "Apache-2.0",
-  "keywords": ["dismech", "disease", "pathophysiology", "typedb", "knowledge-graph", "biomed", "rare-disease"],
-  "skills": ["."]
+  "keywords": [
+    "dismech",
+    "disease",
+    "pathophysiology",
+    "typedb",
+    "knowledge-graph",
+    "biomed",
+    "rare-disease"
+  ],
+  "requires": {
+    "plugins": [
+      "alhazen-core"
+    ],
+    "system": {
+      "bins": [
+        "uv",
+        "docker"
+      ]
+    }
+  }
 }
