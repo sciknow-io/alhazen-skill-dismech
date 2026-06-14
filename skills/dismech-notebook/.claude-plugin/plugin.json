@@ -3,5 +3,21 @@
   "description": "Rare disease mechanism knowledge mapped into Alhazen notebook memory",
   "version": "0.1.0",
   "license": "Apache-2.0",
-  "keywords": ["rare-disease", "disease-mechanism", "typedb", "knowledge-graph"]
+  "keywords": [
+    "rare-disease",
+    "disease-mechanism",
+    "typedb",
+    "knowledge-graph"
+  ],
+  "requires": {
+    "plugins": [
+      "alhazen-core"
+    ],
+    "system": {
+      "bins": [
+        "uv",
+        "docker"
+      ]
+    }
+  }
 }
