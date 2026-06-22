@@ -237,14 +237,14 @@ entity dm-process-descriptor sub alh-domain-thing,
 # ENTITY TYPES - DisMech Notes
 # -----------------------------------------------------------------------------
 
-entity dm-evidence-note sub alh-note,
+entity dm-evidence-note sub alh-analysis-note,
     owns dm-support-rating,
     owns dm-evidence-source,
     owns dm-reference-pmid,
     owns dm-snippet,
     plays dm-evidence-citation:dm-ec-note;
 
-entity dm-finding-note sub alh-note,
+entity dm-finding-note sub alh-sensemaking-note,
     owns dm-statement,
     owns dm-supporting-text;
 
