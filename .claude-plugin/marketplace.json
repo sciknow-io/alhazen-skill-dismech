@@ -15,7 +15,7 @@
     {
       "name": "dismech-notebook",
       "source": "./skills/dismech-notebook",
-      "description": "Rare disease mechanism knowledge mapped into Alhazen notebook memory"
+      "description": "MOVED (Jun 2026) to alhazen-skill-deep-research, where it shares the alh_deep_research database with scientific-literature. This copy is frozen but kept installable. Rare disease mechanism knowledge mapped into Alhazen notebook memory."
     }
   ]
 }

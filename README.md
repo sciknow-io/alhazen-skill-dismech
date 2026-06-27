@@ -5,6 +5,12 @@ An [Alhazen](https://github.com/sciknow/alhazen) skill plugin for the
 disorders with pathophysiology mechanisms, parent hierarchies, and disease terms
 stored in a [TypeDB 3.x](https://typedb.com) graph database.
 
+> [!IMPORTANT]
+> **`dismech-notebook` has moved (June 2026).** Under Skillful Alhazen's new **per-repo database** architecture, the notebook-integration skill — which maps DisMech mechanisms into Alhazen notebook memory and links them to `scilit-paper` entities — now lives in
+> **[alhazen-skill-deep-research](https://github.com/sciknow-io/alhazen-skill-deep-research)**, where it shares the `alh_deep_research` database with `scientific-literature` (so its `dm-*` data can reference papers via TypeDB relations). It is re-derived there by running the GLAV rules against this repo's `dismech` source database.
+>
+> **This repo is unchanged for the `dismech` source skill** — the faithful Monarch/YAML → TypeDB ingest into the standalone `dismech` database. That remains the canonical upstream source and is actively maintained here. Only the `dismech-notebook` copy in this repo is frozen (kept installable so existing setups don't break).
+
 ---
 
 ## What is DisMech?
