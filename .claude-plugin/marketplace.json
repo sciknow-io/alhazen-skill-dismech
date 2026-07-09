@@ -10,12 +10,12 @@
     {
       "name": "dismech",
       "source": "./skills/dismech",
-      "description": "Disease mechanism knowledge graph -- bulk-ingest 750+ curated disorders into TypeDB 3.x, browse pathophysiology mechanisms, and query by gene, phenotype, or pathway"
+      "description": "DEPRECATED (Jul 2026) -- MOVED to alhazen-skill-deep-research, where it is co-located with dismech-notebook (its GLAV consumer). This copy is frozen but kept installable; scheduled for removal in the next major release -- migrate installs now. Disease mechanism knowledge graph: bulk-ingest 750+ curated disorders into the standalone 'dismech' TypeDB database."
     },
     {
       "name": "dismech-notebook",
       "source": "./skills/dismech-notebook",
-      "description": "MOVED (Jun 2026) to alhazen-skill-deep-research, where it shares the alh_deep_research database with scientific-literature. This copy is frozen but kept installable. Rare disease mechanism knowledge mapped into Alhazen notebook memory."
+      "description": "DEPRECATED -- MOVED (Jun 2026) to alhazen-skill-deep-research, where it shares the alh_deep_research database with scientific-literature. This copy is frozen but kept installable; scheduled for removal in the next major release -- migrate installs now. Rare disease mechanism knowledge mapped into Alhazen notebook memory."
     }
   ]
 }
